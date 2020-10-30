@@ -147,7 +147,7 @@ function ShowTetris() as uByte
 
 end function
 
-sub SelectGame()
+function SelectGame() as uByte
 
     level = 1
     SetLevel(1)
@@ -180,7 +180,7 @@ sub SelectGame()
             if game = 0 then
                 FillRect(1,10,1,20,0)
                 UpdateScreen()
-                RunTetris(level)
+                return RunTetris(level)
             'else if game = 1 then
             'else if game = 2 then
             'else if game = 3 then
@@ -190,4 +190,4 @@ sub SelectGame()
 
     end while
 
-end sub
+end function

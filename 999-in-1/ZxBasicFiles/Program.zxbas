@@ -13,10 +13,14 @@ InitScreen()
 
 InitIntro()
 InvertIntro()
-InvertIntro()
+'InvertIntro()
 
 do
-    SelectGame()
-    ShowCurtain()
-    ShowDeath()
+    if(SelectGame()) then
+        ShowCurtain()
+        ShowWin()
+    else
+        ShowCurtain()
+        ShowDeath()
+    end if
 loop

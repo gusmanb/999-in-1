@@ -23,6 +23,31 @@ Dim dead(20,10) as uByte = {_ 'Comprimirlo!
 { 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 } _
 }
 
+
+Dim win(20,10) as uByte = {_ 'Comprimirlo!
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,1 }, _
+{ 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 }, _
+{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
+{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
+{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
+{ 1, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,1 }, _
+{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
+{ 1, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 } _
+}
+
+
 sub ShowCurtain()
 
     Dim tmpX as uByte
@@ -47,7 +72,157 @@ sub ShowDeath()
             SetCell(tmpX, tmpY, dead(tmpY,tmpX))
         next tmpX
     next tmpY
+
     UpdateScreen()
-    while inkey$ = ""
-    end while
+
+    BEEP 0.083, 15
+    BEEP 0.083, 14
+    BEEP 0.083, 13
+    BEEP 0.083, 12
+    BEEP 0.083, 14
+    BEEP 0.083, 13
+    BEEP 0.083, 12
+    BEEP 0.083, 11
+    BEEP 0.083, 13
+    BEEP 0.083, 12
+    BEEP 0.083, 11
+    BEEP 0.083, 10
+    BEEP 0.083, 12
+    BEEP 0.083, 11
+    BEEP 0.083, 10
+    BEEP 0.083, 9
+    BEEP 0.083, 11
+    BEEP 0.083, 10
+    BEEP 0.083, 9
+    BEEP 0.083, 8
+    BEEP 0.083, 6
+    BEEP 0.083, 5
+    BEEP 1.000, 4
+
+end sub
+
+sub ShowWin()
+
+    Dim tmpX as uByte
+    Dim tmpY as uByte
+
+    for tmpY = 1 to 20
+        for tmpX = 1 to 10
+            SetCell(tmpX, tmpY, win(tmpY,tmpX))
+        next tmpX
+    next tmpY
+
+    UpdateScreen()
+
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 4
+    BEEP 0.100, 2
+    BEEP 0.100, 4
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 9
+    BEEP 0.100, 8
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    PAUSE 5
+    BEEP 0.100, 10
+    BEEP 0.100, 11
+    BEEP 0.200, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 9
+    BEEP 0.100, 7
+    BEEP 0.100, 9
+    BEEP 0.200, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 16
+    BEEP 0.100, 18
+    BEEP 0.100, 16
+    BEEP 0.200, 14
+    BEEP 0.100, 14
+    BEEP 0.100, 13
+    BEEP 0.200, 11
+    BEEP 0.100, 11
+    BEEP 0.100, 9
+    BEEP 0.100, 8
+    BEEP 0.100, 9
+    BEEP 0.100, 8
+    BEEP 0.100, 9
+    BEEP 0.100, 8
+    PAUSE 5
+    BEEP 0.100, 6
+    BEEP 0.100, 8
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 4
+    BEEP 0.100, 2
+    BEEP 0.100, 4
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    BEEP 0.200, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 9
+    BEEP 0.100, 8
+    BEEP 0.100, 9
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    BEEP 0.100, 13
+    BEEP 0.100, 11
+    PAUSE 5
+    BEEP 0.100, 10
+    BEEP 0.100, 11
+    BEEP 0.200, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 14
+    BEEP 0.100, 12
+    BEEP 0.100, 14
+    BEEP 0.200, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 16
+    BEEP 0.100, 14
+    BEEP 0.100, 12
+    BEEP 0.100, 14
+    BEEP 0.100, 16
+    PAUSE 5
+    BEEP 0.100, 4
+    BEEP 0.100, 6
+    BEEP 0.200, 8
+    BEEP 0.100, 4
+    BEEP 0.100, 13
+    BEEP 0.300, 11
+    PAUSE 5
+    BEEP 0.400, 9
+
 end sub

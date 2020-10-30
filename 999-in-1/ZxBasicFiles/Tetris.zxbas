@@ -310,7 +310,7 @@ function EraseLines(yPos as byte) as uByte
 
 end function
 
-sub RunTetris(cLevel as uByte)
+function RunTetris(cLevel as uByte) as uByte
 
     if not playedTetrisMusic then
 
@@ -440,6 +440,8 @@ sub RunTetris(cLevel as uByte)
                     lines = lines + erased
                     if lines >= nextLines then
 
+                        if cLevel = 99 then return 1
+
                         if cLevel mod 10 = 0 then
 
                             BEEP 0.067, -1
@@ -472,6 +474,9 @@ sub RunTetris(cLevel as uByte)
                             PAUSE 4
                             BEEP 0.333, 16
                             PAUSE 25
+
+                            ShowCurtain()
+                            FillRect(1,10,1,20,0)
 
                         end if
 
@@ -560,4 +565,6 @@ sub RunTetris(cLevel as uByte)
     beep 0.2, -15
     beep 0.2, -17
 
-end sub
+    return 0
+
+end function
