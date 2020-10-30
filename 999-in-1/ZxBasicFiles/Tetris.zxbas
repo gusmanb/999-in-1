@@ -1,0 +1,563 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+                'y, x, pieza
+Dim tetrisPieces(7,2,4) as uByte => {_
+    { _
+        { _                         'I
+            11111000b,_
+            00001000b,_
+            00001000b,_
+            00001000b_
+        }, _
+        { _
+            11111000b,_
+            00001000b,_
+            00001000b,_
+            00001000b_
+        } _
+    },_
+    { _ 
+        { _                         'O
+            11001100b,_
+            11001100b,_
+            00000000b,_
+            00000000b_
+        }, _
+        { _
+            11001100b,_
+            11001100b,_
+            00000000b,_
+            00000000b_
+        } _
+    }, _
+    { _
+        { _                         'J
+            10001100b,_
+            11101000b,_
+            00001000b,_
+            00000000b_
+        }, _
+        { _
+            11100100b,_
+            00100100b,_
+            00001100b,_
+            00000000b_
+        } _
+    }, _
+    { _
+        { _                         'L
+            00101000b,_
+            11101000b,_
+            00001100b,_
+            00000000b_
+        }, _
+        { _
+            11101100b,_
+            10000100b,_
+            00000100b,_
+            00000000b_
+        } _
+    }, _
+    { _
+        { _                         'S
+            01101000b,_
+            11001100b,_
+            00000100b,_
+            00000000b_
+        }, _
+        { _
+            01101000b,_
+            11001100b,_
+            00000100b,_
+            00000000b_
+        } _
+    }, _
+    { _
+        { _                         'Z
+            11000100b,_
+            01101100b,_
+            00001000b,_
+            00000000b_
+        }, _
+        { _
+            11000100b,_
+            01101100b,_
+            00001000b,_
+            00000000b_
+        } _
+    }, _
+    { _
+        { _                         'T
+            01001000b,_
+            11101100b,_
+            00001000b,_
+            00000000b_
+        }, _
+        { _
+            11100100b,_
+            01001100b,_
+            00000100b,_
+            00000000b_
+        } _
+    } _
+}
+
+Dim playedTetrisMusic as uByte = 0
+Dim expandedPiece(4,4,4) as uByte
+Dim expandedSize (4,2) as Byte
+
+sub ExpandPiece(Piece as uByte)
+
+    Dim tmpB as uByte
+    Dim y as uByte
+    Dim x as uByte
+    Dim r as uByte
+
+    for y = 1 to 4
+
+        tmpB = tetrisPieces(Piece, 1, y)
+
+        expandedPiece(1,y,1) = tmpB band 128
+        expandedPiece(2,y,1) = tmpB band 64
+        expandedPiece(3,y,1) = tmpB band 32
+        expandedPiece(4,y,1) = tmpB band 16
+
+        expandedPiece(1,y,2) = tmpB band 8
+        expandedPiece(2,y,2) = tmpB band 4
+        expandedPiece(3,y,2) = tmpB band 2
+        expandedPiece(4,y,2) = tmpB band 1
+
+        tmpB = tetrisPieces(Piece, 2, y)
+
+        expandedPiece(1,y,3) = tmpB band 128
+        expandedPiece(2,y,3) = tmpB band 64
+        expandedPiece(3,y,3) = tmpB band 32
+        expandedPiece(4,y,3) = tmpB band 16
+
+        expandedPiece(1,y,4) = tmpB band 8
+        expandedPiece(2,y,4) = tmpB band 4
+        expandedPiece(3,y,4) = tmpB band 2
+        expandedPiece(4,y,4) = tmpB band 1
+
+        expandedSize(y,1) = 0
+        expandedSize(y,2) = 0
+    next y
+
+    for r = 1 to 4
+        for y = 1 to 4
+            for x = 1 to 4
+                if expandedPiece(x,y,r) <> 0 then
+                    if expandedSize(r,1) < y then expandedSize(r,1) = y
+                    if expandedSize(r,2) < x then expandedSize(r,2) = x
+                end if
+            next x
+        next y
+   next r
+
+end sub
+
+function WillCollide(xPos as byte, yPos as byte, xDisp as byte, yDisp as byte, curRot as byte, nextRot as byte) as uByte
+
+    Dim tmpX as Byte
+    Dim tmpY as Byte
+    Dim xorX as byte
+    Dim xorY as byte
+    Dim bY as Byte
+    Dim bX as Byte
+
+    if xDisp <> 0 then
+
+        tmpX = xPos + xDisp
+        if tmpX < 1 or tmpX > 11 - expandedSize(curRot,2) then return 1
+
+    end if
+
+    for tmpY = 1 to 4
+
+        bY = tmpY + yPos + yDisp - 1
+
+        if by < 1 then continue for
+
+        xorY = tmpY + yDisp
+
+        for tmpX = 1 to 4
+
+            bX = tmpX + xPos + xDisp - 1
+            xorX = tmpX + xDisp
+
+            if expandedPiece(tmpX, tmpY, nextRot) and _
+            (xorX < 1 or _
+             xorX > 4 or _ 
+             xorY < 1 or _
+             xorY > 4 or _ 
+             not expandedPiece(xorX, xorY, curRot)) then     
+
+                if bX < 1 or _
+                   bX > 10 or _
+                   bY > 20 or _
+                   screenCells(bX, bY) then 
+            
+                    'dumpCells()
+
+                    return 1
+
+                end if
+
+            end if
+        
+        next tmpX
+
+    next tmpY
+
+    return 0
+
+end function
+
+sub DrawFigure(xPos as byte, yPos as byte, rot as uByte, value as uByte)
+
+    Dim tmpX as uByte
+    Dim tmpY as uByte
+    Dim fX as Byte
+    Dim fY as Byte
+
+    for tmpY = 1 to 4
+
+        fY = tmpY + yPos - 1
+
+        if fY < 1 then continue for
+
+        for tmpX = 1 to 4
+
+            fX = tmpX + xPos - 1
+
+            if fX < 1 then continue for
+
+            if expandedPiece(tmpX, tmpY, rot) then 
+                SetCell(fX, fY, value)
+            end if
+        next tmpX
+
+    next tmpY
+
+end sub
+
+function FindTop() as uByte
+
+    Dim tmpY as Byte
+    Dim tmpX as Byte
+    Dim empty as uByte = 0
+
+    for tmpY = 20 to 1 step -1
+
+        empty = 1
+
+        for tmpX = 1 to 10
+
+            if screenCells(tmpX, tmpY) <> 0 then
+                empty = 0
+                exit for
+            end if
+        next tmpX
+
+        if empty <> 0 then
+            if tmpY = 20 then return 0
+            return tmpY + 1
+        end if
+
+    next tmpY
+
+    return 0
+
+end function
+
+
+function EraseLines(yPos as byte) as uByte
+
+    Dim top as uByte = FindTop()
+    Dim full as uByte
+    Dim bY as Byte
+    Dim tmpY as Byte
+    Dim tmpX as uByte
+    dim erased as uByte = 0
+
+    for tmpY = 3 to 0 step -1
+
+        full = 1
+        bY = tmpY + yPos
+
+        if bY < top or by > 20 then continue for
+
+        for tmpX = 1 to 10
+
+            if screenCells(tmpX, bY) = 0 then
+                full = 0
+                exit for
+            end if
+
+        next tmpX
+
+        if full <> 0 then
+            yPos = yPos + 1
+            MoveRect(1, 10, top, bY - 1, 0, 1)
+            UpdateScreen()
+            beep 0.05, 32
+            erased = erased + 1
+        end if
+
+    next tmpY
+
+    return erased
+
+end function
+
+sub RunTetris(cLevel as uByte)
+
+    if not playedTetrisMusic then
+
+        BEEP 0.350, 14
+        PAUSE 2
+        BEEP 0.800, 12
+        PAUSE 2
+        BEEP 0.167, 9
+        PAUSE 2
+        BEEP 0.167, 12
+        PAUSE 2
+        BEEP 0.183, 10
+        PAUSE 2
+        BEEP 0.067, 9
+        PAUSE 2
+        BEEP 0.067, 7
+        PAUSE 2
+        BEEP 0.383, 5
+        PAUSE 2
+        BEEP 0.367, 0
+        PAUSE 2
+        BEEP 0.167, 9
+        PAUSE 2
+        BEEP 0.183, 12
+        PAUSE 2
+        BEEP 0.167, 7
+        PAUSE 2
+        BEEP 0.167, 9
+        PAUSE 2
+        BEEP 0.383, 5
+        PAUSE 2
+        BEEP 0.383, 0
+        PAUSE 2
+        BEEP 0.367, 2
+        PAUSE 2
+        BEEP 0.183, 2
+        PAUSE 2
+        BEEP 0.167, 4
+        PAUSE 2
+        BEEP 0.167, 7
+        PAUSE 2
+        BEEP 0.167, 5
+        PAUSE 2
+        BEEP 0.183, 4
+        PAUSE 2
+        BEEP 0.167, 2
+        PAUSE 2
+        BEEP 0.383, 0
+        PAUSE 2
+        BEEP 0.367, 0
+        PAUSE 2
+        BEEP 0.383, 0
+        PAUSE 30
+
+        playedTetrisMusic = 1
+
+    end if
+
+    Dim frms as uByte = 51 - (((cLevel / 10) + 1) * 5)
+
+    Dim dead as uByte = 0
+    Dim score as uInteger = 0
+
+    Dim currentPiece as uByte = 255
+    Dim currentRotation as uByte = 1
+
+    Dim renderY as byte
+    Dim renderX as byte
+    Dim erased as uByte
+    Dim wasPressed as uByte = 0
+
+    Dim keys as string = ""
+    Dim tmpY as uByte
+    Dim tmpX as uByte
+
+    Dim nextPiece as uByte = INT(RND * 7) + 1
+    nextPiece =  INT(RND * 7) + 1
+    Dim nextRot as uByte = 0
+    Dim pressDelay as uByte = 0
+
+    Dim lines as uByte = 0
+    Dim nextLines as uByte = 5 + ((cLevel - 1) mod 10)
+
+    beep 0.1, 10
+    beep 0.1, 12
+    beep 0.1, 15
+    beep 0.1, 17
+
+    nextPiece =  INT(RND * 7) + 1
+
+    while not dead
+
+        if currentPiece = 255 then
+
+            currentRotation = 1
+            currentPiece = nextPiece
+            nextPiece = INT(RND * 7) + 1
+            ExpandPiece(currentPiece)
+            renderY = -expandedSize(1,1)  
+
+            renderX = 4
+            
+            SetSymbol(tetrisPieces(nextPiece,1,1) >> 4, tetrisPieces(nextPiece,1,2) >> 4)
+
+        end if
+
+        if WillCollide(renderX, renderY, 0, 1, currentRotation, currentRotation) then
+
+            if renderY < 1 then
+                dead = 1
+            else
+                DrawFigure(renderX, renderY,currentRotation, 1)
+                erased = EraseLines(renderY) 
+
+                if erased <> 0 then
+
+                    if erased = 1 then
+                        score = score + 1
+                    else if erased = 2 then
+                        score = score + 3
+                    else if erased = 3 then
+                        score = score + 5
+                    else if erased = 4 then
+                        score = score + 10
+                    end if
+
+                    lines = lines + erased
+                    if lines >= nextLines then
+
+                        if cLevel mod 10 = 0 then
+
+                            BEEP 0.067, -1
+                            PAUSE 2
+                            BEEP 0.050, 4
+                            PAUSE 3
+                            BEEP 0.033, 6
+                            PAUSE 3
+                            BEEP 0.283, 11
+                            PAUSE 2
+                            BEEP 0.083, 4
+                            PAUSE 2
+                            BEEP 0.033, 9
+                            PAUSE 3
+                            BEEP 0.050, 8
+                            PAUSE 3
+                            BEEP 0.283, 13
+                            PAUSE 2
+                            BEEP 0.033, 9
+                            PAUSE 3
+                            BEEP 0.050, 13
+                            PAUSE 3
+                            BEEP 0.050, 11
+                            PAUSE 3
+                            BEEP 0.050, 15
+                            PAUSE 3
+                            BEEP 0.050, 13
+                            PAUSE 3
+                            BEEP 0.050, 11
+                            PAUSE 4
+                            BEEP 0.333, 16
+                            PAUSE 25
+
+                        end if
+
+                        cLevel = cLevel + 1
+                        frms = 51 - (((cLevel / 10) + 1) * 5)
+                        lines = 0
+                        nextLines = 5 + ((cLevel - 1) mod 10)
+                        score = score + 50
+                        SetLevel(cLevel)
+
+                        beep 0.1, 10
+                        beep 0.1, 17
+
+                    end if
+
+                    SetScore(score)
+
+                    UpdateScreen()
+                else
+                    beep 0.05, -10
+
+                end if
+
+                currentPiece = 255
+            end if
+
+        else
+
+            DrawFigure(renderX, renderY,currentRotation, 0)
+            renderY = renderY + 1
+            DrawFigure(renderX, renderY,currentRotation, 1)
+            UpdateScreen()
+            
+            ResetFrameCounter()
+
+            while frms > Frames()
+
+                keys = inkey$
+                pressDelay = pressDelay - 1
+
+                if keys <> "" and wasPressed and pressDelay > 1 then continue while else wasPressed = 0
+
+                if keys <> "" then
+                    if keys = "o" then
+                        if not WillCollide(renderX, renderY, -1, 0, currentRotation, currentRotation) then
+                            DrawFigure(renderX, renderY,currentRotation, 0)
+                            renderX = renderX - 1
+                            DrawFigure(renderX, renderY,currentRotation, 1)
+                            UpdateScreen()
+                            wasPressed = 1
+                            pressDelay = 70
+                        end if
+                    else if keys = "p" then
+                        if not WillCollide(renderX, renderY, 1, 0, currentRotation, currentRotation) then
+                            DrawFigure(renderX, renderY,currentRotation, 0)
+                            renderX = renderX + 1
+                            DrawFigure(renderX, renderY,currentRotation, 1)
+                            UpdateScreen()
+                            wasPressed = 1
+                            pressDelay = 70
+                        end if
+                    else if keys = "a" then
+                        exit while
+                    else if keys = " " then
+                        nextRot = currentRotation + 1
+                        if nextRot > 4 then nextRot = 1
+                        if not WillCollide(renderX, renderY, 0, 0, currentRotation, nextRot) then
+                            DrawFigure(renderX, renderY,currentRotation, 0)
+                            currentRotation = nextRot
+                            DrawFigure(renderX, renderY,currentRotation, 1)
+                            UpdateScreen()
+                            wasPressed = 1
+                            pressDelay = 200
+                        end if
+                    end if
+                end if
+
+            end while
+
+        end if
+
+    end while
+
+    beep 0.2, -10
+    beep 0.2, -12
+    beep 0.2, -15
+    beep 0.2, -17
+
+end sub

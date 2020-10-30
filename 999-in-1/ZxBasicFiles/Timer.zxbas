@@ -1,0 +1,38 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+Dim counter as uInteger at 23672
+Dim hiCounter as uByte at 23674
+
+function Frames() as uInteger
+
+    return counter
+
+end function
+
+function Time() as float
+
+    Dim valu as float = counter
+    valu = valu / 50
+    return valu
+
+end function
+
+sub ResetFrameCounter()
+
+asm
+
+    di
+
+end asm
+
+    counter = 0
+    hiCounter = 0
+
+asm
+
+    ei
+
+end asm
+
+
+end sub

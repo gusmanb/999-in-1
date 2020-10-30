@@ -1,0 +1,53 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+Dim dead(20,10) as uByte = {_ 'Comprimirlo!
+{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
+{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
+{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
+{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 }, _
+{ 1, 0, 1, 0 ,1 ,1 ,0 ,1 ,0 ,1 }, _
+{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 }, _
+{ 1, 0, 1, 1 ,0 ,0 ,1 ,1 ,0 ,1 }, _
+{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
+{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
+{ 1, 0, 1, 0 ,0 ,0 ,0 ,1 ,0 ,1 }, _
+{ 0, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,0 }, _
+{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
+{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
+{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
+{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
+{ 0, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,0 }, _
+{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 } _
+}
+
+sub ShowCurtain()
+
+    Dim tmpX as uByte
+    Dim tmpY as uByte
+
+    for tmpY = 1 to 20
+        for tmpX = 1 to 10
+            SetCell(tmpX, tmpY, 1)
+        next tmpX
+        UpdateScreen()
+        beep 0.02, -34
+    next tmpY
+end sub
+
+sub ShowDeath()
+
+    Dim tmpX as uByte
+    Dim tmpY as uByte
+
+    for tmpY = 1 to 20
+        for tmpX = 1 to 10
+            SetCell(tmpX, tmpY, dead(tmpY,tmpX))
+        next tmpX
+    next tmpY
+    UpdateScreen()
+    while inkey$ = ""
+    end while
+end sub

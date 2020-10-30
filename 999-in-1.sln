@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F16D4249-6279-474E-8826-742E7FF7445C}") = "999-in-1", "999-in-1\999-in-1.z80cdproj", "{1AB5ACB3-78B5-4BA3-9A94-68857130E9F5}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06DAF89F-C9EC-4F70-8666-96BBDF5D1C5F}
+	EndGlobalSection
+EndGlobal

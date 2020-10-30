@@ -1,0 +1,144 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+sub InitIntro()
+
+    SetCell(2,2,1)
+    SetCell(3,2,1)
+    SetCell(7,2,1)
+    SetCell(8,2,1)
+
+    SetCell(1,3,1)
+    SetCell(4,3,1)
+    SetCell(6,3,1)
+    SetCell(9,3,1)
+
+    SetCell(1,4,1)
+    SetCell(4,4,1)
+    SetCell(6,4,1)
+    SetCell(9,4,1)
+
+    SetCell(2,5,1)
+    SetCell(3,5,1)
+    SetCell(4,5,1)
+    SetCell(7,5,1)
+    SetCell(8,5,1)
+    SetCell(9,5,1)
+
+    SetCell(4,6,1)
+    SetCell(9,6,1)
+
+    SetCell(1,7,1)
+    SetCell(2,7,1)
+    SetCell(3,7,1)
+    SetCell(6,7,1)
+    SetCell(7,7,1)
+    SetCell(8,7,1)
+
+
+
+
+
+
+    SetCell(3,9,1)
+    SetCell(4,9,1)
+    SetCell(8,9,1)
+    SetCell(9,9,1)
+
+    SetCell(2,10,1)
+    SetCell(5,10,1)
+    SetCell(7,10,1)
+    SetCell(10,10,1)
+
+    SetCell(3,11,1)
+    SetCell(4,11,1)
+    SetCell(5,11,1)
+    SetCell(8,11,1)
+    SetCell(9,11,1)
+    SetCell(10,11,1)
+
+    SetCell(5,12,1)
+    SetCell(10,12,1)
+
+    SetCell(2,13,1)
+    SetCell(3,13,1)
+    SetCell(4,13,1)
+    SetCell(7,13,1)
+    SetCell(8,13,1)
+    SetCell(9,13,1)
+
+    SetCell(1,15,1)
+    SetCell(3,15,1)
+    SetCell(6,15,1)
+    SetCell(9,15,1)
+
+    SetCell(1,16,1)
+    SetCell(3,16,1)
+    SetCell(4,16,1)
+    SetCell(6,16,1)
+    SetCell(8,16,1)
+    SetCell(9,16,1)
+
+    SetCell(1,17,1)
+    SetCell(3,17,1)
+    SetCell(5,17,1)
+    SetCell(6,17,1)
+    SetCell(9,17,1)
+
+    SetCell(1,18,1)
+    SetCell(3,18,1)
+    SetCell(6,18,1)
+    SetCell(9,18,1)
+
+    SetCell(8,19,1)
+    SetCell(9,19,1)
+    SetCell(10,19,1)
+
+    UpdateScreen()
+
+end sub
+
+sub InvertIntro()
+
+    Dim x as uByte
+    Dim y as uByte
+    Dim iteration as uByte
+
+    for iteration = 0 to 4
+
+        for x = 1 + iteration to 10 - iteration
+
+            InvertCell(x, 20 - iteration)
+            UpdateScreen()
+            pause 1
+
+        next x
+
+        for y = 19 - iteration to 1 + iteration step -1
+
+            InvertCell(10 - iteration, y)
+            UpdateScreen()
+            pause 1
+
+        next y
+
+        for x = 9 - iteration to 1 + iteration step -1
+
+            InvertCell(x, iteration + 1)
+            UpdateScreen()
+            pause 1
+
+        next x
+
+        for y = 2 + iteration to 19 - iteration
+
+            InvertCell(iteration + 1, y)
+            UpdateScreen()
+            pause 1
+
+        next y
+
+    next iteration
+    
+    pause 30
+
+end sub
