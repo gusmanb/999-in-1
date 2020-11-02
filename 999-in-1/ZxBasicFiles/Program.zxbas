@@ -2,17 +2,18 @@
 
 #include "Timer.zxbas"
 #include "Screen.zxbas"
-#include "Tetris.zxbas"
-#include "Intro.zxbas"
-#include "GameSelector.zxbas"
 #include "Transitions.zxbas"
+#include "Intro.zxbas"
+#include "Tetris.zxbas"
+#include "Arkanoid.zxbas"
+#include "GameSelector.zxbas"
 
 Randomize
 
 InitScreen()
 
-InitIntro()
-InvertIntro()
+'InitIntro()
+'InvertIntro()
 'InvertIntro()
 
 do

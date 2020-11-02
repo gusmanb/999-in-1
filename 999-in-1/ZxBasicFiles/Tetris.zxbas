@@ -380,19 +380,21 @@ function RunTetris(cLevel as uByte) as uByte
     Dim renderY as byte
     Dim renderX as byte
     Dim erased as uByte
-    Dim wasPressed as uByte = 0
 
+    Dim wasPressed as uByte = 0
+    Dim pressDelay as uByte = 0
     Dim keys as string = ""
+
     Dim tmpY as uByte
     Dim tmpX as uByte
 
     Dim nextPiece as uByte = INT(RND * 7) + 1
     nextPiece =  INT(RND * 7) + 1
     Dim nextRot as uByte = 0
-    Dim pressDelay as uByte = 0
+    
 
     Dim lines as uByte = 0
-    Dim nextLines as uByte = 5 + ((cLevel - 1) mod 10)
+    Dim nextLines as uByte = 5 + (cLevel mod 10)
 
     beep 0.1, 10
     beep 0.1, 12
@@ -442,7 +444,7 @@ function RunTetris(cLevel as uByte) as uByte
 
                         if cLevel = 99 then return 1
 
-                        if cLevel mod 10 = 0 then
+                        if cLevel mod 10 = 9 then
 
                             BEEP 0.067, -1
                             PAUSE 2
@@ -483,7 +485,7 @@ function RunTetris(cLevel as uByte) as uByte
                         cLevel = cLevel + 1
                         frms = 51 - (((cLevel / 10) + 1) * 5)
                         lines = 0
-                        nextLines = 5 + ((cLevel - 1) mod 10)
+                        nextLines = 5 + (cLevel mod 10)
                         score = score + 50
                         SetLevel(cLevel)
 

@@ -381,6 +381,30 @@ sub SetScore(newScore as uInteger)
     workingScore = newScore
 end sub
 
+sub HideNextTitle()
+    print at scrYNextOffset, scrXNextOffset; "  "
+end sub
+
+sub ShowNextTitle()
+    print at scrYNextOffset, scrXNextOffset; "\o\p"
+end sub
+
+function CountOnCells() as uByte
+
+    Dim onCells as uByte = 0
+    Dim tmpX as uByte = 0
+    Dim tmpY as uByte = 0
+
+    for tmpY = 1 to 20
+        for tmpX = 1 to 10
+            if screenCells(tmpX, tmpY) then onCells = onCells + 1
+        next tmpX
+    next tmpY
+
+    return onCells
+
+end function
+
 sub UpdateScreen()
 
     Dim x as uByte

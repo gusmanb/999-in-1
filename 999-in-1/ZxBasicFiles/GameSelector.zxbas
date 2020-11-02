@@ -1,6 +1,6 @@
 ﻿REM Write your ZX BASIC (Boriel's BASIC) code here
 
-Dim level as uByte
+Dim level as Byte = 0
 Dim game as uByte
 Dim chars as uInteger at 23606
 
@@ -117,12 +117,12 @@ function ShowTetris() as uByte
 
                     if inp = "q" then
                         level = level + 1
-                        if level > 99 then level = 1
+                        if level > 99 then level = 0
                         SetLevel(level)
                         UpdateScreen()
                     else if inp = "a" then
                         level = level - 1
-                        if level < 1 then level = 99
+                        if level < 0 then level = 99
                         SetLevel(level)
                         UpdateScreen()
                     else if inp = "o" then
@@ -147,10 +147,112 @@ function ShowTetris() as uByte
 
 end function
 
+function ShowArkanoid() as uByte
+
+    FillRect(1,10,1,20,0)
+    FillRect(1,10, 9,11,1)
+    
+    
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as string
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    Dim x as uByte
+    Dim y as Ubyte
+
+    while action = 0
+
+        x = 2
+        y = 19
+
+        SetCell(x,y,1)
+        FillRect(x-1,x+1,20,20,1)
+
+        ShowChar("B", state)
+        state = state + sense
+        if state = 1 or state = 9 then sense = -sense
+
+        UpdateScreen()
+
+        ResetFrameCounter()
+
+        while Frames() < 30
+        end while
+
+        for buc = 9 to 15
+
+            SetCell(x,y,0)
+            FillRect(x-1,x+1,20,20,0)
+            x = x + 1
+            y = y - 1
+
+            SetCell(x,y,1)
+            FillRect(x-1,x+1,20,20,1)
+
+            ShowChar("B", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 30
+
+
+                ShowChar("B", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = inkey
+
+                'if hadInput and inp = "" then hadInput = 0
+
+                'if not hadInput and inp <> "" then
+                if inp <> "" then
+
+                    if inp = "q" then
+                        level = level + 1
+                        if level > 99 then level = 1
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "a" then
+                        level = level - 1
+                        if level < 1 then level = 99
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "o" then
+                        return 2
+                    else if inp = "p" then
+                        return 1
+                    else if inp = " " then
+                        return 3
+                    end if
+
+                    'hadInput = 1
+
+                end if
+
+            end while
+
+        next buc
+
+        SetCell(x,y,0)
+        FillRect(x-1,x+1,20,20,0)
+
+    end while
+
+end function
+
 function SelectGame() as uByte
 
-    level = 1
-    SetLevel(1)
+    ShowNextTitle()
+    SetSymbol(0,0)
+    SetLevel(level)
     UpdateScreen()
 
     Dim action as uByte
@@ -162,6 +264,8 @@ function SelectGame() as uByte
             action = ShowTetris()
 
         else if game = 1 then
+
+            action = ShowArkanoid()
 
         else if game = 2 then
 
@@ -176,12 +280,14 @@ function SelectGame() as uByte
             game = game - 1
             if game > 3 then game = 3
         else if action = 3 then
-            
-            if game = 0 then
-                FillRect(1,10,1,20,0)
-                UpdateScreen()
+
+            FillRect(1,10,1,20,0)
+            UpdateScreen()
+            if game = 0 then                
+                
                 return RunTetris(level)
-            'else if game = 1 then
+            else if game = 1 then
+                return RunArkanoid(level)
             'else if game = 2 then
             'else if game = 3 then
             end if

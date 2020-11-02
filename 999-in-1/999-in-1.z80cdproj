@@ -15,6 +15,7 @@
     <Z80Asm Include="ZxBasicFiles\Program.zxbas.z80asm">
       <DependentUpon>Program.zxbas</DependentUpon>
     </Z80Asm>
+    <ZxBasic Include="ZxBasicFiles\Arkanoid.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Tetris.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Timer.zxbas" />
     <ZxBasic Include="ZxBasicFiles\GameSelector.zxbas" />

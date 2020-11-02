@@ -22,8 +22,6 @@ __START_PROGRAM:
 	ld hl, 0
 	call RANDOMIZE
 	call _InitScreen
-	call _InitIntro
-	call _InvertIntro
 __LABEL0:
 	call _SelectGame
 	or a
@@ -338,9 +336,9 @@ __LABEL11:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL527
+	jr z, __LABEL737
 	ld a, h
-__LABEL527:
+__LABEL737:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL19
@@ -1206,9 +1204,9 @@ _DisplaceCollideRect:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL528
+	jr z, __LABEL738
 	ld a, h
-__LABEL528:
+__LABEL738:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL81
@@ -1282,9 +1280,9 @@ __LABEL94:
 	pop af
 	ld h, (hl)
 	or a
-	jr z, __LABEL529
+	jr z, __LABEL739
 	ld a, h
-__LABEL529:
+__LABEL739:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL97
@@ -1447,9 +1445,9 @@ __LABEL122:
 	pop af
 	ld h, (hl)
 	or a
-	jr z, __LABEL530
+	jr z, __LABEL740
 	ld a, h
-__LABEL530:
+__LABEL740:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL125
@@ -1608,9 +1606,9 @@ __LABEL150:
 	pop af
 	ld h, (hl)
 	or a
-	jr z, __LABEL531
+	jr z, __LABEL741
 	ld a, h
-__LABEL531:
+__LABEL741:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL153
@@ -1773,9 +1771,9 @@ __LABEL178:
 	pop af
 	ld h, (hl)
 	or a
-	jr z, __LABEL532
+	jr z, __LABEL742
 	ld a, h
-__LABEL532:
+__LABEL742:
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL181
@@ -2216,6 +2214,100 @@ _SetScore__leave:
 	ex (sp), hl
 	exx
 	ret
+_HideNextTitle:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld a, 7
+	push af
+	ld a, 19
+	call PRINT_AT
+	ld hl, __LABEL218
+	xor a
+	call __PRINTSTR
+	call PRINT_EOL
+_HideNextTitle__leave:
+	ld sp, ix
+	pop ix
+	ret
+_ShowNextTitle:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld a, 7
+	push af
+	ld a, 19
+	call PRINT_AT
+	ld hl, __LABEL44
+	xor a
+	call __PRINTSTR
+	call PRINT_EOL
+_ShowNextTitle__leave:
+	ld sp, ix
+	pop ix
+	ret
+_CountOnCells:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	inc sp
+	ld (ix-3), 1
+	jp __LABEL219
+__LABEL222:
+	ld (ix-2), 1
+	jp __LABEL224
+__LABEL227:
+	ld a, (ix-3)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL230
+	inc (ix-1)
+__LABEL230:
+__LABEL228:
+	inc (ix-2)
+__LABEL224:
+	ld a, (ix-2)
+	push af
+	ld a, 10
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL227
+__LABEL226:
+__LABEL223:
+	inc (ix-3)
+__LABEL219:
+	ld a, (ix-3)
+	push af
+	ld a, 20
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL222
+__LABEL221:
+	ld a, (ix-1)
+_CountOnCells__leave:
+	ld sp, ix
+	pop ix
+	ret
 _UpdateScreen:
 	push ix
 	ld ix, 0
@@ -2231,10 +2323,10 @@ _UpdateScreen:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL219
+	jp z, __LABEL232
 	ld (ix-3), 1
-	jp __LABEL220
-__LABEL223:
+	jp __LABEL233
+__LABEL236:
 	ld a, (ix-3)
 	ld l, a
 	ld h, 0
@@ -2248,7 +2340,7 @@ __LABEL223:
 	ld (ix-1), a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL226
+	jp z, __LABEL239
 	ld a, (ix-3)
 	ld l, a
 	ld h, 0
@@ -2308,10 +2400,10 @@ __LABEL223:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL226:
-__LABEL224:
+__LABEL239:
+__LABEL237:
 	inc (ix-3)
-__LABEL220:
+__LABEL233:
 	ld a, (ix-3)
 	push af
 	ld a, (_currentOp)
@@ -2320,15 +2412,15 @@ __LABEL220:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL223
-__LABEL222:
-__LABEL219:
-	ld (ix-2), 1
-	jp __LABEL227
-__LABEL230:
-	ld (ix-1), 1
-	jp __LABEL232
+	jp z, __LABEL236
 __LABEL235:
+__LABEL232:
+	ld (ix-2), 1
+	jp __LABEL240
+__LABEL243:
+	ld (ix-1), 1
+	jp __LABEL245
+__LABEL248:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
@@ -2361,7 +2453,7 @@ __LABEL235:
 	sub (ix-5)
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL238
+	jp z, __LABEL251
 	ld a, (ix-5)
 	push af
 	ld a, (ix-2)
@@ -2400,10 +2492,10 @@ __LABEL235:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL238:
-__LABEL236:
+__LABEL251:
+__LABEL249:
 	inc (ix-1)
-__LABEL232:
+__LABEL245:
 	ld a, (ix-1)
 	push af
 	ld a, 4
@@ -2412,11 +2504,11 @@ __LABEL232:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL235
-__LABEL234:
-__LABEL231:
+	jp z, __LABEL248
+__LABEL247:
+__LABEL244:
 	inc (ix-2)
-__LABEL227:
+__LABEL240:
 	ld a, (ix-2)
 	push af
 	ld a, 2
@@ -2425,8 +2517,8 @@ __LABEL227:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL230
-__LABEL229:
+	jp z, __LABEL243
+__LABEL242:
 	ld de, (_screenScore)
 	ld hl, (_workingScore)
 	or a
@@ -2435,7 +2527,7 @@ __LABEL229:
 	or l
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL240
+	jp z, __LABEL253
 	ld hl, (_workingScore)
 	ld (_screenScore), hl
 	ld a, 5
@@ -2444,7 +2536,7 @@ __LABEL229:
 	call PRINT_AT
 	ld a, 4
 	push af
-	ld hl, __LABEL241
+	ld hl, __LABEL254
 	call __LOADSTR
 	push hl
 	ld hl, (_screenScore)
@@ -2456,13 +2548,13 @@ __LABEL229:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL240:
+__LABEL253:
 	ld hl, (_workingLevel - 1)
 	ld a, (_screenLevel)
 	sub h
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL243
+	jp z, __LABEL256
 	ld a, (_workingLevel)
 	ld (_screenLevel), a
 	ld a, 14
@@ -2471,7 +2563,7 @@ __LABEL240:
 	call PRINT_AT
 	ld a, 2
 	push af
-	ld hl, __LABEL241
+	ld hl, __LABEL254
 	call __LOADSTR
 	push hl
 	ld a, (_screenLevel)
@@ -2482,10 +2574,10 @@ __LABEL240:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL243:
+__LABEL256:
 	xor a
 	ld (_currentOp), a
-#line 443
+#line 467
 		di
 		ld de, _workingCells.__DATA__
 		ld a, 0
@@ -2495,822 +2587,78 @@ __LABEL243:
 		ld bc, 199
 		ldir
 		ei
-#line 452
+#line 476
 _UpdateScreen__leave:
 	ld sp, ix
 	pop ix
 	ret
-_ExpandPiece:
+_ShowCurtain:
 	push ix
 	ld ix, 0
 	add ix, sp
 	ld hl, 0
 	push hl
-	push hl
 	ld (ix-2), 1
-	jp __LABEL244
-__LABEL247:
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 0
-	push hl
-	ld a, (ix+5)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _tetrisPieces
-	call __ARRAY
-	ld a, (hl)
-	ld (ix-1), a
+	jp __LABEL257
+__LABEL260:
+	ld (ix-1), 1
+	jp __LABEL262
+__LABEL265:
+	ld a, 1
 	push af
-	ld h, 128
-	pop af
-	and h
-	push af
-	ld hl, 0
-	push hl
 	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 0
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
+	push af
 	ld a, (ix-1)
 	push af
-	ld h, 64
-	pop af
-	and h
-	push af
-	ld hl, 0
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 1
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
+	call _SetCell
+__LABEL266:
+	inc (ix-1)
+__LABEL262:
 	ld a, (ix-1)
 	push af
-	ld h, 32
-	pop af
-	and h
-	push af
-	ld hl, 0
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 2
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 16
-	pop af
-	and h
-	push af
-	ld hl, 0
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 3
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 8
-	pop af
-	and h
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 0
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 4
-	pop af
-	and h
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 1
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 2
-	pop af
-	and h
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 2
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 1
-	pop af
-	and h
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 3
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 1
-	push hl
-	ld a, (ix+5)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _tetrisPieces
-	call __ARRAY
-	ld a, (hl)
-	ld (ix-1), a
-	push af
-	ld h, 128
-	pop af
-	and h
-	push af
-	ld hl, 2
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 0
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 64
-	pop af
-	and h
-	push af
-	ld hl, 2
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 1
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 32
-	pop af
-	and h
-	push af
-	ld hl, 2
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 2
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 16
-	pop af
-	and h
-	push af
-	ld hl, 2
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 3
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 8
-	pop af
-	and h
-	push af
-	ld hl, 3
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 0
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 4
-	pop af
-	and h
-	push af
-	ld hl, 3
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 1
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 2
-	pop af
-	and h
-	push af
-	ld hl, 3
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 2
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld a, (ix-1)
-	push af
-	ld h, 1
-	pop af
-	and h
-	push af
-	ld hl, 3
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, 3
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	pop af
-	ld (hl), a
-	ld hl, 0
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	ld (hl), 0
-	ld hl, 1
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	ld (hl), 0
-__LABEL248:
-	inc (ix-2)
-__LABEL244:
-	ld a, (ix-2)
-	push af
-	ld a, 4
+	ld a, 10
 	pop hl
 	cp h
 	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL247
-__LABEL246:
-	ld (ix-4), 1
-	jp __LABEL249
-__LABEL252:
-	ld (ix-2), 1
-	jp __LABEL254
-__LABEL257:
-	ld (ix-3), 1
-	jp __LABEL259
-__LABEL262:
-	ld a, (ix-4)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld a, (ix-3)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	ld a, (hl)
 	call __NORMALIZE_BOOLEAN
 	or a
 	jp z, __LABEL265
+__LABEL264:
+	call _UpdateScreen
+	ld hl, 11888
+	push hl
 	ld hl, 0
-	push hl
-	ld a, (ix-4)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	ld a, (hl)
-	ld h, (ix-2)
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL267
-	ld a, (ix-2)
-	push af
-	ld hl, 0
-	push hl
-	ld a, (ix-4)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	pop af
-	ld (hl), a
-__LABEL267:
-	ld hl, 1
-	push hl
-	ld a, (ix-4)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	ld a, (hl)
-	ld h, (ix-3)
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL269
-	ld a, (ix-3)
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix-4)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	pop af
-	ld (hl), a
-__LABEL269:
-__LABEL265:
-__LABEL263:
-	inc (ix-3)
-__LABEL259:
-	ld a, (ix-3)
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL262
+	call __BEEPER
 __LABEL261:
-__LABEL258:
 	inc (ix-2)
-__LABEL254:
+__LABEL257:
 	ld a, (ix-2)
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL257
-__LABEL256:
-__LABEL253:
-	inc (ix-4)
-__LABEL249:
-	ld a, (ix-4)
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL252
-__LABEL251:
-_ExpandPiece__leave:
-	ld sp, ix
-	pop ix
-	exx
-	pop hl
-	ex (sp), hl
-	exx
-	ret
-_WillCollide:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	push hl
-	push hl
-	ld a, (ix+9)
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL271
-	ld a, (ix+5)
-	add a, (ix+9)
-	ld (ix-1), a
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-1)
-	push af
-	ld hl, 1
-	push hl
-	ld a, (ix+13)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld hl, _expandedSize
-	call __ARRAY
-	ld a, 11
-	sub (hl)
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL273
-	ld a, 1
-	jp _WillCollide__leave
-__LABEL273:
-__LABEL271:
-	ld (ix-2), 1
-	jp __LABEL274
-__LABEL277:
-	ld a, (ix-2)
-	add a, (ix+7)
-	add a, (ix+11)
-	dec a
-	ld (ix-5), a
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL278
-__LABEL280:
-	ld a, (ix-2)
-	add a, (ix+11)
-	ld (ix-4), a
-	ld (ix-1), 1
-	jp __LABEL281
-__LABEL284:
-	ld a, (ix-1)
-	add a, (ix+5)
-	add a, (ix+9)
-	dec a
-	ld (ix-6), a
-	ld a, (ix-1)
-	add a, (ix+9)
-	ld (ix-3), a
-	ld a, (ix+15)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-1)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	ld a, (hl)
-	push af
-	ld a, (ix-3)
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-3)
-	push af
-	ld a, 4
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-4)
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, 4
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix+13)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-4)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-3)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld hl, _expandedPiece
-	call __ARRAY
-	ld a, (hl)
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL533
-	ld a, h
-__LABEL533:
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL287
-	ld a, (ix-6)
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-6)
-	push af
-	ld a, 10
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-5)
 	push af
 	ld a, 20
 	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-5)
-	ld l, a
-	add a, a
+	cp h
 	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-6)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld hl, _screenCells
-	call __ARRAY
-	pop af
-	or (hl)
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL289
-	ld a, 1
-	jp _WillCollide__leave
-__LABEL289:
-__LABEL287:
-__LABEL285:
-	inc (ix-1)
-__LABEL281:
-	ld a, (ix-1)
-	push af
-	ld a, 4
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL284
-__LABEL283:
-__LABEL278:
-	inc (ix-2)
-__LABEL274:
-	ld a, (ix-2)
-	push af
-	ld a, 4
-	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL277
-__LABEL276:
-	xor a
-_WillCollide__leave:
-	exx
-	ld hl, 12
-	jp __EXIT_FUNCTION
-_DrawFigure:
+	jp z, __LABEL260
+__LABEL259:
+_ShowCurtain__leave:
+	ld sp, ix
+	pop ix
+	ret
+_ShowDeath:
 	push ix
 	ld ix, 0
 	add ix, sp
 	ld hl, 0
 	push hl
-	push hl
 	ld (ix-2), 1
-	jp __LABEL290
-__LABEL293:
-	ld a, (ix-2)
-	add a, (ix+7)
-	dec a
-	ld (ix-4), a
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL294
-__LABEL296:
+	jp __LABEL267
+__LABEL270:
 	ld (ix-1), 1
-	jp __LABEL297
-__LABEL300:
+	jp __LABEL272
+__LABEL275:
 	ld a, (ix-1)
-	add a, (ix+5)
-	dec a
-	ld (ix-3), a
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL301
-__LABEL303:
-	ld a, (ix+9)
 	ld l, a
 	ld h, 0
 	dec hl
@@ -3320,1225 +2668,629 @@ __LABEL303:
 	ld h, 0
 	dec hl
 	push hl
-	ld a, (ix-1)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _expandedPiece
+	ld hl, _dead
 	call __ARRAY
 	ld a, (hl)
-	or a
-	jp z, __LABEL305
-	ld a, (ix+11)
 	push af
-	ld a, (ix-4)
+	ld a, (ix-2)
 	push af
-	ld a, (ix-3)
+	ld a, (ix-1)
 	push af
 	call _SetCell
-__LABEL305:
-__LABEL301:
+__LABEL276:
 	inc (ix-1)
-__LABEL297:
+__LABEL272:
 	ld a, (ix-1)
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL300
-__LABEL299:
-__LABEL294:
-	inc (ix-2)
-__LABEL290:
-	ld a, (ix-2)
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL293
-__LABEL292:
-_DrawFigure__leave:
-	ld sp, ix
-	pop ix
-	exx
-	pop hl
-	pop bc
-	pop bc
-	pop bc
-	ex (sp), hl
-	exx
-	ret
-_FindTop:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	push hl
-	inc sp
-	ld (ix-1), 20
-	jp __LABEL306
-__LABEL309:
-	ld (ix-3), 1
-	ld (ix-2), 1
-	jp __LABEL311
-__LABEL314:
-	ld a, (ix-1)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld hl, _screenCells
-	call __ARRAY
-	ld a, (hl)
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL317
-	ld (ix-3), 0
-	jp __LABEL313
-__LABEL317:
-__LABEL315:
-	inc (ix-2)
-__LABEL311:
-	ld a, (ix-2)
 	push af
 	ld a, 10
 	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL314
-__LABEL313:
-	ld a, (ix-3)
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL319
-	ld a, (ix-1)
-	sub 20
-	sub 1
+	cp h
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL321
-	xor a
-	jp _FindTop__leave
-__LABEL321:
-	ld a, (ix-1)
-	inc a
-	jp _FindTop__leave
-__LABEL319:
-__LABEL310:
-	dec (ix-1)
-__LABEL306:
-	ld a, (ix-1)
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL309
-__LABEL308:
-	xor a
-_FindTop__leave:
-	ld sp, ix
-	pop ix
-	ret
-_EraseLines:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	push hl
-	push hl
-	call _FindTop
-	ld (ix-1), a
-	ld (ix-4), 3
-	jp __LABEL322
-__LABEL325:
-	ld (ix-2), 1
-	ld a, (ix-4)
-	add a, (ix+5)
-	ld (ix-3), a
-	ld h, (ix-1)
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-3)
+	jp z, __LABEL275
+__LABEL274:
+__LABEL271:
+	inc (ix-2)
+__LABEL267:
+	ld a, (ix-2)
 	push af
 	ld a, 20
 	pop hl
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	pop de
-	or d
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL326
-__LABEL328:
-	ld (ix-5), 1
-	jp __LABEL329
-__LABEL332:
-	ld a, (ix-3)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	ld a, (ix-5)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _screenCells
-	call __ARRAY
-	ld a, (hl)
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL335
-	ld (ix-2), 0
-	jp __LABEL331
-__LABEL335:
-__LABEL333:
-	inc (ix-5)
-__LABEL329:
-	ld a, (ix-5)
-	push af
-	ld a, 10
-	pop hl
 	cp h
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL332
-__LABEL331:
-	ld a, (ix-2)
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL337
-	inc (ix+5)
-	ld a, 1
-	push af
-	xor a
-	push af
-	ld a, (ix-3)
-	dec a
-	push af
-	ld a, (ix-1)
-	push af
-	ld a, 10
-	push af
-	ld a, 1
-	push af
-	call _MoveRect
+	jp z, __LABEL270
+__LABEL269:
 	call _UpdateScreen
-	ld hl, 233
+	ld hl, 673
 	push hl
-	ld hl, 82
+	ld hl, 51
 	call __BEEPER
-	inc (ix-6)
-__LABEL337:
-__LABEL326:
-	dec (ix-4)
-__LABEL322:
-	ld a, (ix-4)
-	push af
-	ld h, 0
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL325
-__LABEL324:
-	ld a, (ix-6)
-_EraseLines__leave:
-	ld sp, ix
-	pop ix
-	exx
-	pop hl
-	ex (sp), hl
-	exx
-	ret
-_RunTetris:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, -19
-	add hl, sp
-	ld sp, hl
-	ld (hl), 0
-	ld bc, 18
-	ld d, h
-	ld e, l
-	inc de
-	ldir
-	push ix
-	pop hl
-	ld bc, -3
-	add hl, bc
-	ex de, hl
-	ld hl, __LABEL534
-	ld bc, 1
-	ldir
-	push ix
-	pop hl
-	ld bc, -4
-	add hl, bc
-	ex de, hl
-	ld hl, __LABEL535
-	ld bc, 1
-	ldir
-	ld a, (_playedTetrisMusic)
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL339
 	ld hl, 715
-	push hl
-	ld hl, 205
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 806
-	push hl
-	ld hl, 418
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 72
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 806
-	push hl
-	ld hl, 86
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 908
-	push hl
-	ld hl, 84
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 28
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1086
-	push hl
-	ld hl, 25
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1223
-	push hl
-	ld hl, 133
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1642
-	push hl
-	ld hl, 95
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 72
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 806
-	push hl
-	ld hl, 95
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1086
-	push hl
-	ld hl, 64
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 72
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1223
-	push hl
-	ld hl, 133
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1642
-	push hl
-	ld hl, 99
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1460
-	push hl
-	ld hl, 107
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1460
-	push hl
-	ld hl, 53
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1297
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1086
-	push hl
-	ld hl, 64
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1223
-	push hl
-	ld hl, 57
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1297
-	push hl
-	ld hl, 59
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1460
 	push hl
 	ld hl, 48
 	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1642
+	ld hl, 759
 	push hl
-	ld hl, 99
+	ld hl, 45
 	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1642
+	ld hl, 806
 	push hl
-	ld hl, 95
+	ld hl, 42
 	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1642
+	ld hl, 715
 	push hl
-	ld hl, 99
+	ld hl, 48
 	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 45
+	call __BEEPER
+	ld hl, 806
+	push hl
+	ld hl, 42
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 40
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 45
+	call __BEEPER
+	ld hl, 806
+	push hl
+	ld hl, 42
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 40
+	call __BEEPER
+	ld hl, 908
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 806
+	push hl
+	ld hl, 42
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 40
+	call __BEEPER
+	ld hl, 908
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 36
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 40
+	call __BEEPER
+	ld hl, 908
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 36
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 33
+	call __BEEPER
+	ld hl, 1152
+	push hl
 	ld hl, 30
+	call __BEEPER
+	ld hl, 1223
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 1297
+	push hl
+	ld hl, 329
+	call __BEEPER
+_ShowDeath__leave:
+	ld sp, ix
+	pop ix
+	ret
+_ShowWin:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	ld (ix-2), 1
+	jp __LABEL277
+__LABEL280:
+	ld (ix-1), 1
+	jp __LABEL282
+__LABEL285:
+	ld a, (ix-1)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _win
+	call __ARRAY
+	ld a, (hl)
+	push af
+	ld a, (ix-2)
+	push af
+	ld a, (ix-1)
+	push af
+	call _SetCell
+__LABEL286:
+	inc (ix-1)
+__LABEL282:
+	ld a, (ix-1)
+	push af
+	ld a, 10
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL285
+__LABEL284:
+__LABEL281:
+	inc (ix-2)
+__LABEL277:
+	ld a, (ix-2)
+	push af
+	ld a, 20
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL280
+__LABEL279:
+	call _UpdateScreen
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1297
+	push hl
+	ld hl, 32
+	call __BEEPER
+	ld hl, 1460
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 1297
+	push hl
+	ld hl, 32
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 5
 	call __PAUSE
-	ld a, 1
-	ld (_playedTetrisMusic), a
-__LABEL339:
-	ld a, (ix+5)
-	ld h, 10
-	call __DIVU8_FAST
-	inc a
-	ld h, 5
-	call __MUL8_FAST
-	ld h, a
-	ld a, 51
-	sub h
-	ld (ix-1), a
-	ld de, __LABEL4
-	ld bc, -19
-	call __PSTORE_STR
-	call RND
-	push bc
-	push de
-	push af
-	ld a, 083h
-	ld de, 00060h
-	ld bc, 00000h
-	call __MULF
-	call __FTOU32REG
-	push de
-	push hl
-	ld de, 0
-	ld hl, 1
-	pop bc
-	add hl, bc
-	ex de, hl
-	pop bc
-	adc hl, bc
-	ex de, hl
-	ld a, l
-	ld (ix-11), a
-	call RND
-	push bc
-	push de
-	push af
-	ld a, 083h
-	ld de, 00060h
-	ld bc, 00000h
-	call __MULF
-	call __FTOU32REG
-	push de
-	push hl
-	ld de, 0
-	ld hl, 1
-	pop bc
-	add hl, bc
-	ex de, hl
-	pop bc
-	adc hl, bc
-	ex de, hl
-	ld a, l
-	ld (ix-11), a
-	ld a, (ix+5)
-	dec a
-	ld h, 10
-	call __MODU8_FAST
-	add a, 5
-	ld (ix-15), a
 	ld hl, 908
 	push hl
 	ld hl, 46
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 116
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 116
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 561
+	push hl
+	ld hl, 73
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 116
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 98
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 5
+	call __PAUSE
+	ld hl, 1152
+	push hl
+	ld hl, 36
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1297
+	push hl
+	ld hl, 32
+	call __BEEPER
+	ld hl, 1460
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 1297
+	push hl
+	ld hl, 32
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 87
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 1023
+	push hl
+	ld hl, 41
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 43
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 759
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 5
+	call __PAUSE
+	ld hl, 908
+	push hl
+	ld hl, 46
+	call __BEEPER
+	ld hl, 856
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 131
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
 	call __BEEPER
 	ld hl, 806
 	push hl
 	ld hl, 51
 	call __BEEPER
-	ld hl, 673
+	ld hl, 715
 	push hl
-	ld hl, 61
+	ld hl, 58
 	call __BEEPER
-	ld hl, 596
-	push hl
-	ld hl, 69
-	call __BEEPER
-	call RND
-	push bc
-	push de
-	push af
-	ld a, 083h
-	ld de, 00060h
-	ld bc, 00000h
-	call __MULF
-	call __FTOU32REG
-	push de
-	push hl
-	ld de, 0
-	ld hl, 1
-	pop bc
-	add hl, bc
-	ex de, hl
-	pop bc
-	adc hl, bc
-	ex de, hl
-	ld a, l
-	ld (ix-11), a
-__LABEL340:
-	ld a, (ix-2)
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL341
-	ld a, (ix-3)
-	sub 255
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL343
-	ld (ix-4), 1
-	ld a, (ix-11)
-	ld (ix-3), a
-	call RND
-	push bc
-	push de
-	push af
-	ld a, 083h
-	ld de, 00060h
-	ld bc, 00000h
-	call __MULF
-	call __FTOU32REG
-	push de
-	push hl
-	ld de, 0
-	ld hl, 1
-	pop bc
-	add hl, bc
-	ex de, hl
-	pop bc
-	adc hl, bc
-	ex de, hl
-	ld a, l
-	ld (ix-11), a
-	ld a, (ix-3)
-	push af
-	call _ExpandPiece
-	ld a, (_expandedSize.__DATA__ + 0)
-	neg
-	ld (ix-5), a
-	ld (ix-6), 4
-	ld hl, 1
-	push hl
-	ld hl, 0
-	push hl
-	ld a, (ix-11)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _tetrisPieces
-	call __ARRAY
-	ld a, (hl)
-	ld b, 4
-__LABEL536:
-	srl a
-	djnz __LABEL536
-	push af
-	ld hl, 0
-	push hl
-	ld hl, 0
-	push hl
-	ld a, (ix-11)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _tetrisPieces
-	call __ARRAY
-	ld a, (hl)
-	ld b, 4
-__LABEL537:
-	srl a
-	djnz __LABEL537
-	push af
-	call _SetSymbol
-__LABEL343:
-	ld a, (ix-4)
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, 1
-	push af
-	xor a
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _WillCollide
-	or a
-	jp z, __LABEL344
-	ld a, (ix-5)
-	push af
-	ld h, 1
-	pop af
-	call __LTI8
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL346
-	ld (ix-2), 1
-	jp __LABEL347
-__LABEL346:
-	ld a, 1
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	ld a, (ix-5)
-	push af
-	call _EraseLines
-	ld (ix-7), a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL348
-	ld a, (ix-7)
-	dec a
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL350
-	ld l, (ix-17)
-	ld h, (ix-16)
-	inc hl
-	ld (ix-17), l
-	ld (ix-16), h
-	jp __LABEL351
-__LABEL350:
-	ld a, (ix-7)
-	sub 2
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL352
-	ld l, (ix-17)
-	ld h, (ix-16)
-	inc hl
-	inc hl
-	inc hl
-	ld (ix-17), l
-	ld (ix-16), h
-	jp __LABEL353
-__LABEL352:
-	ld a, (ix-7)
-	sub 3
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL354
-	ld l, (ix-17)
-	ld h, (ix-16)
-	ld de, 5
-	add hl, de
-	ld (ix-17), l
-	ld (ix-16), h
-	jp __LABEL355
-__LABEL354:
-	ld a, (ix-7)
-	sub 4
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL357
-	ld l, (ix-17)
-	ld h, (ix-16)
-	ld de, 10
-	add hl, de
-	ld (ix-17), l
-	ld (ix-16), h
-__LABEL357:
-__LABEL355:
-__LABEL353:
-__LABEL351:
-	ld a, (ix-14)
-	add a, (ix-7)
-	ld (ix-14), a
-	sub (ix-15)
-	ccf
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL359
-	ld a, (ix+5)
-	sub 99
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL361
-	ld a, 1
-	jp _RunTetris__leave
-__LABEL361:
-	ld a, (ix+5)
-	ld h, 10
-	call __MODU8_FAST
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL363
-	ld hl, 1742
-	push hl
-	ld hl, 16
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1297
-	push hl
-	ld hl, 15
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 1152
-	push hl
-	ld hl, 11
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 856
-	push hl
-	ld hl, 139
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 1297
-	push hl
-	ld hl, 26
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 14
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 1023
-	push hl
-	ld hl, 20
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 759
-	push hl
-	ld hl, 156
-	call __BEEPER
-	ld hl, 2
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 14
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 759
-	push hl
-	ld hl, 27
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 856
-	push hl
-	ld hl, 24
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 673
-	push hl
-	ld hl, 30
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 759
-	push hl
-	ld hl, 27
-	call __BEEPER
-	ld hl, 3
-	call __PAUSE
-	ld hl, 856
-	push hl
-	ld hl, 24
-	call __BEEPER
-	ld hl, 4
-	call __PAUSE
 	ld hl, 634
 	push hl
-	ld hl, 219
+	ld hl, 131
 	call __BEEPER
-	ld hl, 25
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 806
+	push hl
+	ld hl, 51
+	call __BEEPER
+	ld hl, 715
+	push hl
+	ld hl, 58
+	call __BEEPER
+	ld hl, 634
+	push hl
+	ld hl, 65
+	call __BEEPER
+	ld hl, 5
 	call __PAUSE
-	call _ShowCurtain
-	xor a
-	push af
-	ld a, 20
-	push af
-	ld a, 1
-	push af
-	ld a, 10
-	push af
-	ld a, 1
-	push af
-	call _FillRect
-__LABEL363:
-	inc (ix+5)
-	ld a, (ix+5)
-	ld h, 10
-	call __DIVU8_FAST
-	inc a
-	ld h, 5
-	call __MUL8_FAST
-	ld h, a
-	ld a, 51
-	sub h
-	ld (ix-1), a
-	ld (ix-14), 0
-	ld a, (ix+5)
-	dec a
-	ld h, 10
-	call __MODU8_FAST
-	add a, 5
-	ld (ix-15), a
-	ld l, (ix-17)
-	ld h, (ix-16)
-	ld de, 50
-	add hl, de
-	ld (ix-17), l
-	ld (ix-16), h
-	ld a, (ix+5)
-	push af
-	call _SetLevel
-	ld hl, 908
+	ld hl, 1297
 	push hl
-	ld hl, 46
+	ld hl, 32
 	call __BEEPER
-	ld hl, 596
+	ld hl, 1152
 	push hl
-	ld hl, 69
+	ld hl, 36
 	call __BEEPER
-__LABEL359:
-	ld l, (ix-17)
-	ld h, (ix-16)
+	ld hl, 1023
 	push hl
-	call _SetScore
-	call _UpdateScreen
-	jp __LABEL349
-__LABEL348:
-	ld hl, 2949
-	push hl
-	ld hl, 6
+	ld hl, 82
 	call __BEEPER
-__LABEL349:
-	ld (ix-3), 255
-__LABEL347:
-	jp __LABEL345
-__LABEL344:
-	xor a
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	inc (ix-5)
-	ld a, 1
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	call _UpdateScreen
-	call _ResetFrameCounter
-__LABEL364:
-	ld a, (ix-1)
-	ld l, a
-	ld h, 0
+	ld hl, 1297
 	push hl
-	call _Frames
-	pop de
-	or a
-	sbc hl, de
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL365
-	call INKEY
-	ld d, h
-	ld e, l
-	ld bc, -19
-	call __PSTORE_STR2
-	dec (ix-13)
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL4
-	pop hl
-	xor a
-	call __STRNE
-	call __NORMALIZE_BOOLEAN
-	ld h, (ix-8)
-	or a
-	jr z, __LABEL538
-	ld a, h
-__LABEL538:
-	call __NORMALIZE_BOOLEAN
-	push af
-	ld a, (ix-13)
-	push af
-	ld a, 1
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL539
-	ld a, h
-__LABEL539:
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL364
-__LABEL366:
-	ld (ix-8), 0
-__LABEL367:
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL4
-	pop hl
-	xor a
-	call __STRNE
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL369
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL370
-	pop hl
-	xor a
-	call __STREQ
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL371
-	ld a, (ix-4)
-	push af
-	ld a, (ix-4)
-	push af
-	xor a
-	push af
-	ld a, 255
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _WillCollide
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL374
-	xor a
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	dec (ix-6)
-	ld a, 1
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	call _UpdateScreen
-	ld (ix-8), 1
-	ld (ix-13), 70
-__LABEL374:
-	jp __LABEL372
-__LABEL371:
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL375
-	pop hl
-	xor a
-	call __STREQ
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL376
-	ld a, (ix-4)
-	push af
-	ld a, (ix-4)
-	push af
-	xor a
-	push af
-	ld a, 1
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _WillCollide
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL379
-	xor a
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	inc (ix-6)
-	ld a, 1
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	call _UpdateScreen
-	ld (ix-8), 1
-	ld (ix-13), 70
-__LABEL379:
-	jp __LABEL377
-__LABEL376:
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL380
-	pop hl
-	xor a
-	call __STREQ
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp nz, __LABEL365
-__LABEL381:
-	ld l, (ix-19)
-	ld h, (ix-18)
-	push hl
-	ld de, __LABEL25
-	pop hl
-	xor a
-	call __STREQ
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL384
-	ld a, (ix-4)
-	inc a
-	ld (ix-12), a
-	push af
-	ld a, 4
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL386
-	ld (ix-12), 1
-__LABEL386:
-	ld a, (ix-12)
-	push af
-	ld a, (ix-4)
-	push af
-	xor a
-	push af
-	xor a
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _WillCollide
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL388
-	xor a
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	ld a, (ix-12)
-	ld (ix-4), a
-	ld a, 1
-	push af
-	ld a, (ix-4)
-	push af
-	ld a, (ix-5)
-	push af
-	ld a, (ix-6)
-	push af
-	call _DrawFigure
-	call _UpdateScreen
-	ld (ix-8), 1
-	ld (ix-13), 200
-__LABEL388:
-__LABEL384:
-__LABEL382:
-__LABEL377:
-__LABEL372:
-__LABEL369:
-	jp __LABEL364
-__LABEL365:
-__LABEL345:
-	jp __LABEL340
-__LABEL341:
-	ld hl, 2949
-	push hl
-	ld hl, 28
+	ld hl, 32
 	call __BEEPER
-	ld hl, 3314
+	ld hl, 759
 	push hl
-	ld hl, 25
+	ld hl, 54
 	call __BEEPER
-	ld hl, 3947
+	ld hl, 856
 	push hl
-	ld hl, 21
+	ld hl, 147
 	call __BEEPER
-	ld hl, 4434
+	ld hl, 5
+	call __PAUSE
+	ld hl, 964
 	push hl
-	ld hl, 19
+	ld hl, 175
 	call __BEEPER
-	xor a
-_RunTetris__leave:
-	ex af, af'
-	exx
-	ld l, (ix-19)
-	ld h, (ix-18)
-	call __MEM_FREE
-	ex af, af'
-	exx
+_ShowWin__leave:
 	ld sp, ix
 	pop ix
-	exx
-	pop hl
-	ex (sp), hl
-	exx
 	ret
 _InitIntro:
 	push ix
@@ -5048,13 +3800,13 @@ _InvertIntro:
 	push hl
 	inc sp
 	ld (ix-3), 0
-	jp __LABEL389
-__LABEL392:
+	jp __LABEL287
+__LABEL290:
 	ld a, (ix-3)
 	inc a
 	ld (ix-1), a
-	jp __LABEL394
-__LABEL397:
+	jp __LABEL292
+__LABEL295:
 	ld a, 20
 	sub (ix-3)
 	push af
@@ -5064,9 +3816,9 @@ __LABEL397:
 	call _UpdateScreen
 	ld hl, 1
 	call __PAUSE
-__LABEL398:
+__LABEL296:
 	inc (ix-1)
-__LABEL394:
+__LABEL292:
 	ld a, (ix-1)
 	push af
 	ld a, 10
@@ -5076,13 +3828,13 @@ __LABEL394:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL397
-__LABEL396:
+	jp z, __LABEL295
+__LABEL294:
 	ld a, 19
 	sub (ix-3)
 	ld (ix-2), a
-	jp __LABEL399
-__LABEL402:
+	jp __LABEL297
+__LABEL300:
 	ld a, (ix-2)
 	push af
 	ld a, 10
@@ -5092,9 +3844,9 @@ __LABEL402:
 	call _UpdateScreen
 	ld hl, 1
 	call __PAUSE
-__LABEL403:
+__LABEL301:
 	dec (ix-2)
-__LABEL399:
+__LABEL297:
 	ld a, (ix-2)
 	push af
 	ld a, (ix-3)
@@ -5105,13 +3857,13 @@ __LABEL399:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL402
-__LABEL401:
+	jp z, __LABEL300
+__LABEL299:
 	ld a, 9
 	sub (ix-3)
 	ld (ix-1), a
-	jp __LABEL404
-__LABEL407:
+	jp __LABEL302
+__LABEL305:
 	ld a, (ix-3)
 	inc a
 	push af
@@ -5121,9 +3873,9 @@ __LABEL407:
 	call _UpdateScreen
 	ld hl, 1
 	call __PAUSE
-__LABEL408:
+__LABEL306:
 	dec (ix-1)
-__LABEL404:
+__LABEL302:
 	ld a, (ix-1)
 	push af
 	ld a, (ix-3)
@@ -5134,13 +3886,13 @@ __LABEL404:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL407
-__LABEL406:
+	jp z, __LABEL305
+__LABEL304:
 	ld a, (ix-3)
 	add a, 2
 	ld (ix-2), a
-	jp __LABEL409
-__LABEL412:
+	jp __LABEL307
+__LABEL310:
 	ld a, (ix-2)
 	push af
 	ld a, (ix-3)
@@ -5150,9 +3902,9 @@ __LABEL412:
 	call _UpdateScreen
 	ld hl, 1
 	call __PAUSE
-__LABEL413:
+__LABEL311:
 	inc (ix-2)
-__LABEL409:
+__LABEL307:
 	ld a, (ix-2)
 	push af
 	ld a, 19
@@ -5162,11 +3914,11 @@ __LABEL409:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL412
-__LABEL411:
-__LABEL393:
+	jp z, __LABEL310
+__LABEL309:
+__LABEL291:
 	inc (ix-3)
-__LABEL389:
+__LABEL287:
 	ld a, (ix-3)
 	push af
 	ld a, 4
@@ -5175,13 +3927,4628 @@ __LABEL389:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL392
-__LABEL391:
+	jp z, __LABEL290
+__LABEL289:
 	ld hl, 30
 	call __PAUSE
 _InvertIntro__leave:
 	ld sp, ix
 	pop ix
+	ret
+_ExpandPiece:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	ld (ix-2), 1
+	jp __LABEL312
+__LABEL315:
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 0
+	push hl
+	ld a, (ix+5)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _tetrisPieces
+	call __ARRAY
+	ld a, (hl)
+	ld (ix-1), a
+	push af
+	ld h, 128
+	pop af
+	and h
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 0
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 64
+	pop af
+	and h
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 1
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 32
+	pop af
+	and h
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 2
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 16
+	pop af
+	and h
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 3
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 8
+	pop af
+	and h
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 0
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 4
+	pop af
+	and h
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 1
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 2
+	pop af
+	and h
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 2
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 1
+	pop af
+	and h
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 3
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 1
+	push hl
+	ld a, (ix+5)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _tetrisPieces
+	call __ARRAY
+	ld a, (hl)
+	ld (ix-1), a
+	push af
+	ld h, 128
+	pop af
+	and h
+	push af
+	ld hl, 2
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 0
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 64
+	pop af
+	and h
+	push af
+	ld hl, 2
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 1
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 32
+	pop af
+	and h
+	push af
+	ld hl, 2
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 2
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 16
+	pop af
+	and h
+	push af
+	ld hl, 2
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 3
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 8
+	pop af
+	and h
+	push af
+	ld hl, 3
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 0
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 4
+	pop af
+	and h
+	push af
+	ld hl, 3
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 1
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 2
+	pop af
+	and h
+	push af
+	ld hl, 3
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 2
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld a, (ix-1)
+	push af
+	ld h, 1
+	pop af
+	and h
+	push af
+	ld hl, 3
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, 3
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	pop af
+	ld (hl), a
+	ld hl, 0
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	ld (hl), 0
+	ld hl, 1
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	ld (hl), 0
+__LABEL316:
+	inc (ix-2)
+__LABEL312:
+	ld a, (ix-2)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL315
+__LABEL314:
+	ld (ix-4), 1
+	jp __LABEL317
+__LABEL320:
+	ld (ix-2), 1
+	jp __LABEL322
+__LABEL325:
+	ld (ix-3), 1
+	jp __LABEL327
+__LABEL330:
+	ld a, (ix-4)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-3)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	ld a, (hl)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL333
+	ld hl, 0
+	push hl
+	ld a, (ix-4)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	ld a, (hl)
+	ld h, (ix-2)
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL335
+	ld a, (ix-2)
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-4)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	pop af
+	ld (hl), a
+__LABEL335:
+	ld hl, 1
+	push hl
+	ld a, (ix-4)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	ld a, (hl)
+	ld h, (ix-3)
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL337
+	ld a, (ix-3)
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix-4)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	pop af
+	ld (hl), a
+__LABEL337:
+__LABEL333:
+__LABEL331:
+	inc (ix-3)
+__LABEL327:
+	ld a, (ix-3)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL330
+__LABEL329:
+__LABEL326:
+	inc (ix-2)
+__LABEL322:
+	ld a, (ix-2)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL325
+__LABEL324:
+__LABEL321:
+	inc (ix-4)
+__LABEL317:
+	ld a, (ix-4)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL320
+__LABEL319:
+_ExpandPiece__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_WillCollide:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	push hl
+	ld a, (ix+9)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL339
+	ld a, (ix+5)
+	add a, (ix+9)
+	ld (ix-1), a
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-1)
+	push af
+	ld hl, 1
+	push hl
+	ld a, (ix+13)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _expandedSize
+	call __ARRAY
+	ld a, 11
+	sub (hl)
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL341
+	ld a, 1
+	jp _WillCollide__leave
+__LABEL341:
+__LABEL339:
+	ld (ix-2), 1
+	jp __LABEL342
+__LABEL345:
+	ld a, (ix-2)
+	add a, (ix+7)
+	add a, (ix+11)
+	dec a
+	ld (ix-5), a
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL346
+__LABEL348:
+	ld a, (ix-2)
+	add a, (ix+11)
+	ld (ix-4), a
+	ld (ix-1), 1
+	jp __LABEL349
+__LABEL352:
+	ld a, (ix-1)
+	add a, (ix+5)
+	add a, (ix+9)
+	dec a
+	ld (ix-6), a
+	ld a, (ix-1)
+	add a, (ix+9)
+	ld (ix-3), a
+	ld a, (ix+15)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-1)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	ld a, (hl)
+	push af
+	ld a, (ix-3)
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-3)
+	push af
+	ld a, 4
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-4)
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, 4
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix+13)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-4)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-3)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	ld a, (hl)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL743
+	ld a, h
+__LABEL743:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL355
+	ld a, (ix-6)
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, 10
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, 20
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-6)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	pop af
+	or (hl)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL357
+	ld a, 1
+	jp _WillCollide__leave
+__LABEL357:
+__LABEL355:
+__LABEL353:
+	inc (ix-1)
+__LABEL349:
+	ld a, (ix-1)
+	push af
+	ld a, 4
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL352
+__LABEL351:
+__LABEL346:
+	inc (ix-2)
+__LABEL342:
+	ld a, (ix-2)
+	push af
+	ld a, 4
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL345
+__LABEL344:
+	xor a
+_WillCollide__leave:
+	exx
+	ld hl, 12
+	jp __EXIT_FUNCTION
+_DrawFigure:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	ld (ix-2), 1
+	jp __LABEL358
+__LABEL361:
+	ld a, (ix-2)
+	add a, (ix+7)
+	dec a
+	ld (ix-4), a
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL362
+__LABEL364:
+	ld (ix-1), 1
+	jp __LABEL365
+__LABEL368:
+	ld a, (ix-1)
+	add a, (ix+5)
+	dec a
+	ld (ix-3), a
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL369
+__LABEL371:
+	ld a, (ix+9)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-1)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _expandedPiece
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL373
+	ld a, (ix+11)
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-3)
+	push af
+	call _SetCell
+__LABEL373:
+__LABEL369:
+	inc (ix-1)
+__LABEL365:
+	ld a, (ix-1)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL368
+__LABEL367:
+__LABEL362:
+	inc (ix-2)
+__LABEL358:
+	ld a, (ix-2)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL361
+__LABEL360:
+_DrawFigure__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	pop bc
+	pop bc
+	pop bc
+	ex (sp), hl
+	exx
+	ret
+_FindTop:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	inc sp
+	ld (ix-1), 20
+	jp __LABEL374
+__LABEL377:
+	ld (ix-3), 1
+	ld (ix-2), 1
+	jp __LABEL379
+__LABEL382:
+	ld a, (ix-1)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-2)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL385
+	ld (ix-3), 0
+	jp __LABEL381
+__LABEL385:
+__LABEL383:
+	inc (ix-2)
+__LABEL379:
+	ld a, (ix-2)
+	push af
+	ld a, 10
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL382
+__LABEL381:
+	ld a, (ix-3)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL387
+	ld a, (ix-1)
+	sub 20
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL389
+	xor a
+	jp _FindTop__leave
+__LABEL389:
+	ld a, (ix-1)
+	inc a
+	jp _FindTop__leave
+__LABEL387:
+__LABEL378:
+	dec (ix-1)
+__LABEL374:
+	ld a, (ix-1)
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL377
+__LABEL376:
+	xor a
+_FindTop__leave:
+	ld sp, ix
+	pop ix
+	ret
+_EraseLines:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	push hl
+	call _FindTop
+	ld (ix-1), a
+	ld (ix-4), 3
+	jp __LABEL390
+__LABEL393:
+	ld (ix-2), 1
+	ld a, (ix-4)
+	add a, (ix+5)
+	ld (ix-3), a
+	ld h, (ix-1)
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-3)
+	push af
+	ld a, 20
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL394
+__LABEL396:
+	ld (ix-5), 1
+	jp __LABEL397
+__LABEL400:
+	ld a, (ix-3)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL403
+	ld (ix-2), 0
+	jp __LABEL399
+__LABEL403:
+__LABEL401:
+	inc (ix-5)
+__LABEL397:
+	ld a, (ix-5)
+	push af
+	ld a, 10
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL400
+__LABEL399:
+	ld a, (ix-2)
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL405
+	inc (ix+5)
+	ld a, 1
+	push af
+	xor a
+	push af
+	ld a, (ix-3)
+	dec a
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _MoveRect
+	call _UpdateScreen
+	ld hl, 233
+	push hl
+	ld hl, 82
+	call __BEEPER
+	inc (ix-6)
+__LABEL405:
+__LABEL394:
+	dec (ix-4)
+__LABEL390:
+	ld a, (ix-4)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL393
+__LABEL392:
+	ld a, (ix-6)
+_EraseLines__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_RunTetris:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, -19
+	add hl, sp
+	ld sp, hl
+	ld (hl), 0
+	ld bc, 18
+	ld d, h
+	ld e, l
+	inc de
+	ldir
+	push ix
+	pop hl
+	ld bc, -3
+	add hl, bc
+	ex de, hl
+	ld hl, __LABEL744
+	ld bc, 1
+	ldir
+	push ix
+	pop hl
+	ld bc, -4
+	add hl, bc
+	ex de, hl
+	ld hl, __LABEL745
+	ld bc, 1
+	ldir
+	ld a, (_playedTetrisMusic)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL407
+	ld hl, 715
+	push hl
+	ld hl, 205
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 806
+	push hl
+	ld hl, 418
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 72
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 806
+	push hl
+	ld hl, 86
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 908
+	push hl
+	ld hl, 84
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1086
+	push hl
+	ld hl, 25
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1223
+	push hl
+	ld hl, 133
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1642
+	push hl
+	ld hl, 95
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 72
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 806
+	push hl
+	ld hl, 95
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1086
+	push hl
+	ld hl, 64
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 72
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1223
+	push hl
+	ld hl, 133
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1642
+	push hl
+	ld hl, 99
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1460
+	push hl
+	ld hl, 107
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1460
+	push hl
+	ld hl, 53
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1297
+	push hl
+	ld hl, 54
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1086
+	push hl
+	ld hl, 64
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1223
+	push hl
+	ld hl, 57
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1297
+	push hl
+	ld hl, 59
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1460
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1642
+	push hl
+	ld hl, 99
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1642
+	push hl
+	ld hl, 95
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1642
+	push hl
+	ld hl, 99
+	call __BEEPER
+	ld hl, 30
+	call __PAUSE
+	ld a, 1
+	ld (_playedTetrisMusic), a
+__LABEL407:
+	ld a, (ix+5)
+	ld h, 10
+	call __DIVU8_FAST
+	inc a
+	ld h, 5
+	call __MUL8_FAST
+	ld h, a
+	ld a, 51
+	sub h
+	ld (ix-1), a
+	ld de, __LABEL4
+	ld bc, -19
+	call __PSTORE_STR
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 083h
+	ld de, 00060h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	push de
+	push hl
+	ld de, 0
+	ld hl, 1
+	pop bc
+	add hl, bc
+	ex de, hl
+	pop bc
+	adc hl, bc
+	ex de, hl
+	ld a, l
+	ld (ix-12), a
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 083h
+	ld de, 00060h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	push de
+	push hl
+	ld de, 0
+	ld hl, 1
+	pop bc
+	add hl, bc
+	ex de, hl
+	pop bc
+	adc hl, bc
+	ex de, hl
+	ld a, l
+	ld (ix-12), a
+	ld a, (ix+5)
+	ld h, 10
+	call __MODU8_FAST
+	add a, 5
+	ld (ix-15), a
+	ld hl, 908
+	push hl
+	ld hl, 46
+	call __BEEPER
+	ld hl, 806
+	push hl
+	ld hl, 51
+	call __BEEPER
+	ld hl, 673
+	push hl
+	ld hl, 61
+	call __BEEPER
+	ld hl, 596
+	push hl
+	ld hl, 69
+	call __BEEPER
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 083h
+	ld de, 00060h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	push de
+	push hl
+	ld de, 0
+	ld hl, 1
+	pop bc
+	add hl, bc
+	ex de, hl
+	pop bc
+	adc hl, bc
+	ex de, hl
+	ld a, l
+	ld (ix-12), a
+__LABEL408:
+	ld a, (ix-2)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL409
+	ld a, (ix-3)
+	sub 255
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL411
+	ld (ix-4), 1
+	ld a, (ix-12)
+	ld (ix-3), a
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 083h
+	ld de, 00060h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	push de
+	push hl
+	ld de, 0
+	ld hl, 1
+	pop bc
+	add hl, bc
+	ex de, hl
+	pop bc
+	adc hl, bc
+	ex de, hl
+	ld a, l
+	ld (ix-12), a
+	ld a, (ix-3)
+	push af
+	call _ExpandPiece
+	ld a, (_expandedSize.__DATA__ + 0)
+	neg
+	ld (ix-5), a
+	ld (ix-6), 4
+	ld hl, 1
+	push hl
+	ld hl, 0
+	push hl
+	ld a, (ix-12)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _tetrisPieces
+	call __ARRAY
+	ld a, (hl)
+	ld b, 4
+__LABEL746:
+	srl a
+	djnz __LABEL746
+	push af
+	ld hl, 0
+	push hl
+	ld hl, 0
+	push hl
+	ld a, (ix-12)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _tetrisPieces
+	call __ARRAY
+	ld a, (hl)
+	ld b, 4
+__LABEL747:
+	srl a
+	djnz __LABEL747
+	push af
+	call _SetSymbol
+__LABEL411:
+	ld a, (ix-4)
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, 1
+	push af
+	xor a
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _WillCollide
+	or a
+	jp z, __LABEL412
+	ld a, (ix-5)
+	push af
+	ld h, 1
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL414
+	ld (ix-2), 1
+	jp __LABEL415
+__LABEL414:
+	ld a, 1
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	ld a, (ix-5)
+	push af
+	call _EraseLines
+	ld (ix-7), a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL416
+	ld a, (ix-7)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL418
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	jp __LABEL419
+__LABEL418:
+	ld a, (ix-7)
+	sub 2
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL420
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	inc hl
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	jp __LABEL421
+__LABEL420:
+	ld a, (ix-7)
+	sub 3
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL422
+	ld l, (ix-17)
+	ld h, (ix-16)
+	ld de, 5
+	add hl, de
+	ld (ix-17), l
+	ld (ix-16), h
+	jp __LABEL423
+__LABEL422:
+	ld a, (ix-7)
+	sub 4
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL425
+	ld l, (ix-17)
+	ld h, (ix-16)
+	ld de, 10
+	add hl, de
+	ld (ix-17), l
+	ld (ix-16), h
+__LABEL425:
+__LABEL423:
+__LABEL421:
+__LABEL419:
+	ld a, (ix-14)
+	add a, (ix-7)
+	ld (ix-14), a
+	sub (ix-15)
+	ccf
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL427
+	ld a, (ix+5)
+	sub 99
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL429
+	ld a, 1
+	jp _RunTetris__leave
+__LABEL429:
+	ld a, (ix+5)
+	ld h, 10
+	call __MODU8_FAST
+	sub 9
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL431
+	ld hl, 1742
+	push hl
+	ld hl, 16
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1297
+	push hl
+	ld hl, 15
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 1152
+	push hl
+	ld hl, 11
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 856
+	push hl
+	ld hl, 139
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 1297
+	push hl
+	ld hl, 26
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 14
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 1023
+	push hl
+	ld hl, 20
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 759
+	push hl
+	ld hl, 156
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 14
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 759
+	push hl
+	ld hl, 27
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 856
+	push hl
+	ld hl, 24
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 673
+	push hl
+	ld hl, 30
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 759
+	push hl
+	ld hl, 27
+	call __BEEPER
+	ld hl, 3
+	call __PAUSE
+	ld hl, 856
+	push hl
+	ld hl, 24
+	call __BEEPER
+	ld hl, 4
+	call __PAUSE
+	ld hl, 634
+	push hl
+	ld hl, 219
+	call __BEEPER
+	ld hl, 25
+	call __PAUSE
+	call _ShowCurtain
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 1
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+__LABEL431:
+	inc (ix+5)
+	ld a, (ix+5)
+	ld h, 10
+	call __DIVU8_FAST
+	inc a
+	ld h, 5
+	call __MUL8_FAST
+	ld h, a
+	ld a, 51
+	sub h
+	ld (ix-1), a
+	ld (ix-14), 0
+	ld a, (ix+5)
+	ld h, 10
+	call __MODU8_FAST
+	add a, 5
+	ld (ix-15), a
+	ld l, (ix-17)
+	ld h, (ix-16)
+	ld de, 50
+	add hl, de
+	ld (ix-17), l
+	ld (ix-16), h
+	ld a, (ix+5)
+	push af
+	call _SetLevel
+	ld hl, 908
+	push hl
+	ld hl, 46
+	call __BEEPER
+	ld hl, 596
+	push hl
+	ld hl, 69
+	call __BEEPER
+__LABEL427:
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	call _UpdateScreen
+	jp __LABEL417
+__LABEL416:
+	ld hl, 2949
+	push hl
+	ld hl, 6
+	call __BEEPER
+__LABEL417:
+	ld (ix-3), 255
+__LABEL415:
+	jp __LABEL413
+__LABEL412:
+	xor a
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	inc (ix-5)
+	ld a, 1
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	call _UpdateScreen
+	call _ResetFrameCounter
+__LABEL432:
+	ld a, (ix-1)
+	ld l, a
+	ld h, 0
+	push hl
+	call _Frames
+	pop de
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL433
+	call INKEY
+	ld d, h
+	ld e, l
+	ld bc, -19
+	call __PSTORE_STR2
+	dec (ix-9)
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	ld h, (ix-8)
+	or a
+	jr z, __LABEL748
+	ld a, h
+__LABEL748:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-9)
+	push af
+	ld a, 1
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL749
+	ld a, h
+__LABEL749:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL432
+__LABEL434:
+	ld (ix-8), 0
+__LABEL435:
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL437
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL438
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL439
+	ld a, (ix-4)
+	push af
+	ld a, (ix-4)
+	push af
+	xor a
+	push af
+	ld a, 255
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _WillCollide
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL442
+	xor a
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	dec (ix-6)
+	ld a, 1
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	call _UpdateScreen
+	ld (ix-8), 1
+	ld (ix-9), 70
+__LABEL442:
+	jp __LABEL440
+__LABEL439:
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL443
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL444
+	ld a, (ix-4)
+	push af
+	ld a, (ix-4)
+	push af
+	xor a
+	push af
+	ld a, 1
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _WillCollide
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL447
+	xor a
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	inc (ix-6)
+	ld a, 1
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	call _UpdateScreen
+	ld (ix-8), 1
+	ld (ix-9), 70
+__LABEL447:
+	jp __LABEL445
+__LABEL444:
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL448
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL433
+__LABEL449:
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld de, __LABEL25
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL452
+	ld a, (ix-4)
+	inc a
+	ld (ix-13), a
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL454
+	ld (ix-13), 1
+__LABEL454:
+	ld a, (ix-13)
+	push af
+	ld a, (ix-4)
+	push af
+	xor a
+	push af
+	xor a
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _WillCollide
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL456
+	xor a
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	ld a, (ix-13)
+	ld (ix-4), a
+	ld a, 1
+	push af
+	ld a, (ix-4)
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-6)
+	push af
+	call _DrawFigure
+	call _UpdateScreen
+	ld (ix-8), 1
+	ld (ix-9), 200
+__LABEL456:
+__LABEL452:
+__LABEL450:
+__LABEL445:
+__LABEL440:
+__LABEL437:
+	jp __LABEL432
+__LABEL433:
+__LABEL413:
+	jp __LABEL408
+__LABEL409:
+	ld hl, 2949
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 3314
+	push hl
+	ld hl, 25
+	call __BEEPER
+	ld hl, 3947
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 4434
+	push hl
+	ld hl, 19
+	call __BEEPER
+	xor a
+_RunTetris__leave:
+	ex af, af'
+	exx
+	ld l, (ix-19)
+	ld h, (ix-18)
+	call __MEM_FREE
+	ex af, af'
+	exx
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_LoadScreen:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	inc sp
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 1
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+	ld (ix-1), 1
+	jp __LABEL457
+__LABEL460:
+	ld a, (ix-1)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix+5)
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _arkaScreens
+	call __ARRAY
+	ld e, (hl)
+	inc hl
+	ld d, (hl)
+	ex de, hl
+	ld (ix-3), l
+	ld (ix-2), h
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 512
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL463
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 1
+	push af
+	call _SetCell
+__LABEL463:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 256
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL465
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 2
+	push af
+	call _SetCell
+__LABEL465:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 128
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL467
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 3
+	push af
+	call _SetCell
+__LABEL467:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 64
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL469
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 4
+	push af
+	call _SetCell
+__LABEL469:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 32
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL471
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 5
+	push af
+	call _SetCell
+__LABEL471:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 16
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL473
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 6
+	push af
+	call _SetCell
+__LABEL473:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 8
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL475
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 7
+	push af
+	call _SetCell
+__LABEL475:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 4
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL477
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 8
+	push af
+	call _SetCell
+__LABEL477:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 2
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL479
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 9
+	push af
+	call _SetCell
+__LABEL479:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	push hl
+	ld de, 1
+	pop hl
+	call __BAND16
+	ld a, h
+	or l
+	jp z, __LABEL481
+	ld a, 1
+	push af
+	ld a, (ix-1)
+	push af
+	ld a, 10
+	push af
+	call _SetCell
+__LABEL481:
+__LABEL461:
+	inc (ix-1)
+__LABEL457:
+	ld a, (ix-1)
+	push af
+	ld a, 12
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL460
+__LABEL459:
+	call _UpdateScreen
+_LoadScreen__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_GetSpeedX:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	inc sp
+	ld a, (ix+5)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL482
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 085h
+	ld de, 00070h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-1), a
+	push af
+	ld h, 20
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL484
+	ld a, 081h
+	ld de, 00080h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL484:
+	ld a, 080h
+	ld de, 00080h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL485:
+	jp __LABEL483
+__LABEL482:
+	ld a, (ix+5)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL486
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 085h
+	ld de, 00070h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-1), a
+	push af
+	ld h, 10
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL488
+	ld a, 080h
+	ld de, 00080h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL488:
+	ld a, (ix-1)
+	push af
+	ld h, 20
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL490
+	ld a, 000h
+	ld de, 00000h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL490:
+	ld a, 080h
+	ld de, 00000h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL491:
+__LABEL489:
+	jp __LABEL487
+__LABEL486:
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 085h
+	ld de, 00070h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-1), a
+	push af
+	ld h, 20
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL492
+	ld a, 081h
+	ld de, 00000h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL492:
+	ld a, 080h
+	ld de, 00000h
+	ld bc, 00000h
+	jp _GetSpeedX__leave
+__LABEL493:
+__LABEL487:
+__LABEL483:
+_GetSpeedX__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_GetSpeedY:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	inc sp
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 085h
+	ld de, 00070h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-1), a
+	push af
+	ld h, 20
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL494
+	ld a, 081h
+	ld de, 00080h
+	ld bc, 00000h
+	jp _GetSpeedY__leave
+__LABEL494:
+	ld a, 080h
+	ld de, 00080h
+	ld bc, 00000h
+	jp _GetSpeedY__leave
+__LABEL495:
+_GetSpeedY__leave:
+	ld sp, ix
+	pop ix
+	ret
+_RunArkanoid:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, -41
+	add hl, sp
+	ld sp, hl
+	ld (hl), 0
+	ld bc, 40
+	ld d, h
+	ld e, l
+	inc de
+	ldir
+	push ix
+	pop hl
+	ld bc, -3
+	add hl, bc
+	ex de, hl
+	ld hl, __LABEL750
+	ld bc, 1
+	ldir
+	ld a, (_playedArkaMusic)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL497
+	ld a, 1
+	ld (_playedArkaMusic), a
+	ld hl, 1642
+	push hl
+	ld hl, 8
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 51
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 8
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 17
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 77
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 4434
+	push hl
+	ld hl, 15
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 3314
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 1152
+	push hl
+	ld hl, 11
+	call __BEEPER
+	ld hl, 1152
+	push hl
+	ld hl, 30
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 32
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 14
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 28
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 77
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 4434
+	push hl
+	ld hl, 15
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 3314
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 4434
+	push hl
+	ld hl, 15
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 4184
+	push hl
+	ld hl, 16
+	call __BEEPER
+	ld hl, 2
+	call __PAUSE
+	ld hl, 3513
+	push hl
+	ld hl, 20
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 8
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 51
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 8
+	call __BEEPER
+	ld hl, 1642
+	push hl
+	ld hl, 17
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 77
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 3314
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 10
+	call __PAUSE
+	ld hl, 964
+	push hl
+	ld hl, 14
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 19
+	call __BEEPER
+	ld hl, 1152
+	push hl
+	ld hl, 11
+	call __BEEPER
+	ld hl, 1152
+	push hl
+	ld hl, 17
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 14
+	call __BEEPER
+	ld hl, 964
+	push hl
+	ld hl, 21
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 12
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 117
+	call __BEEPER
+__LABEL497:
+	ld de, __LABEL4
+	ld bc, -21
+	call __PSTORE_STR
+	call _HideNextTitle
+	ld a, (ix-3)
+	push af
+	call _SetLifes
+__LABEL498:
+	ld a, (ix-1)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL499
+	ld a, (ix-4)
+	push af
+	xor a
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL501
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+__LABEL501:
+	ld a, (ix-5)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL503
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+__LABEL503:
+	ld a, (ix+5)
+	ld h, 10
+	call __MODU8_FAST
+	inc a
+	push af
+	call _LoadScreen
+	ld a, (ix+5)
+	ld h, 10
+	call __DIVU8_FAST
+	ld h, a
+	ld a, 11
+	sub h
+	ld (ix-2), a
+	ld a, (ix+5)
+	push af
+	call _SetLevel
+	call _CountOnCells
+	ld (ix-7), a
+__LABEL504:
+	ld a, (ix-7)
+	push af
+	xor a
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-3)
+	push af
+	xor a
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL751
+	ld a, h
+__LABEL751:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL505
+	ld a, (ix-4)
+	push af
+	xor a
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL507
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+__LABEL507:
+	ld a, (ix-5)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL509
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+__LABEL509:
+	ld (ix-4), 4
+	ld a, 083h
+	ld de, 00040h
+	ld bc, 00000h
+	ld hl, -26
+	call __PSTOREF
+	ld (ix-5), 6
+	ld a, 085h
+	ld de, 00018h
+	ld bc, 00000h
+	ld hl, -31
+	call __PSTOREF
+	ld (ix-6), 19
+	ld a, 081h
+	ld de, 00000h
+	ld bc, 00000h
+	ld hl, -36
+	call __PSTOREF
+	ld a, 081h
+	ld de, 00080h
+	ld bc, 00000h
+	ld hl, -41
+	call __PSTOREF
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	call _UpdateScreen
+	call INKEY
+	ld d, h
+	ld e, l
+	ld bc, -21
+	call __PSTORE_STR2
+__LABEL510:
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL25
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL511
+	call INKEY
+	ld d, h
+	ld e, l
+	ld bc, -21
+	call __PSTORE_STR2
+	ld l, (ix-19)
+	ld h, (ix-18)
+	dec hl
+	ld (ix-19), l
+	ld (ix-18), h
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	ld h, (ix-13)
+	or a
+	jr z, __LABEL752
+	ld a, h
+__LABEL752:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld hl, 1
+	pop de
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL753
+	ld a, h
+__LABEL753:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL510
+__LABEL512:
+	ld (ix-13), 0
+__LABEL513:
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL515
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL438
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL516
+	ld a, (ix-4)
+	push af
+	ld a, 1
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL519
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	dec (ix-4)
+	dec (ix-5)
+	ld a, (ix-5)
+	call __I8TOFREG
+	ld hl, -26
+	call __PSTOREF
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	call _UpdateScreen
+	ld (ix-19), 50
+	ld (ix-18), 0
+	ld (ix-13), 1
+__LABEL519:
+	jp __LABEL517
+__LABEL516:
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL443
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL521
+	ld a, (ix-4)
+	push af
+	ld h, 8
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL523
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	inc (ix-4)
+	inc (ix-5)
+	ld a, (ix-5)
+	call __I8TOFREG
+	ld hl, -26
+	call __PSTOREF
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	call _UpdateScreen
+	ld (ix-19), 50
+	ld (ix-18), 0
+	ld (ix-13), 1
+__LABEL523:
+__LABEL521:
+__LABEL517:
+__LABEL515:
+	jp __LABEL510
+__LABEL511:
+__LABEL524:
+	ld (ix-14), 1
+__LABEL526:
+	ld a, (ix-14)
+	or a
+	jp z, __LABEL527
+	ld (ix-14), 0
+	push ix
+	pop hl
+	ld de, -26
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __ADDF
+	call __FTOU32REG
+	push de
+	push hl
+	ld a, (ix-5)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	ld e, h
+	ld d, h
+	call __SUB32
+	ld a, l
+	ld (ix-8), a
+	push ix
+	pop hl
+	ld de, -31
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __ADDF
+	call __FTOU32REG
+	push de
+	push hl
+	ld a, (ix-6)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	ld e, h
+	ld d, h
+	call __SUB32
+	ld a, l
+	ld (ix-9), a
+	ld a, (ix-8)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-9)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL754
+	ld a, h
+__LABEL754:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, 1
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL755
+	ld a, h
+__LABEL755:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, 1
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL756
+	ld a, h
+__LABEL756:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	pop af
+	ld h, (hl)
+	or a
+	jr z, __LABEL757
+	ld a, h
+__LABEL757:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-8)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-9)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL758
+	ld a, h
+__LABEL758:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld h, 10
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL759
+	ld a, h
+__LABEL759:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, 1
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL760
+	ld a, h
+__LABEL760:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	pop af
+	ld h, (hl)
+	or a
+	jr z, __LABEL761
+	ld a, h
+__LABEL761:
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-8)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-9)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL762
+	ld a, h
+__LABEL762:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, 1
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL763
+	ld a, h
+__LABEL763:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	push af
+	ld h, 12
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL764
+	ld a, h
+__LABEL764:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	pop af
+	ld h, (hl)
+	or a
+	jr z, __LABEL765
+	ld a, h
+__LABEL765:
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-8)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-9)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL766
+	ld a, h
+__LABEL766:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld h, 10
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL767
+	ld a, h
+__LABEL767:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	push af
+	ld h, 12
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL768
+	ld a, h
+__LABEL768:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	pop af
+	ld h, (hl)
+	or a
+	jr z, __LABEL769
+	ld a, h
+__LABEL769:
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL528
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL531
+	xor a
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	ld (ix-14), 1
+__LABEL531:
+	ld a, (ix-6)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL533
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	add a, (ix-8)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	ld (ix-14), 1
+__LABEL533:
+	ld a, (ix-14)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL535
+	call RND
+	push bc
+	push de
+	push af
+	ld a, 085h
+	ld de, 00070h
+	ld bc, 00000h
+	call __MULF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-15), a
+	push af
+	ld h, 10
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL536
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	jp __LABEL537
+__LABEL536:
+	ld a, (ix-15)
+	push af
+	ld h, 20
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL538
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	jp __LABEL539
+__LABEL538:
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+__LABEL539:
+__LABEL537:
+	xor a
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	push af
+	ld a, (ix-5)
+	add a, (ix-8)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+	ld (ix-14), 1
+__LABEL535:
+	jp __LABEL529
+__LABEL528:
+	ld a, (ix-9)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL540
+	ld a, (ix-6)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL542
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	ld (ix-14), 1
+	jp __LABEL543
+__LABEL542:
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL545
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	ld (ix-14), 1
+	xor a
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+__LABEL545:
+__LABEL543:
+	jp __LABEL541
+__LABEL540:
+	ld a, (ix-9)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL547
+	ld a, (ix-6)
+	sub 19
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL548
+	ld a, (ix-5)
+	push af
+	ld a, (ix-4)
+	pop hl
+	call __LEI8
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-5)
+	push af
+	ld a, (ix-4)
+	add a, 3
+	ld h, a
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL770
+	ld a, h
+__LABEL770:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL550
+	ld a, (ix-5)
+	sub (ix-4)
+	push af
+	call _GetSpeedX
+	ld hl, -36
+	call __PSTOREF
+	call _GetSpeedY
+	ld hl, -41
+	call __PSTOREF
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	res 7, e
+	push bc
+	push de
+	push af
+	ld a, 081h
+	ld de, 00000h
+	ld bc, 00000h
+	call __LTF
+	call __NORMALIZE_BOOLEAN
+	push af
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	res 7, e
+	push bc
+	push de
+	push af
+	ld a, 081h
+	ld de, 00000h
+	ld bc, 00000h
+	call __LTF
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL771
+	ld a, h
+__LABEL771:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL553
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	ld a, 082h
+	ld de, 00000h
+	ld bc, 00000h
+	call __MULF
+	ld hl, -41
+	call __PSTOREF
+__LABEL553:
+	ld a, (ix-5)
+	sub 10
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	ld a, 000h
+	ld de, 00000h
+	ld bc, 00000h
+	call __GTF
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL772
+	ld a, h
+__LABEL772:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL555
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+__LABEL555:
+	ld a, (ix-5)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	ld a, 000h
+	ld de, 00000h
+	ld bc, 00000h
+	call __LTF
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL773
+	ld a, h
+__LABEL773:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL557
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+__LABEL557:
+	ld (ix-11), 1
+	jp __LABEL551
+__LABEL550:
+	ld (ix-12), 1
+__LABEL551:
+	jp __LABEL549
+__LABEL548:
+	ld a, (ix-6)
+	add a, (ix-9)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL559
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -41
+	call __PSTOREF
+	ld (ix-14), 1
+	xor a
+	push af
+	ld a, (ix-6)
+	add a, (ix-9)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+__LABEL559:
+__LABEL549:
+__LABEL547:
+__LABEL541:
+	ld a, (ix-8)
+	push af
+	ld h, 0
+	pop af
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL560
+	ld a, (ix-5)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL562
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	ld (ix-14), 1
+	jp __LABEL563
+__LABEL562:
+	ld a, (ix-6)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL565
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	ld (ix-14), 1
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	add a, (ix-8)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+__LABEL565:
+__LABEL563:
+	jp __LABEL561
+__LABEL560:
+	ld a, (ix-8)
+	push af
+	xor a
+	pop hl
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL567
+	ld a, (ix-5)
+	sub 10
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL568
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	ld (ix-14), 1
+	jp __LABEL569
+__LABEL568:
+	ld a, (ix-6)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld a, (ix-5)
+	add a, (ix-8)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	ld hl, _screenCells
+	call __ARRAY
+	ld a, (hl)
+	or a
+	jp z, __LABEL571
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __NEGF
+	ld hl, -36
+	call __PSTOREF
+	ld (ix-14), 1
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	add a, (ix-8)
+	push af
+	call _SetCell
+	dec (ix-7)
+	ld l, (ix-17)
+	ld h, (ix-16)
+	inc hl
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	ld (ix-10), 1
+__LABEL571:
+__LABEL569:
+__LABEL567:
+__LABEL561:
+__LABEL529:
+	ld a, (ix-14)
+	or a
+	jp z, __LABEL573
+	call _UpdateScreen
+__LABEL573:
+	jp __LABEL526
+__LABEL527:
+	ld a, (ix-7)
+	push af
+	xor a
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL574
+	ld a, (ix-12)
+	or a
+	jp z, __LABEL576
+	ld (ix-12), 0
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	inc a
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	call _UpdateScreen
+	ld hl, 908
+	push hl
+	ld hl, 61
+	call __BEEPER
+	ld hl, 1152
+	push hl
+	ld hl, 48
+	call __BEEPER
+	ld hl, 1086
+	push hl
+	ld hl, 51
+	call __BEEPER
+	ld hl, 1460
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 1223
+	push hl
+	ld hl, 45
+	call __BEEPER
+	ld hl, 1548
+	push hl
+	ld hl, 36
+	call __BEEPER
+	ld hl, 1460
+	push hl
+	ld hl, 38
+	call __BEEPER
+	ld hl, 1847
+	push hl
+	ld hl, 30
+	call __BEEPER
+	ld hl, 2202
+	push hl
+	ld hl, 25
+	call __BEEPER
+	ld hl, 2202
+	push hl
+	ld hl, 25
+	call __BEEPER
+	ld hl, 2202
+	push hl
+	ld hl, 25
+	call __BEEPER
+	ld hl, 2202
+	push hl
+	ld hl, 25
+	call __BEEPER
+	dec (ix-3)
+	ld a, (ix-3)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL525
+__LABEL579:
+	ld a, (ix-3)
+	push af
+	call _SetLifes
+	call _UpdateScreen
+	jp __LABEL525
+__LABEL576:
+	ld a, (ix-11)
+	or a
+	jp z, __LABEL580
+	ld (ix-11), 0
+	ld (ix-10), 0
+	ld hl, 3314
+	push hl
+	ld hl, 0
+	call __BEEPER
+	jp __LABEL581
+__LABEL580:
+	ld a, (ix-10)
+	or a
+	jp z, __LABEL583
+	ld (ix-11), 0
+	ld (ix-10), 0
+	ld hl, 806
+	push hl
+	ld hl, 4
+	call __BEEPER
+__LABEL583:
+__LABEL581:
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	push ix
+	pop hl
+	ld de, -26
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	push ix
+	pop hl
+	ld de, -36
+	add hl, de
+	call __PLOADF
+	call __ADDF
+	ld hl, -26
+	call __PSTOREF
+	push ix
+	pop hl
+	ld de, -31
+	add hl, de
+	call __PLOADF
+	push bc
+	push de
+	push af
+	push ix
+	pop hl
+	ld de, -41
+	add hl, de
+	call __PLOADF
+	call __ADDF
+	ld hl, -31
+	call __PSTOREF
+	push ix
+	pop hl
+	ld de, -26
+	add hl, de
+	call __PLOADF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-5), a
+	push ix
+	pop hl
+	ld de, -31
+	add hl, de
+	call __PLOADF
+	call __FTOU32REG
+	ld a, l
+	ld (ix-6), a
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	call _UpdateScreen
+	call _ResetFrameCounter
+	ld (ix-13), 0
+__LABEL584:
+	ld a, (ix-2)
+	ld l, a
+	ld h, 0
+	push hl
+	call _Frames
+	pop de
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL585
+	call INKEY
+	ld d, h
+	ld e, l
+	ld bc, -21
+	call __PSTORE_STR2
+	ld l, (ix-19)
+	ld h, (ix-18)
+	dec hl
+	ld (ix-19), l
+	ld (ix-18), h
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	ld h, (ix-13)
+	or a
+	jr z, __LABEL774
+	ld a, h
+__LABEL774:
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld l, (ix-19)
+	ld h, (ix-18)
+	push hl
+	ld hl, 1
+	pop de
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL775
+	ld a, h
+__LABEL775:
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL584
+__LABEL586:
+	ld (ix-13), 0
+__LABEL587:
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL589
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL438
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL590
+	ld a, (ix-4)
+	push af
+	ld a, 1
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL593
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	dec (ix-4)
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	call _UpdateScreen
+	ld (ix-19), 50
+	ld (ix-18), 0
+	ld (ix-13), 1
+__LABEL593:
+	jp __LABEL591
+__LABEL590:
+	ld l, (ix-21)
+	ld h, (ix-20)
+	push hl
+	ld de, __LABEL443
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL595
+	ld a, (ix-4)
+	push af
+	ld h, 8
+	pop af
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL597
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	inc (ix-4)
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-4)
+	add a, 2
+	push af
+	ld a, (ix-4)
+	push af
+	call _FillRect
+	call _UpdateScreen
+	ld (ix-19), 50
+	ld (ix-18), 0
+	ld (ix-13), 1
+__LABEL597:
+__LABEL595:
+__LABEL591:
+__LABEL589:
+	jp __LABEL584
+__LABEL585:
+__LABEL577:
+	jp __LABEL575
+__LABEL574:
+	jp __LABEL525
+__LABEL575:
+	jp __LABEL524
+__LABEL525:
+	jp __LABEL504
+__LABEL505:
+	ld a, (ix-3)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL598
+	ld (ix-1), 1
+	jp __LABEL599
+__LABEL598:
+	ld l, (ix-17)
+	ld h, (ix-16)
+	ld de, 50
+	add hl, de
+	ld (ix-17), l
+	ld (ix-16), h
+	ld l, (ix-17)
+	ld h, (ix-16)
+	push hl
+	call _SetScore
+	inc (ix+5)
+	ld a, (ix+5)
+	push af
+	ld a, 99
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL601
+	ld a, 1
+	jp _RunArkanoid__leave
+__LABEL601:
+	call _ShowCurtain
+__LABEL599:
+	jp __LABEL498
+__LABEL499:
+	xor a
+_RunArkanoid__leave:
+	ex af, af'
+	exx
+	ld l, (ix-21)
+	ld h, (ix-20)
+	call __MEM_FREE
+	ex af, af'
+	exx
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
+	ret
+_SetLifes:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, 0
+	push hl
+	push hl
+	inc sp
+	ld a, (ix+5)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL602
+	ld (ix-1), 15
+	ld a, (ix+5)
+	sub 4
+	ld (ix+5), a
+	ld (ix-3), 1
+	jp __LABEL604
+__LABEL607:
+	ld a, (ix-3)
+	push af
+	ld a, (ix+5)
+	pop hl
+	sub h
+	ccf
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL610
+	ld a, (ix-2)
+	push af
+	ld a, (ix-3)
+	dec a
+	ld h, 1
+	or a
+	ld b, a
+	ld a, h
+	jr z, __LABEL777
+__LABEL776:
+	add a, a
+	djnz __LABEL776
+__LABEL777:
+	pop de
+	or d
+	ld (ix-2), a
+__LABEL610:
+__LABEL608:
+	inc (ix-3)
+__LABEL604:
+	ld a, (ix-3)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL607
+__LABEL606:
+	jp __LABEL603
+__LABEL602:
+	ld (ix-3), 1
+	jp __LABEL611
+__LABEL614:
+	ld a, (ix-3)
+	push af
+	ld a, (ix+5)
+	pop hl
+	sub h
+	ccf
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL617
+	ld a, (ix-1)
+	push af
+	ld a, (ix-3)
+	dec a
+	ld h, 1
+	or a
+	ld b, a
+	ld a, h
+	jr z, __LABEL779
+__LABEL778:
+	add a, a
+	djnz __LABEL778
+__LABEL779:
+	pop de
+	or d
+	ld (ix-1), a
+__LABEL617:
+__LABEL615:
+	inc (ix-3)
+__LABEL611:
+	ld a, (ix-3)
+	push af
+	ld a, 4
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL614
+__LABEL613:
+__LABEL603:
+	ld a, (ix-2)
+	push af
+	ld a, (ix-1)
+	push af
+	call _SetSymbol
+_SetLifes__leave:
+	ld sp, ix
+	pop ix
+	exx
+	pop hl
+	ex (sp), hl
+	exx
 	ret
 _ShowChar:
 	push ix
@@ -5240,7 +8607,7 @@ _ShowChar:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL414
+	jp z, __LABEL618
 	ld a, (ix+7)
 	add a, a
 	ld h, a
@@ -5250,8 +8617,8 @@ _ShowChar:
 	ld a, (ix+7)
 	ld (ix-2), a
 	ld (ix-5), 1
-	jp __LABEL416
-__LABEL419:
+	jp __LABEL620
+__LABEL623:
 	ld l, (ix-8)
 	ld h, (ix-7)
 	push hl
@@ -5266,23 +8633,23 @@ __LABEL419:
 	ld (ix-6), a
 	ld a, (ix-2)
 	ld (ix-4), a
-	jp __LABEL421
-__LABEL424:
+	jp __LABEL625
+__LABEL628:
 	ld a, 8
 	sub (ix-4)
 	ld h, 1
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL541
-__LABEL540:
+	jr z, __LABEL781
+__LABEL780:
 	add a, a
-	djnz __LABEL540
-__LABEL541:
+	djnz __LABEL780
+__LABEL781:
 	ld (ix-3), a
 	ld a, (ix-6)
 	and (ix-3)
-	jp z, __LABEL427
+	jp z, __LABEL631
 	ld a, 1
 	push af
 	ld a, (ix-5)
@@ -5291,10 +8658,10 @@ __LABEL541:
 	inc a
 	push af
 	call _SetCell
-__LABEL427:
-__LABEL425:
+__LABEL631:
+__LABEL629:
 	inc (ix-4)
-__LABEL421:
+__LABEL625:
 	ld a, (ix-4)
 	push af
 	ld a, (ix-2)
@@ -5305,11 +8672,11 @@ __LABEL421:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL424
-__LABEL423:
-__LABEL420:
+	jp z, __LABEL628
+__LABEL627:
+__LABEL624:
 	inc (ix-5)
-__LABEL416:
+__LABEL620:
 	ld a, (ix-5)
 	push af
 	ld a, 8
@@ -5318,10 +8685,10 @@ __LABEL416:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL419
-__LABEL418:
-	jp __LABEL415
-__LABEL414:
+	jp z, __LABEL623
+__LABEL622:
+	jp __LABEL619
+__LABEL618:
 	ld a, (ix+7)
 	push af
 	ld a, 5
@@ -5330,7 +8697,7 @@ __LABEL414:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL429
+	jp z, __LABEL633
 	ld a, 10
 	sub (ix+7)
 	ld (ix+7), a
@@ -5342,8 +8709,8 @@ __LABEL414:
 	ld a, (ix+7)
 	ld (ix-2), a
 	ld (ix-5), 1
-	jp __LABEL430
-__LABEL433:
+	jp __LABEL634
+__LABEL637:
 	ld l, (ix-8)
 	ld h, (ix-7)
 	push hl
@@ -5360,23 +8727,23 @@ __LABEL433:
 	add a, (ix-1)
 	dec a
 	ld (ix-4), a
-	jp __LABEL435
-__LABEL438:
+	jp __LABEL639
+__LABEL642:
 	ld a, (ix-4)
 	dec a
 	ld h, 1
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL543
-__LABEL542:
+	jr z, __LABEL783
+__LABEL782:
 	add a, a
-	djnz __LABEL542
-__LABEL543:
+	djnz __LABEL782
+__LABEL783:
 	ld (ix-3), a
 	ld a, (ix-6)
 	and (ix-3)
-	jp z, __LABEL441
+	jp z, __LABEL645
 	ld a, 1
 	push af
 	ld a, (ix-5)
@@ -5385,20 +8752,20 @@ __LABEL543:
 	inc a
 	push af
 	call _SetCell
-__LABEL441:
-__LABEL439:
+__LABEL645:
+__LABEL643:
 	dec (ix-4)
-__LABEL435:
+__LABEL639:
 	ld a, (ix-4)
 	cp (ix-2)
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL438
-__LABEL437:
-__LABEL434:
+	jp z, __LABEL642
+__LABEL641:
+__LABEL638:
 	inc (ix-5)
-__LABEL430:
+__LABEL634:
 	ld a, (ix-5)
 	push af
 	ld a, 8
@@ -5407,10 +8774,10 @@ __LABEL430:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL433
-__LABEL432:
-__LABEL429:
-__LABEL415:
+	jp z, __LABEL637
+__LABEL636:
+__LABEL633:
+__LABEL619:
 	ld hl, 2
 	call __PAUSE
 _ShowChar__leave:
@@ -5442,7 +8809,7 @@ _ShowTetris:
 	ld bc, -3
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL544
+	ld hl, __LABEL784
 	ld bc, 1
 	ldir
 	push ix
@@ -5450,7 +8817,7 @@ _ShowTetris:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL545
+	ld hl, __LABEL785
 	ld bc, 1
 	ldir
 	xor a
@@ -5497,13 +8864,13 @@ _ShowTetris:
 	ld a, 6
 	push af
 	call _FillRect
-__LABEL442:
+__LABEL646:
 	ld a, (ix-1)
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL443
+	jp z, __LABEL647
 	ld a, 1
 	push af
 	ld a, 9
@@ -5534,7 +8901,7 @@ __LABEL442:
 	call _SetCell
 	ld a, (ix-4)
 	push af
-	ld hl, __LABEL444
+	ld hl, __LABEL648
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -5555,15 +8922,15 @@ __LABEL442:
 	or d
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL446
+	jp z, __LABEL650
 	ld a, (ix-3)
 	neg
 	ld (ix-3), a
-__LABEL446:
+__LABEL650:
 	call _UpdateScreen
 	ld (ix-2), 9
-	jp __LABEL447
-__LABEL450:
+	jp __LABEL651
+__LABEL654:
 	ld a, 1
 	push af
 	xor a
@@ -5580,7 +8947,7 @@ __LABEL450:
 	call _MoveRect
 	ld a, (ix-4)
 	push af
-	ld hl, __LABEL444
+	ld hl, __LABEL648
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -5601,14 +8968,14 @@ __LABEL450:
 	or d
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL453
+	jp z, __LABEL657
 	ld a, (ix-3)
 	neg
 	ld (ix-3), a
-__LABEL453:
+__LABEL657:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL454:
+__LABEL658:
 	call _Frames
 	push hl
 	ld de, 30
@@ -5618,10 +8985,10 @@ __LABEL454:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL455
+	jp z, __LABEL659
 	ld a, (ix-4)
 	push af
-	ld hl, __LABEL444
+	ld hl, __LABEL648
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -5642,11 +9009,11 @@ __LABEL454:
 	or d
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL457
+	jp z, __LABEL661
 	ld a, (ix-3)
 	neg
 	ld (ix-3), a
-__LABEL457:
+__LABEL661:
 	call _UpdateScreen
 	call INKEY
 	ld d, h
@@ -5662,88 +9029,87 @@ __LABEL457:
 	call __STRNE
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL459
+	jp z, __LABEL663
 	ld l, (ix-6)
 	ld h, (ix-5)
 	push hl
-	ld de, __LABEL460
+	ld de, __LABEL664
 	pop hl
 	xor a
 	call __STREQ
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL461
+	jp z, __LABEL665
 	ld hl, _level
 	inc (hl)
 	ld a, 99
 	ld hl, (_level - 1)
-	cp h
-	sbc a, a
+	call __LTI8
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL464
-	ld a, 1
+	jp z, __LABEL668
+	xor a
 	ld (_level), a
-__LABEL464:
+__LABEL668:
 	ld a, (_level)
 	push af
 	call _SetLevel
 	call _UpdateScreen
-	jp __LABEL462
-__LABEL461:
+	jp __LABEL666
+__LABEL665:
 	ld l, (ix-6)
 	ld h, (ix-5)
 	push hl
-	ld de, __LABEL380
+	ld de, __LABEL448
 	pop hl
 	xor a
 	call __STREQ
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL465
+	jp z, __LABEL669
 	ld hl, _level
 	dec (hl)
+	ld h, 0
 	ld a, (_level)
-	cp 1
-	sbc a, a
+	call __LTI8
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL468
+	jp z, __LABEL672
 	ld a, 99
 	ld (_level), a
-__LABEL468:
+__LABEL672:
 	ld a, (_level)
 	push af
 	call _SetLevel
 	call _UpdateScreen
-	jp __LABEL466
-__LABEL465:
+	jp __LABEL670
+__LABEL669:
 	ld l, (ix-6)
 	ld h, (ix-5)
 	push hl
-	ld de, __LABEL370
+	ld de, __LABEL438
 	pop hl
 	xor a
 	call __STREQ
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL469
+	jp z, __LABEL673
 	ld a, 2
 	jp _ShowTetris__leave
-__LABEL469:
+__LABEL673:
 	ld l, (ix-6)
 	ld h, (ix-5)
 	push hl
-	ld de, __LABEL375
+	ld de, __LABEL443
 	pop hl
 	xor a
 	call __STREQ
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL471
+	jp z, __LABEL675
 	ld a, 1
 	jp _ShowTetris__leave
-__LABEL471:
+__LABEL675:
 	ld l, (ix-6)
 	ld h, (ix-5)
 	push hl
@@ -5753,20 +9119,20 @@ __LABEL471:
 	call __STREQ
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL474
+	jp z, __LABEL678
 	ld a, 3
 	jp _ShowTetris__leave
-__LABEL474:
-__LABEL472:
-__LABEL470:
-__LABEL466:
-__LABEL462:
-__LABEL459:
-	jp __LABEL454
-__LABEL455:
-__LABEL451:
+__LABEL678:
+__LABEL676:
+__LABEL674:
+__LABEL670:
+__LABEL666:
+__LABEL663:
+	jp __LABEL658
+__LABEL659:
+__LABEL655:
 	inc (ix-2)
-__LABEL447:
+__LABEL651:
 	ld a, (ix-2)
 	push af
 	ld a, 16
@@ -5775,8 +9141,8 @@ __LABEL447:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL450
-__LABEL449:
+	jp z, __LABEL654
+__LABEL653:
 	xor a
 	push af
 	ld a, 18
@@ -5788,13 +9154,411 @@ __LABEL449:
 	ld a, 4
 	push af
 	call _FillRect
-	jp __LABEL442
-__LABEL443:
+	jp __LABEL646
+__LABEL647:
 _ShowTetris__leave:
 	ex af, af'
 	exx
 	ld l, (ix-6)
 	ld h, (ix-5)
+	call __MEM_FREE
+	ex af, af'
+	exx
+	ld sp, ix
+	pop ix
+	ret
+_ShowArkanoid:
+	push ix
+	ld ix, 0
+	add ix, sp
+	ld hl, -8
+	add hl, sp
+	ld sp, hl
+	ld (hl), 0
+	ld bc, 7
+	ld d, h
+	ld e, l
+	inc de
+	ldir
+	push ix
+	pop hl
+	ld bc, -3
+	add hl, bc
+	ex de, hl
+	ld hl, __LABEL786
+	ld bc, 1
+	ldir
+	push ix
+	pop hl
+	ld bc, -4
+	add hl, bc
+	ex de, hl
+	ld hl, __LABEL787
+	ld bc, 1
+	ldir
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 1
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+	ld a, 1
+	push af
+	ld a, 11
+	push af
+	ld a, 9
+	push af
+	ld a, 10
+	push af
+	ld a, 1
+	push af
+	call _FillRect
+__LABEL679:
+	ld a, (ix-1)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL680
+	ld (ix-5), 2
+	ld (ix-6), 19
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-5)
+	inc a
+	push af
+	ld a, (ix-5)
+	dec a
+	push af
+	call _FillRect
+	ld a, (ix-4)
+	push af
+	ld hl, __LABEL681
+	call __LOADSTR
+	push hl
+	call _ShowChar
+	ld a, (ix-4)
+	add a, (ix-3)
+	ld (ix-4), a
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-4)
+	sub 9
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL683
+	ld a, (ix-3)
+	neg
+	ld (ix-3), a
+__LABEL683:
+	call _UpdateScreen
+	call _ResetFrameCounter
+__LABEL684:
+	call _Frames
+	push hl
+	ld de, 30
+	pop hl
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp nz, __LABEL684
+__LABEL685:
+	ld (ix-2), 9
+	jp __LABEL686
+__LABEL689:
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-5)
+	inc a
+	push af
+	ld a, (ix-5)
+	dec a
+	push af
+	call _FillRect
+	inc (ix-5)
+	dec (ix-6)
+	ld a, 1
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	ld a, 1
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-5)
+	inc a
+	push af
+	ld a, (ix-5)
+	dec a
+	push af
+	call _FillRect
+	ld a, (ix-4)
+	push af
+	ld hl, __LABEL681
+	call __LOADSTR
+	push hl
+	call _ShowChar
+	ld a, (ix-4)
+	add a, (ix-3)
+	ld (ix-4), a
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-4)
+	sub 9
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL692
+	ld a, (ix-3)
+	neg
+	ld (ix-3), a
+__LABEL692:
+	call _UpdateScreen
+	call _ResetFrameCounter
+__LABEL693:
+	call _Frames
+	push hl
+	ld de, 30
+	pop hl
+	or a
+	sbc hl, de
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL694
+	ld a, (ix-4)
+	push af
+	ld hl, __LABEL681
+	call __LOADSTR
+	push hl
+	call _ShowChar
+	ld a, (ix-4)
+	add a, (ix-3)
+	ld (ix-4), a
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	push af
+	ld a, (ix-4)
+	sub 9
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	pop de
+	or d
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL696
+	ld a, (ix-3)
+	neg
+	ld (ix-3), a
+__LABEL696:
+	call _UpdateScreen
+	call INKEY
+	ld d, h
+	ld e, l
+	ld bc, -8
+	call __PSTORE_STR2
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL4
+	pop hl
+	xor a
+	call __STRNE
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL698
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL664
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL699
+	ld hl, _level
+	inc (hl)
+	ld a, 99
+	ld hl, (_level - 1)
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL702
+	ld a, 1
+	ld (_level), a
+__LABEL702:
+	ld a, (_level)
+	push af
+	call _SetLevel
+	call _UpdateScreen
+	jp __LABEL700
+__LABEL699:
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL448
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL703
+	ld hl, _level
+	dec (hl)
+	ld h, 1
+	ld a, (_level)
+	call __LTI8
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL706
+	ld a, 99
+	ld (_level), a
+__LABEL706:
+	ld a, (_level)
+	push af
+	call _SetLevel
+	call _UpdateScreen
+	jp __LABEL704
+__LABEL703:
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL438
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL707
+	ld a, 2
+	jp _ShowArkanoid__leave
+__LABEL707:
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL443
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL709
+	ld a, 1
+	jp _ShowArkanoid__leave
+__LABEL709:
+	ld l, (ix-8)
+	ld h, (ix-7)
+	push hl
+	ld de, __LABEL25
+	pop hl
+	xor a
+	call __STREQ
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL712
+	ld a, 3
+	jp _ShowArkanoid__leave
+__LABEL712:
+__LABEL710:
+__LABEL708:
+__LABEL704:
+__LABEL700:
+__LABEL698:
+	jp __LABEL693
+__LABEL694:
+__LABEL690:
+	inc (ix-2)
+__LABEL686:
+	ld a, (ix-2)
+	push af
+	ld a, 15
+	pop hl
+	cp h
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL689
+__LABEL688:
+	xor a
+	push af
+	ld a, (ix-6)
+	push af
+	ld a, (ix-5)
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 20
+	push af
+	ld a, 20
+	push af
+	ld a, (ix-5)
+	inc a
+	push af
+	ld a, (ix-5)
+	dec a
+	push af
+	call _FillRect
+	jp __LABEL679
+__LABEL680:
+_ShowArkanoid__leave:
+	ex af, af'
+	exx
+	ld l, (ix-8)
+	ld h, (ix-7)
 	call __MEM_FREE
 	ex af, af'
 	exx
@@ -5808,61 +9572,68 @@ _SelectGame:
 	ld hl, 0
 	push hl
 	inc sp
-	ld a, 1
-	ld (_level), a
-	ld a, 1
+	call _ShowNextTitle
+	xor a
+	push af
+	xor a
+	push af
+	call _SetSymbol
+	ld a, (_level)
 	push af
 	call _SetLevel
 	call _UpdateScreen
-__LABEL475:
+__LABEL713:
 	ld a, (ix-1)
 	sub 3
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL476
+	jp z, __LABEL714
 	ld a, (_game)
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL477
+	jp z, __LABEL715
 	call _ShowTetris
 	ld (ix-1), a
-	jp __LABEL478
-__LABEL477:
+	jp __LABEL716
+__LABEL715:
 	ld a, (_game)
 	dec a
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp nz, __LABEL480
-__LABEL479:
+	jp z, __LABEL717
+	call _ShowArkanoid
+	ld (ix-1), a
+	jp __LABEL718
+__LABEL717:
 	ld a, (_game)
 	sub 2
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp nz, __LABEL482
-__LABEL481:
+	jp nz, __LABEL720
+__LABEL719:
 	ld a, (_game)
 	sub 3
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-__LABEL484:
-__LABEL482:
-__LABEL480:
-__LABEL478:
+__LABEL722:
+__LABEL720:
+__LABEL718:
+__LABEL716:
 	ld a, (ix-1)
 	dec a
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL485
+	jp z, __LABEL723
 	ld hl, _game
 	inc (hl)
 	ld a, 3
@@ -5871,19 +9642,19 @@ __LABEL478:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL488
+	jp z, __LABEL726
 	xor a
 	ld (_game), a
-__LABEL488:
-	jp __LABEL486
-__LABEL485:
+__LABEL726:
+	jp __LABEL724
+__LABEL723:
 	ld a, (ix-1)
 	sub 2
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL489
+	jp z, __LABEL727
 	ld hl, _game
 	dec (hl)
 	ld a, 3
@@ -5892,25 +9663,19 @@ __LABEL485:
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL492
+	jp z, __LABEL730
 	ld a, 3
 	ld (_game), a
-__LABEL492:
-	jp __LABEL490
-__LABEL489:
+__LABEL730:
+	jp __LABEL728
+__LABEL727:
 	ld a, (ix-1)
 	sub 3
 	sub 1
 	sbc a, a
 	call __NORMALIZE_BOOLEAN
 	or a
-	jp z, __LABEL494
-	ld a, (_game)
-	sub 1
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL496
+	jp z, __LABEL732
 	xor a
 	push af
 	ld a, 20
@@ -5923,717 +9688,36 @@ __LABEL489:
 	push af
 	call _FillRect
 	call _UpdateScreen
+	ld a, (_game)
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL733
 	ld a, (_level)
 	push af
 	call _RunTetris
 	jp _SelectGame__leave
-__LABEL496:
-__LABEL494:
-__LABEL490:
-__LABEL486:
-	jp __LABEL475
-__LABEL476:
+__LABEL733:
+	ld a, (_game)
+	dec a
+	sub 1
+	sbc a, a
+	call __NORMALIZE_BOOLEAN
+	or a
+	jp z, __LABEL736
+	ld a, (_level)
+	push af
+	call _RunArkanoid
+	jp _SelectGame__leave
+__LABEL736:
+__LABEL734:
+__LABEL732:
+__LABEL728:
+__LABEL724:
+	jp __LABEL713
+__LABEL714:
 _SelectGame__leave:
-	ld sp, ix
-	pop ix
-	ret
-_ShowCurtain:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	ld (ix-2), 1
-	jp __LABEL497
-__LABEL500:
-	ld (ix-1), 1
-	jp __LABEL502
-__LABEL505:
-	ld a, 1
-	push af
-	ld a, (ix-2)
-	push af
-	ld a, (ix-1)
-	push af
-	call _SetCell
-__LABEL506:
-	inc (ix-1)
-__LABEL502:
-	ld a, (ix-1)
-	push af
-	ld a, 10
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL505
-__LABEL504:
-	call _UpdateScreen
-	ld hl, 11888
-	push hl
-	ld hl, 0
-	call __BEEPER
-__LABEL501:
-	inc (ix-2)
-__LABEL497:
-	ld a, (ix-2)
-	push af
-	ld a, 20
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL500
-__LABEL499:
-_ShowCurtain__leave:
-	ld sp, ix
-	pop ix
-	ret
-_ShowDeath:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	ld (ix-2), 1
-	jp __LABEL507
-__LABEL510:
-	ld (ix-1), 1
-	jp __LABEL512
-__LABEL515:
-	ld a, (ix-1)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _dead
-	call __ARRAY
-	ld a, (hl)
-	push af
-	ld a, (ix-2)
-	push af
-	ld a, (ix-1)
-	push af
-	call _SetCell
-__LABEL516:
-	inc (ix-1)
-__LABEL512:
-	ld a, (ix-1)
-	push af
-	ld a, 10
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL515
-__LABEL514:
-__LABEL511:
-	inc (ix-2)
-__LABEL507:
-	ld a, (ix-2)
-	push af
-	ld a, 20
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL510
-__LABEL509:
-	call _UpdateScreen
-	ld hl, 673
-	push hl
-	ld hl, 51
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 45
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 42
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 45
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 42
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 40
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 45
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 42
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 40
-	call __BEEPER
-	ld hl, 908
-	push hl
-	ld hl, 38
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 42
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 40
-	call __BEEPER
-	ld hl, 908
-	push hl
-	ld hl, 38
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 36
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 40
-	call __BEEPER
-	ld hl, 908
-	push hl
-	ld hl, 38
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 36
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 33
-	call __BEEPER
-	ld hl, 1152
-	push hl
-	ld hl, 30
-	call __BEEPER
-	ld hl, 1223
-	push hl
-	ld hl, 28
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 329
-	call __BEEPER
-_ShowDeath__leave:
-	ld sp, ix
-	pop ix
-	ret
-_ShowWin:
-	push ix
-	ld ix, 0
-	add ix, sp
-	ld hl, 0
-	push hl
-	ld (ix-2), 1
-	jp __LABEL517
-__LABEL520:
-	ld (ix-1), 1
-	jp __LABEL522
-__LABEL525:
-	ld a, (ix-1)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	dec hl
-	push hl
-	ld hl, _win
-	call __ARRAY
-	ld a, (hl)
-	push af
-	ld a, (ix-2)
-	push af
-	ld a, (ix-1)
-	push af
-	call _SetCell
-__LABEL526:
-	inc (ix-1)
-__LABEL522:
-	ld a, (ix-1)
-	push af
-	ld a, 10
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL525
-__LABEL524:
-__LABEL521:
-	inc (ix-2)
-__LABEL517:
-	ld a, (ix-2)
-	push af
-	ld a, 20
-	pop hl
-	cp h
-	sbc a, a
-	call __NORMALIZE_BOOLEAN
-	or a
-	jp z, __LABEL520
-__LABEL519:
-	call _UpdateScreen
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 1460
-	push hl
-	ld hl, 28
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 5
-	call __PAUSE
-	ld hl, 908
-	push hl
-	ld hl, 46
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 116
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1086
-	push hl
-	ld hl, 38
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 116
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 561
-	push hl
-	ld hl, 73
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 116
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 98
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 5
-	call __PAUSE
-	ld hl, 1152
-	push hl
-	ld hl, 36
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 1460
-	push hl
-	ld hl, 28
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 87
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 41
-	call __BEEPER
-	ld hl, 964
-	push hl
-	ld hl, 43
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 5
-	call __PAUSE
-	ld hl, 908
-	push hl
-	ld hl, 46
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 48
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 131
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 51
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 131
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 806
-	push hl
-	ld hl, 51
-	call __BEEPER
-	ld hl, 715
-	push hl
-	ld hl, 58
-	call __BEEPER
-	ld hl, 634
-	push hl
-	ld hl, 65
-	call __BEEPER
-	ld hl, 5
-	call __PAUSE
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 1152
-	push hl
-	ld hl, 36
-	call __BEEPER
-	ld hl, 1023
-	push hl
-	ld hl, 82
-	call __BEEPER
-	ld hl, 1297
-	push hl
-	ld hl, 32
-	call __BEEPER
-	ld hl, 759
-	push hl
-	ld hl, 54
-	call __BEEPER
-	ld hl, 856
-	push hl
-	ld hl, 147
-	call __BEEPER
-	ld hl, 5
-	call __PAUSE
-	ld hl, 964
-	push hl
-	ld hl, 175
-	call __BEEPER
-_ShowWin__leave:
 	ld sp, ix
 	pop ix
 	ret
@@ -6732,24 +9816,102 @@ __LABEL45:
 	DEFB 9Bh
 	DEFB 9Ch
 	DEFB 9Dh
-__LABEL241:
+__LABEL218:
+	DEFW 0002h
+	DEFB 20h
+	DEFB 20h
+__LABEL254:
 	DEFW 0001h
 	DEFB 30h
-__LABEL370:
+__LABEL438:
 	DEFW 0001h
 	DEFB 6Fh
-__LABEL375:
+__LABEL443:
 	DEFW 0001h
 	DEFB 70h
-__LABEL380:
+__LABEL448:
 	DEFW 0001h
 	DEFB 61h
-__LABEL444:
+__LABEL648:
 	DEFW 0001h
 	DEFB 41h
-__LABEL460:
+__LABEL664:
 	DEFW 0001h
 	DEFB 71h
+__LABEL681:
+	DEFW 0001h
+	DEFB 42h
+#line 1 "addf.asm"
+
+#line 1 "stackf.asm"
+
+	; -------------------------------------------------------------
+	; Functions to manage FP-Stack of the ZX Spectrum ROM CALC
+	; -------------------------------------------------------------
+
+
+	__FPSTACK_PUSH EQU 2AB6h	; Stores an FP number into the ROM FP stack (A, ED CB)
+	__FPSTACK_POP  EQU 2BF1h	; Pops an FP number out of the ROM FP stack (A, ED CB)
+
+__FPSTACK_PUSH2: ; Pushes Current A ED CB registers and top of the stack on (SP + 4)
+	                 ; Second argument to push into the stack calculator is popped out of the stack
+	                 ; Since the caller routine also receives the parameters into the top of the stack
+	                 ; four bytes must be removed from SP before pop them out
+
+	    call __FPSTACK_PUSH ; Pushes A ED CB into the FP-STACK
+	    exx
+	    pop hl       ; Caller-Caller return addr
+	    exx
+	    pop hl       ; Caller return addr
+
+	    pop af
+	    pop de
+	    pop bc
+
+	    push hl      ; Caller return addr
+	    exx
+	    push hl      ; Caller-Caller return addr
+	    exx
+
+	    jp __FPSTACK_PUSH
+
+
+__FPSTACK_I16:	; Pushes 16 bits integer in HL into the FP ROM STACK
+					; This format is specified in the ZX 48K Manual
+					; You can push a 16 bit signed integer as
+					; 0 SS LL HH 0, being SS the sign and LL HH the low
+					; and High byte respectively
+		ld a, h
+		rla			; sign to Carry
+		sbc	a, a	; 0 if positive, FF if negative
+		ld e, a
+		ld d, l
+		ld c, h
+		xor a
+		ld b, a
+		jp __FPSTACK_PUSH
+#line 2 "addf.asm"
+
+	; -------------------------------------------------------------
+	; Floating point library using the FP ROM Calculator (ZX 48K)
+	; All of them uses A EDCB registers as 1st paramter.
+	; For binary operators, the 2n operator must be pushed into the
+	; stack, in the order AF DE BC (F not used).
+	;
+	; Uses CALLEE convention
+	; -------------------------------------------------------------
+
+__ADDF:	; Addition
+		call __FPSTACK_PUSH2
+
+		; ------------- ROM ADD
+		rst 28h
+		defb 0fh	; ADD
+		defb 38h;   ; END CALC
+
+		jp __FPSTACK_POP
+
+#line 9828 "Program.zxbas"
 #line 1 "alloc.asm"
 
 ; vim: ts=4:et:sw=4:
@@ -7103,7 +10265,7 @@ __MEM_SUBTRACT:
 
 	        ENDP
 
-#line 6737 "Program.zxbas"
+#line 9829 "Program.zxbas"
 #line 1 "array.asm"
 
 ; vim: ts=4:et:sw=4:
@@ -7273,7 +10435,7 @@ TMP_ARR_PTR:
 
 		ENDP
 
-#line 6738 "Program.zxbas"
+#line 9830 "Program.zxbas"
 #line 1 "asc.asm"
 
 	; Returns the ascii code for the given str
@@ -7502,7 +10664,7 @@ __ASC_END:
 
 		ret
 		ENDP
-#line 6739 "Program.zxbas"
+#line 9831 "Program.zxbas"
 #line 1 "attr.asm"
 
 	; Attribute routines
@@ -7709,7 +10871,29 @@ SET_PIXEL_ADDR_ATTR:
 	    ld de, (SCREEN_ADDR)
 	    add hl, de  ;; Final screen addr
 	    jp __SET_ATTR2
-#line 6740 "Program.zxbas"
+#line 9832 "Program.zxbas"
+#line 1 "band16.asm"
+
+; vim:ts=4:et:
+	; FASTCALL bitwise and16 version.
+	; result in hl
+; __FASTCALL__ version (operands: A, H)
+	; Performs 16bit or 16bit and returns the boolean
+; Input: HL, DE
+; Output: HL <- HL AND DE
+
+__BAND16:
+		ld a, h
+		and d
+	    ld h, a
+
+	    ld a, l
+	    and e
+	    ld l, a
+
+	    ret
+
+#line 9833 "Program.zxbas"
 #line 1 "beeper.asm"
 
 ; vim:ts=4:et:sw=4:
@@ -7730,7 +10914,7 @@ __BEEPER:
 	    ret
 
 
-#line 6741 "Program.zxbas"
+#line 9834 "Program.zxbas"
 #line 1 "border.asm"
 
 	; __FASTCALL__ Routine to change de border
@@ -7740,7 +10924,7 @@ __BEEPER:
 
 	; Nothing to do! (Directly from the ZX Spectrum ROM)
 
-#line 6742 "Program.zxbas"
+#line 9835 "Program.zxbas"
 #line 1 "bright.asm"
 
 	; Sets bright flag in ATTR_P permanently
@@ -7785,7 +10969,7 @@ BRIGHT_TMP:
 		ld hl, ATTR_T
 		jr __SET_BRIGHT
 	    ENDP
-#line 6743 "Program.zxbas"
+#line 9836 "Program.zxbas"
 #line 1 "calloc.asm"
 
 ; vim: ts=4:et:sw=4:
@@ -7833,7 +11017,7 @@ __MEM_CALLOC:
 	        ldir
 	        pop hl
 	        ret
-#line 6744 "Program.zxbas"
+#line 9837 "Program.zxbas"
 #line 1 "chr.asm"
 
 	; CHR$(x, y, x) returns the string CHR$(x) + CHR$(y) + CHR$(z)
@@ -7911,7 +11095,7 @@ __CHR_END:
 
 			ENDP
 
-#line 6745 "Program.zxbas"
+#line 9838 "Program.zxbas"
 
 #line 1 "copy_attr.asm"
 
@@ -8824,7 +12008,7 @@ __REFRESH_TMP:
 
 		ENDP
 
-#line 6747 "Program.zxbas"
+#line 9840 "Program.zxbas"
 #line 1 "div8.asm"
 
 				; --------------------------------
@@ -8914,57 +12098,10 @@ __MODI8_FAST:	; __FASTCALL__ entry
 
 		ret		; a = Modulus
 
-#line 6748 "Program.zxbas"
+#line 9841 "Program.zxbas"
 #line 1 "divf.asm"
 
-#line 1 "stackf.asm"
 
-	; -------------------------------------------------------------
-	; Functions to manage FP-Stack of the ZX Spectrum ROM CALC
-	; -------------------------------------------------------------
-
-
-	__FPSTACK_PUSH EQU 2AB6h	; Stores an FP number into the ROM FP stack (A, ED CB)
-	__FPSTACK_POP  EQU 2BF1h	; Pops an FP number out of the ROM FP stack (A, ED CB)
-
-__FPSTACK_PUSH2: ; Pushes Current A ED CB registers and top of the stack on (SP + 4)
-	                 ; Second argument to push into the stack calculator is popped out of the stack
-	                 ; Since the caller routine also receives the parameters into the top of the stack
-	                 ; four bytes must be removed from SP before pop them out
-
-	    call __FPSTACK_PUSH ; Pushes A ED CB into the FP-STACK
-	    exx
-	    pop hl       ; Caller-Caller return addr
-	    exx
-	    pop hl       ; Caller return addr
-
-	    pop af
-	    pop de
-	    pop bc
-
-	    push hl      ; Caller return addr
-	    exx
-	    push hl      ; Caller-Caller return addr
-	    exx
-
-	    jp __FPSTACK_PUSH
-
-
-__FPSTACK_I16:	; Pushes 16 bits integer in HL into the FP ROM STACK
-					; This format is specified in the ZX 48K Manual
-					; You can push a 16 bit signed integer as
-					; 0 SS LL HH 0, being SS the sign and LL HH the low
-					; and High byte respectively
-		ld a, h
-		rla			; sign to Carry
-		sbc	a, a	; 0 if positive, FF if negative
-		ld e, a
-		ld d, l
-		ld c, h
-		xor a
-		ld b, a
-		jp __FPSTACK_PUSH
-#line 2 "divf.asm"
 
 
 	; -------------------------------------------------------------
@@ -9024,7 +12161,7 @@ __DIVBYZERO:
 
 		ENDP
 
-#line 6749 "Program.zxbas"
+#line 9842 "Program.zxbas"
 #line 1 "eq16.asm"
 
 __EQ16:	; Test if 16bit values HL == DE
@@ -9035,7 +12172,7 @@ __EQ16:	; Test if 16bit values HL == DE
 			inc a
 			ret
 
-#line 6750 "Program.zxbas"
+#line 9843 "Program.zxbas"
 
 
 #line 1 "ftou32reg.asm"
@@ -9165,7 +12302,127 @@ __FTOU8:	; Converts float in C ED LH to Unsigned byte in A
 		ld a, l
 		ret
 
-#line 6753 "Program.zxbas"
+#line 9846 "Program.zxbas"
+#line 1 "gtf.asm"
+
+#line 1 "u32tofreg.asm"
+
+
+__I8TOFREG:
+		ld l, a
+		rlca
+		sbc a, a	; A = SGN(A)
+		ld h, a
+		ld e, a
+		ld d, a
+
+__I32TOFREG:	; Converts a 32bit signed integer (stored in DEHL)
+					; to a Floating Point Number returned in (A ED CB)
+
+		ld a, d
+		or a		; Test sign
+
+		jp p, __U32TOFREG	; It was positive, proceed as 32bit unsigned
+
+		call __NEG32		; Convert it to positive
+		call __U32TOFREG	; Convert it to Floating point
+
+		set 7, e			; Put the sign bit (negative) in the 31bit of mantissa
+		ret
+
+__U8TOFREG:
+					; Converts an unsigned 8 bit (A) to Floating point
+		ld l, a
+		ld h, 0
+		ld e, h
+		ld d, h
+
+__U32TOFREG:	; Converts an unsigned 32 bit integer (DEHL)
+					; to a Floating point number returned in A ED CB
+
+	    PROC
+
+	    LOCAL __U32TOFREG_END
+
+		ld a, d
+		or e
+		or h
+		or l
+	    ld b, d
+		ld c, e		; Returns 00 0000 0000 if ZERO
+		ret z
+
+		push de
+		push hl
+
+		exx
+		pop de  ; Loads integer into B'C' D'E'
+		pop bc
+		exx
+
+		ld l, 128	; Exponent
+		ld bc, 0	; DEBC = 0
+		ld d, b
+		ld e, c
+
+__U32TOFREG_LOOP: ; Also an entry point for __F16TOFREG
+		exx
+		ld a, d 	; B'C'D'E' == 0 ?
+		or e
+		or b
+		or c
+		jp z, __U32TOFREG_END	; We are done
+
+		srl b ; Shift B'C' D'E' >> 1, output bit stays in Carry
+		rr c
+		rr d
+		rr e
+		exx
+
+		rr e ; Shift EDCB >> 1, inserting the carry on the left
+		rr d
+		rr c
+		rr b
+
+		inc l	; Increment exponent
+		jp __U32TOFREG_LOOP
+
+
+__U32TOFREG_END:
+		exx
+	    ld a, l     ; Puts the exponent in a
+		res 7, e	; Sets the sign bit to 0 (positive)
+
+		ret
+	    ENDP
+
+#line 2 "gtf.asm"
+
+
+
+	; -------------------------------------------------------------
+	; Floating point library using the FP ROM Calculator (ZX 48K)
+
+	; All of them uses A EDCB registers as 1st paramter.
+	; For binary operators, the 2n operator must be pushed into the
+	; stack, in the order A DE BC.
+	;
+	; Uses CALLEE convention
+	; -------------------------------------------------------------
+
+__GTF:	; A > B
+		call __FPSTACK_PUSH2 ; ENTERS B, A
+
+		; ------------- ROM NOS-GRTR
+		ld b, 0Dh	; B < A
+		rst 28h
+		defb 0Dh	; B < A
+		defb 38h;   ; END CALC
+
+		call __FPSTACK_POP
+		jp __FTOU8; Convert to 8 bits
+
+#line 9847 "Program.zxbas"
 
 
 #line 1 "inkey.asm"
@@ -9230,7 +12487,31 @@ __EMPTY_INKEY:
 
 		ENDP
 
-#line 6756 "Program.zxbas"
+#line 9850 "Program.zxbas"
+#line 1 "lei8.asm"
+
+__LEI8: ; Signed <= comparison for 8bit int
+	        ; A <= H (registers)
+	    PROC
+	    LOCAL checkParity
+	    sub h
+	    jr nz, __LTI
+	    inc a
+	    ret
+
+__LTI8:  ; Test 8 bit values A < H
+	    sub h
+
+__LTI:   ; Generic signed comparison
+	    jp po, checkParity
+	    xor 0x80
+checkParity:
+	    ld a, 0     ; False
+	    ret p
+	    inc a       ; True
+	    ret
+	    ENDP
+#line 9851 "Program.zxbas"
 #line 1 "loadstr.asm"
 
 
@@ -9276,34 +12557,40 @@ __LOADSTR:		; __FASTCALL__ entry
 			ldir	; Copies string (length number included)
 			pop hl	; Recovers destiny in hl as result
 			ret
-#line 6757 "Program.zxbas"
+#line 9852 "Program.zxbas"
+#line 1 "ltf.asm"
+
+
+
+
+
+	; -------------------------------------------------------------
+	; Floating point library using the FP ROM Calculator (ZX 48K)
+
+	; All of them uses A EDCB registers as 1st paramter.
+	; For binary operators, the 2n operator must be pushed into the
+	; stack, in the order A HL BC.
+	;
+	; Uses CALLEE convention
+	; -------------------------------------------------------------
+
+__LTF:	; A < B
+		call __FPSTACK_PUSH2 ; Enters B, A
+
+		; ------------- ROM NOS-LESS
+		ld b, 0Ch	; A > B (Operands stack-reversed)
+		rst 28h
+		defb 0Ch;	; A > B
+		defb 38h;   ; END CALC
+
+		call __FPSTACK_POP
+		jp __FTOU8 ; Convert to 8 bits
+
+#line 9853 "Program.zxbas"
 #line 1 "lti8.asm"
 
-#line 1 "lei8.asm"
 
-__LEI8: ; Signed <= comparison for 8bit int
-	        ; A <= H (registers)
-	    PROC
-	    LOCAL checkParity
-	    sub h
-	    jr nz, __LTI
-	    inc a
-	    ret
-
-__LTI8:  ; Test 8 bit values A < H
-	    sub h
-
-__LTI:   ; Generic signed comparison
-	    jp po, checkParity
-	    xor 0x80
-checkParity:
-	    ld a, 0     ; False
-	    ret p
-	    inc a       ; True
-	    ret
-	    ENDP
-#line 2 "lti8.asm"
-#line 6758 "Program.zxbas"
+#line 9854 "Program.zxbas"
 #line 1 "mul8.asm"
 
 __MUL8:		; Performs 8bit x 8bit multiplication
@@ -9357,7 +12644,7 @@ __MUL8B:
 		ret		; result = HL
 		ENDP
 
-#line 6759 "Program.zxbas"
+#line 9855 "Program.zxbas"
 #line 1 "mulf.asm"
 
 
@@ -9381,7 +12668,35 @@ __MULF:	; Multiplication
 
 		jp __FPSTACK_POP
 
-#line 6760 "Program.zxbas"
+#line 9856 "Program.zxbas"
+#line 1 "negf.asm"
+
+
+
+
+
+	; -------------------------------------------------------------
+	; Floating point library using the FP ROM Calculator (ZX 48K)
+
+	; All of them uses C EDHL registers as 1st paramter.
+	; For binary operators, the 2n operator must be pushed into the
+	; stack, in the order BC DE HL (B not used).
+	;
+	; Uses CALLEE convention
+	; -------------------------------------------------------------
+
+__NEGF:	; A = -A
+		call __FPSTACK_PUSH
+
+		; ------------- ROM NEGATE
+		rst 28h
+		defb 1Bh	; NEGF
+		defb 38h;   ; END CALC
+
+		jp __FPSTACK_POP
+
+
+#line 9857 "Program.zxbas"
 
 
 #line 1 "pause.asm"
@@ -9392,7 +12707,7 @@ __PAUSE:
 		ld b, h
 	    ld c, l
 	    jp 1F3Dh  ; PAUSE_1
-#line 6763 "Program.zxbas"
+#line 9860 "Program.zxbas"
 #line 1 "ploadf.asm"
 
 	; Parameter / Local var load
@@ -9438,7 +12753,7 @@ __PLOADF:
 	    add hl, de
 	    jp __LOADF
 
-#line 6764 "Program.zxbas"
+#line 9861 "Program.zxbas"
 
 #line 1 "printstr.asm"
 
@@ -9498,7 +12813,7 @@ __PRINT_STR:
 
 			ENDP
 
-#line 6766 "Program.zxbas"
+#line 9863 "Program.zxbas"
 #line 1 "pstoref.asm"
 
 	; Stores FP number in A ED CB at location HL+IX
@@ -9548,7 +12863,7 @@ __PSTOREF:
 		pop de
 	    jp __STOREF
 
-#line 6767 "Program.zxbas"
+#line 9864 "Program.zxbas"
 #line 1 "pstorestr.asm"
 
 ; vim:ts=4:et:sw=4
@@ -9869,7 +13184,7 @@ __PSTORE_STR:
 	    add hl, bc
 	    jp __STORE_STR
 
-#line 6768 "Program.zxbas"
+#line 9865 "Program.zxbas"
 #line 1 "pstorestr2.asm"
 
 ; vim:ts=4:et:sw=4
@@ -9928,7 +13243,7 @@ __PSTORE_STR2:
 	    add hl, bc
 	    jp __STORE_STR2
 
-#line 6769 "Program.zxbas"
+#line 9866 "Program.zxbas"
 #line 1 "random.asm"
 
 	; RANDOM functions
@@ -10048,7 +13363,7 @@ RND_LOOP:
 
 	    ENDP
 
-#line 6770 "Program.zxbas"
+#line 9867 "Program.zxbas"
 
 
 
@@ -10131,7 +13446,7 @@ __STR_END:
 
 		ENDP
 
-#line 6774 "Program.zxbas"
+#line 9871 "Program.zxbas"
 #line 1 "strcat.asm"
 
 
@@ -10278,7 +13593,7 @@ __STRCATEND:
 
 			ENDP
 
-#line 6775 "Program.zxbas"
+#line 9872 "Program.zxbas"
 #line 1 "strictbool.asm"
 
 	; This routine is called if --strict-boolean was set at the command line.
@@ -10290,7 +13605,7 @@ __NORMALIZE_BOOLEAN:
 	    ld a, 1
 	    ret
 
-#line 6776 "Program.zxbas"
+#line 9873 "Program.zxbas"
 #line 1 "string.asm"
 
 	; String library
@@ -10519,7 +13834,7 @@ __FREE_END:
 
 			ENDP
 
-#line 6777 "Program.zxbas"
+#line 9874 "Program.zxbas"
 
 #line 1 "strslice.asm"
 
@@ -10629,99 +13944,38 @@ __FREE_ON_EXIT:
 
 		ENDP
 
-#line 6779 "Program.zxbas"
-#line 1 "u32tofreg.asm"
+#line 9876 "Program.zxbas"
+#line 1 "sub32.asm"
 
+	; SUB32
+	; Perform TOP of the stack - DEHL
+	; Pops operand out of the stack (CALLEE)
+	; and returns result in DEHL. Carry an Z are set correctly
 
-__I8TOFREG:
-		ld l, a
-		rlca
-		sbc a, a	; A = SGN(A)
-		ld h, a
-		ld e, a
-		ld d, a
+__SUB32:
+		exx
+		pop bc		; saves return address in BC'
+		exx
 
-__I32TOFREG:	; Converts a 32bit signed integer (stored in DEHL)
-					; to a Floating Point Number returned in (A ED CB)
+		or a        ; clears carry flag
+		ld b, h     ; Operands come reversed => BC <- HL,  HL = HL - BC
+		ld c, l
+		pop hl
+		sbc hl, bc
+		ex de, hl
 
-		ld a, d
-		or a		; Test sign
+		ld b, h	    ; High part (DE) now in HL. Repeat operation
+		ld c, l
+		pop hl
+		sbc hl, bc
+		ex de, hl   ; DEHL now has de 32 bit result
 
-		jp p, __U32TOFREG	; It was positive, proceed as 32bit unsigned
-
-		call __NEG32		; Convert it to positive
-		call __U32TOFREG	; Convert it to Floating point
-
-		set 7, e			; Put the sign bit (negative) in the 31bit of mantissa
+		exx
+		push bc		; puts return address back
+		exx
 		ret
+#line 9877 "Program.zxbas"
 
-__U8TOFREG:
-					; Converts an unsigned 8 bit (A) to Floating point
-		ld l, a
-		ld h, 0
-		ld e, h
-		ld d, h
-
-__U32TOFREG:	; Converts an unsigned 32 bit integer (DEHL)
-					; to a Floating point number returned in A ED CB
-
-	    PROC
-
-	    LOCAL __U32TOFREG_END
-
-		ld a, d
-		or e
-		or h
-		or l
-	    ld b, d
-		ld c, e		; Returns 00 0000 0000 if ZERO
-		ret z
-
-		push de
-		push hl
-
-		exx
-		pop de  ; Loads integer into B'C' D'E'
-		pop bc
-		exx
-
-		ld l, 128	; Exponent
-		ld bc, 0	; DEBC = 0
-		ld d, b
-		ld e, c
-
-__U32TOFREG_LOOP: ; Also an entry point for __F16TOFREG
-		exx
-		ld a, d 	; B'C'D'E' == 0 ?
-		or e
-		or b
-		or c
-		jp z, __U32TOFREG_END	; We are done
-
-		srl b ; Shift B'C' D'E' >> 1, output bit stays in Carry
-		rr c
-		rr d
-		rr e
-		exx
-
-		rr e ; Shift EDCB >> 1, inserting the carry on the left
-		rr d
-		rr c
-		rr b
-
-		inc l	; Increment exponent
-		jp __U32TOFREG_LOOP
-
-
-__U32TOFREG_END:
-		exx
-	    ld a, l     ; Puts the exponent in a
-		res 7, e	; Sets the sign bit to 0 (positive)
-
-		ret
-	    ENDP
-
-#line 6780 "Program.zxbas"
 
 ZXBASIC_USER_DATA:
 	_input_LastK EQU 23560
@@ -10740,13 +13994,15 @@ _workingLevel:
 	_udgAddress EQU 23675
 _playedTetrisMusic:
 	DEFB 00h
+_playedArkaMusic:
+	DEFB 00h
 _level:
-	DEFB 00
+	DEFB 00h
 _game:
 	DEFB 00
 	_chars EQU 23606
 _screenCells:
-	DEFW __LABEL546
+	DEFW __LABEL788
 _screenCells.__DATA__.__PTR__:
 	DEFW _screenCells.__DATA__
 _screenCells.__DATA__:
@@ -10950,12 +14206,12 @@ _screenCells.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL546:
+__LABEL788:
 	DEFW 0001h
 	DEFW 0014h
 	DEFB 01h
 _workingCells:
-	DEFW __LABEL547
+	DEFW __LABEL789
 _workingCells.__DATA__.__PTR__:
 	DEFW _workingCells.__DATA__
 _workingCells.__DATA__:
@@ -11159,12 +14415,12 @@ _workingCells.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL547:
+__LABEL789:
 	DEFW 0001h
 	DEFW 0014h
 	DEFB 01h
 _ops:
-	DEFW __LABEL548
+	DEFW __LABEL790
 _ops.__DATA__.__PTR__:
 	DEFW _ops.__DATA__
 _ops.__DATA__:
@@ -11768,12 +15024,12 @@ _ops.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL548:
+__LABEL790:
 	DEFW 0001h
 	DEFW 00C8h
 	DEFB 01h
 _screenSymbol:
-	DEFW __LABEL549
+	DEFW __LABEL791
 _screenSymbol.__DATA__.__PTR__:
 	DEFW _screenSymbol.__DATA__
 _screenSymbol.__DATA__:
@@ -11781,12 +15037,12 @@ _screenSymbol.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL549:
+__LABEL791:
 	DEFW 0001h
 	DEFW 0002h
 	DEFB 01h
 _workingSymbol:
-	DEFW __LABEL550
+	DEFW __LABEL792
 _workingSymbol.__DATA__.__PTR__:
 	DEFW _workingSymbol.__DATA__
 _workingSymbol.__DATA__:
@@ -11794,12 +15050,12 @@ _workingSymbol.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL550:
+__LABEL792:
 	DEFW 0001h
 	DEFW 0002h
 	DEFB 01h
 _sprites:
-	DEFW __LABEL551
+	DEFW __LABEL793
 _sprites.__DATA__.__PTR__:
 	DEFW _sprites.__DATA__
 _sprites.__DATA__:
@@ -11979,169 +15235,12 @@ _sprites.__DATA__:
 	DEFB 14h
 	DEFB 64h
 	DEFB 00h
-__LABEL551:
+__LABEL793:
 	DEFW 0001h
 	DEFW 0008h
 	DEFB 01h
-_tetrisPieces:
-	DEFW __LABEL552
-_tetrisPieces.__DATA__.__PTR__:
-	DEFW _tetrisPieces.__DATA__
-_tetrisPieces.__DATA__:
-	DEFB 0F8h
-	DEFB 08h
-	DEFB 08h
-	DEFB 08h
-	DEFB 0F8h
-	DEFB 08h
-	DEFB 08h
-	DEFB 08h
-	DEFB 0CCh
-	DEFB 0CCh
-	DEFB 00h
-	DEFB 00h
-	DEFB 0CCh
-	DEFB 0CCh
-	DEFB 00h
-	DEFB 00h
-	DEFB 8Ch
-	DEFB 0E8h
-	DEFB 08h
-	DEFB 00h
-	DEFB 0E4h
-	DEFB 24h
-	DEFB 0Ch
-	DEFB 00h
-	DEFB 28h
-	DEFB 0E8h
-	DEFB 0Ch
-	DEFB 00h
-	DEFB 0ECh
-	DEFB 84h
-	DEFB 04h
-	DEFB 00h
-	DEFB 68h
-	DEFB 0CCh
-	DEFB 04h
-	DEFB 00h
-	DEFB 68h
-	DEFB 0CCh
-	DEFB 04h
-	DEFB 00h
-	DEFB 0C4h
-	DEFB 6Ch
-	DEFB 08h
-	DEFB 00h
-	DEFB 0C4h
-	DEFB 6Ch
-	DEFB 08h
-	DEFB 00h
-	DEFB 48h
-	DEFB 0ECh
-	DEFB 08h
-	DEFB 00h
-	DEFB 0E4h
-	DEFB 4Ch
-	DEFB 04h
-	DEFB 00h
-__LABEL552:
-	DEFW 0002h
-	DEFW 0002h
-	DEFW 0004h
-	DEFB 01h
-_expandedPiece:
-	DEFW __LABEL553
-_expandedPiece.__DATA__.__PTR__:
-	DEFW _expandedPiece.__DATA__
-_expandedPiece.__DATA__:
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-__LABEL553:
-	DEFW 0002h
-	DEFW 0004h
-	DEFW 0004h
-	DEFB 01h
-_expandedSize:
-	DEFW __LABEL554
-_expandedSize.__DATA__.__PTR__:
-	DEFW _expandedSize.__DATA__
-_expandedSize.__DATA__:
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-	DEFB 00h
-__LABEL554:
-	DEFW 0001h
-	DEFW 0002h
-	DEFB 01h
 _dead:
-	DEFW __LABEL555
+	DEFW __LABEL794
 _dead.__DATA__.__PTR__:
 	DEFW _dead.__DATA__
 _dead.__DATA__:
@@ -12345,12 +15444,12 @@ _dead.__DATA__:
 	DEFB 01h
 	DEFB 00h
 	DEFB 01h
-__LABEL555:
+__LABEL794:
 	DEFW 0001h
 	DEFW 000Ah
 	DEFB 01h
 _win:
-	DEFW __LABEL556
+	DEFW __LABEL795
 _win.__DATA__.__PTR__:
 	DEFW _win.__DATA__
 _win.__DATA__:
@@ -12554,17 +15653,429 @@ _win.__DATA__:
 	DEFB 01h
 	DEFB 01h
 	DEFB 01h
-__LABEL556:
+__LABEL795:
 	DEFW 0001h
 	DEFW 000Ah
 	DEFB 01h
-__LABEL534:
+_tetrisPieces:
+	DEFW __LABEL796
+_tetrisPieces.__DATA__.__PTR__:
+	DEFW _tetrisPieces.__DATA__
+_tetrisPieces.__DATA__:
+	DEFB 0F8h
+	DEFB 08h
+	DEFB 08h
+	DEFB 08h
+	DEFB 0F8h
+	DEFB 08h
+	DEFB 08h
+	DEFB 08h
+	DEFB 0CCh
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 00h
+	DEFB 0CCh
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 00h
+	DEFB 8Ch
+	DEFB 0E8h
+	DEFB 08h
+	DEFB 00h
+	DEFB 0E4h
+	DEFB 24h
+	DEFB 0Ch
+	DEFB 00h
+	DEFB 28h
+	DEFB 0E8h
+	DEFB 0Ch
+	DEFB 00h
+	DEFB 0ECh
+	DEFB 84h
+	DEFB 04h
+	DEFB 00h
+	DEFB 68h
+	DEFB 0CCh
+	DEFB 04h
+	DEFB 00h
+	DEFB 68h
+	DEFB 0CCh
+	DEFB 04h
+	DEFB 00h
+	DEFB 0C4h
+	DEFB 6Ch
+	DEFB 08h
+	DEFB 00h
+	DEFB 0C4h
+	DEFB 6Ch
+	DEFB 08h
+	DEFB 00h
+	DEFB 48h
+	DEFB 0ECh
+	DEFB 08h
+	DEFB 00h
+	DEFB 0E4h
+	DEFB 4Ch
+	DEFB 04h
+	DEFB 00h
+__LABEL796:
+	DEFW 0002h
+	DEFW 0002h
+	DEFW 0004h
+	DEFB 01h
+_expandedPiece:
+	DEFW __LABEL797
+_expandedPiece.__DATA__.__PTR__:
+	DEFW _expandedPiece.__DATA__
+_expandedPiece.__DATA__:
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+__LABEL797:
+	DEFW 0002h
+	DEFW 0004h
+	DEFW 0004h
+	DEFB 01h
+_expandedSize:
+	DEFW __LABEL798
+_expandedSize.__DATA__.__PTR__:
+	DEFW _expandedSize.__DATA__
+_expandedSize.__DATA__:
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+__LABEL798:
+	DEFW 0001h
+	DEFW 0002h
+	DEFB 01h
+_arkaScreens:
+	DEFW __LABEL799
+_arkaScreens.__DATA__.__PTR__:
+	DEFW _arkaScreens.__DATA__
+_arkaScreens.__DATA__:
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
 	DEFB 0FFh
-__LABEL535:
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 02h
+	DEFB 00h
+	DEFB 03h
+	DEFB 80h
+	DEFB 03h
+	DEFB 0C0h
+	DEFB 03h
+	DEFB 0E0h
+	DEFB 03h
+	DEFB 0F0h
+	DEFB 03h
+	DEFB 0F8h
+	DEFB 03h
+	DEFB 0FCh
+	DEFB 03h
+	DEFB 0FEh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 0CFh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 84h
+	DEFB 00h
+	DEFB 48h
+	DEFB 00h
+	DEFB 48h
+	DEFB 00h
+	DEFB 0FCh
+	DEFB 00h
+	DEFB 0BAh
 	DEFB 01h
-__LABEL544:
+	DEFB 0BAh
 	DEFB 01h
-__LABEL545:
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FDh
+	DEFB 02h
+	DEFB 85h
+	DEFB 02h
+	DEFB 49h
+	DEFB 02h
+	DEFB 48h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 7Bh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 7Bh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 7Bh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 7Bh
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 30h
+	DEFB 00h
+	DEFB 78h
+	DEFB 00h
+	DEFB 0FCh
+	DEFB 00h
+	DEFB 0FEh
+	DEFB 01h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FEh
+	DEFB 01h
+	DEFB 0FCh
+	DEFB 00h
+	DEFB 78h
+	DEFB 00h
+	DEFB 30h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 30h
+	DEFB 00h
+	DEFB 78h
+	DEFB 00h
+	DEFB 0FEh
+	DEFB 01h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0B5h
+	DEFB 02h
+	DEFB 30h
+	DEFB 00h
+	DEFB 30h
+	DEFB 00h
+	DEFB 30h
+	DEFB 03h
+	DEFB 60h
+	DEFB 03h
+	DEFB 0C0h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 33h
+	DEFB 03h
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 33h
+	DEFB 03h
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 33h
+	DEFB 03h
+	DEFB 0CCh
+	DEFB 00h
+	DEFB 33h
+	DEFB 03h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 00h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 79h
+	DEFB 02h
+	DEFB 79h
+	DEFB 02h
+	DEFB 79h
+	DEFB 02h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 0FFh
+	DEFB 03h
+	DEFB 79h
+	DEFB 02h
+	DEFB 79h
+	DEFB 02h
+	DEFB 79h
+	DEFB 02h
+	DEFB 0FFh
+	DEFB 03h
+__LABEL799:
+	DEFW 0001h
+	DEFW 000Ch
+	DEFB 02h
+__LABEL744:
+	DEFB 0FFh
+__LABEL745:
+	DEFB 01h
+__LABEL750:
+	DEFB 04h
+__LABEL784:
+	DEFB 01h
+__LABEL785:
+	DEFB 01h
+__LABEL786:
+	DEFB 01h
+__LABEL787:
 	DEFB 01h
 ZXBASIC_MEM_HEAP:
 	; Defines DATA END
