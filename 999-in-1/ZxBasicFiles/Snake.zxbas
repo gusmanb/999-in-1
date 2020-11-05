@@ -1,0 +1,4 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+function RunSnake(cLevel as uByte) as uByte
+end function

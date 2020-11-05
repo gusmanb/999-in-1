@@ -16,6 +16,8 @@
       <DependentUpon>Program.zxbas</DependentUpon>
     </Z80Asm>
     <ZxBasic Include="ZxBasicFiles\Arkanoid.zxbas" />
+    <ZxBasic Include="ZxBasicFiles\Racing.zxbas" />
+    <ZxBasic Include="ZxBasicFiles\Snake.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Tetris.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Timer.zxbas" />
     <ZxBasic Include="ZxBasicFiles\GameSelector.zxbas" />
@@ -25,7 +27,7 @@
     <Tzx Include="TapeFiles\tetris.tzx" />
     <Tzx Include="TapeFiles\Welcome.tzx" />
     <ZxBasic Include="ZxBasicFiles\Screen.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Transitions.zxbas" />
+    <ZxBasic Include="ZxBasicFiles\TransitionsAndEffects.zxbas" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />
 </Project>

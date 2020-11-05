@@ -226,3 +226,95 @@ sub ShowWin()
     BEEP 0.400, 9
 
 end sub
+
+function min(a as byte, b as byte) as byte
+
+    if a > b then return b else return a
+
+end function
+
+function max(a as byte, b as byte) as byte
+
+    if a < b then return b else return a
+
+end function
+
+sub Explode(X as uByte, Y as uByte)
+
+    Dim x1 as Byte
+    Dim x2 as Byte
+    Dim y1 as Byte
+    Dim y2 as Byte
+
+    Dim tmpX as Byte
+    Dim tmpY as Byte
+
+    x1 = x
+    y1 = y
+    x2 = x
+    y2 = y
+
+    for tmpX = 1 to 3
+
+        FillRect(max(x1 - 1, 1),min(x2 + 1, 10),max(y1 - 1, 1), min(y2 + 1, 20), 1)
+        FillRect(max(x1, 1),min(x2, 10),max(y1, 1), min(y2, 20), 0)
+
+        x1 = x1 - 1
+        x2 = x2 + 1
+        y1 = y1 - 1
+        y2 = y2 + 1
+
+        UpdateScreen()
+        beep 0.05, -35
+
+    next tmpX
+
+    for tmpX = x1 to x2
+
+        if tmpX < 1 or tmpX > 10 then continue for
+
+        if tmpX mod 2 = 0 then
+
+            if y1 < 1 then continue for
+            SetCell(tmpX, y1, 0)
+
+        else
+
+            if y2 > 20 then continue for
+            SetCell(tmpX, y2, 0)
+
+        end if
+
+    next tmpX
+
+    for tmpY = y1 to y2
+
+        if tmpY < 1 or tmpY > 20 then continue for
+
+        if tmpY mod 2 = 0 then
+
+            if x1 < 1 then continue for
+            SetCell(x1, tmpY, 0)
+
+        else
+
+            if x2 > 10 then continue for
+            SetCell(x2, tmpY, 0)
+
+        end if
+
+    next tmpY
+
+    UpdateScreen()
+    pause 5
+
+    for tmpX = 1 to 10
+
+        InvertRect(max(x1, 1),min(x2, 10),max(y1, 1), min(y2, 20))
+        FillRect(max(x1 + 1, 1),min(x2 - 1, 10),max(y1 + 1, 1), min(y2 - 1, 20), 0)
+        UpdateScreen()
+        pause 1
+
+    next tmpX
+
+end sub    

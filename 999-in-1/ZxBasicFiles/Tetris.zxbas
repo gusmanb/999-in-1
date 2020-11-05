@@ -369,8 +369,7 @@ function RunTetris(cLevel as uByte) as uByte
 
     end if
 
-    Dim frms as uByte = 51 - (((cLevel / 10) + 1) * 5)
-
+    Dim frms as uByte = 40 / ((cLevel / 10) + 1)
     Dim dead as uByte = 0
     Dim score as uInteger = 0
 
@@ -483,7 +482,7 @@ function RunTetris(cLevel as uByte) as uByte
                         end if
 
                         cLevel = cLevel + 1
-                        frms = 51 - (((cLevel / 10) + 1) * 5)
+                        frms = 40 / ((cLevel / 10) + 1)
                         lines = 0
                         nextLines = 5 + (cLevel mod 10)
                         score = score + 50

@@ -248,6 +248,191 @@ function ShowArkanoid() as uByte
 
 end function
 
+function ShowRacing() as uByte
+
+    FillRect(1,10,1,20,0)
+
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as string
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    while action = 0
+
+        'ShowChar("C", state)
+        'state = state + sense
+        'if state = 1 or state = 9 then sense = -sense
+
+        'UpdateScreen()
+
+        for buc = 1 to 8
+
+            if buc = 1 then
+
+                'erase
+                FillRect(1,10,10,20,0)
+
+                 'Player car
+                SetCell(3,20,1)
+                SetCell(5,20,1)
+                SetCell(4,19,1)
+                FillRect(3,5,18,18,1)
+                SetCell(4,17,1)
+
+                'cp car
+                SetCell(3,10,1)
+                SetCell(5,10,1)
+                SetCell(4,11,1)
+                FillRect(3,5,12,12,1)
+                SetCell(4,13,1)
+
+                FillRect(1,1,10,20,1)
+                FillRect(10,10,10,20,1)
+
+            else if buc < 4 or buc > 4 then
+
+                MoveRect(3, 5, 8 + buc, 11 + buc, 0, 1)
+
+            else if buc = 4 then
+
+                MoveRect(3, 5, 8 + buc, 11 + buc, 0, 1)
+                MoveRect(3, 5, 17, 20, 3, 0)
+
+            end if
+
+            ShowChar("C", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 30
+
+                ShowChar("C", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = inkey
+
+                if inp <> "" then
+
+                    if inp = "q" then
+                        level = level + 1
+                        if level > 99 then level = 0
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "a" then
+                        level = level - 1
+                        if level < 0 then level = 99
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "o" then
+                        return 2
+                    else if inp = "p" then
+                        return 1
+                    else if inp = " " then
+                        return 3
+                    end if
+
+                end if
+
+            end while
+
+        next buc
+
+        FillRect(4,6,17,18,0)
+
+    end while
+
+end function
+
+function ShowSnake() as uByte
+
+    FillRect(1,10,1,20,0)
+
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as string
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    while action = 0
+
+        for buc = 0 to 3
+
+            if buc = 0 then
+
+                'erase
+                FillRect(1,10,10,20,0)
+
+                'borders
+                FillRect(1,1,10,20,1)
+                FillRect(10,10,10,20,1)
+                FillRect(1,10,20,20,1)
+
+                 'snake & item
+                FillRect(3,6,15,15,1)
+                SetCell(9,15,1)
+
+            else
+
+                MoveRect(3 + buc - 1, 6 + buc - 1,15,15,1,0)
+
+            end if
+
+            ShowChar("D", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 30
+
+                ShowChar("D", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = inkey
+
+                if inp <> "" then
+
+                    if inp = "q" then
+                        level = level + 1
+                        if level > 99 then level = 0
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "a" then
+                        level = level - 1
+                        if level < 0 then level = 99
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "o" then
+                        return 2
+                    else if inp = "p" then
+                        return 1
+                    else if inp = " " then
+                        return 3
+                    end if
+
+                end if
+
+            end while
+
+        next buc
+
+    end while
+
+end function
+
 function SelectGame() as uByte
 
     ShowNextTitle()
@@ -269,7 +454,11 @@ function SelectGame() as uByte
 
         else if game = 2 then
 
+            action = ShowRacing()
+
         else if game = 3 then
+
+            action = ShowSnake()
 
         end if 
 
@@ -284,10 +473,13 @@ function SelectGame() as uByte
             FillRect(1,10,1,20,0)
             UpdateScreen()
             if game = 0 then                
-                
                 return RunTetris(level)
             else if game = 1 then
                 return RunArkanoid(level)
+            else if game = 2 then 
+                return RunRacing(level)
+            else if game = 3 then
+                return RunSnake(level)
             'else if game = 2 then
             'else if game = 3 then
             end if

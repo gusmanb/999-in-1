@@ -1,0 +1,396 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+dim playedRacingMusic as uByte = 0
+
+function RunRacing(cLevel as uByte) as uByte
+
+    if not playedRacingMusic then
+
+        playedRacingMusic = 1
+/'
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -14
+        PAUSE 5
+        BEEP 0.146, -17
+        PAUSE 2
+        BEEP 0.146, -14
+        PAUSE 2
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -9
+        PAUSE 5
+        BEEP 0.146, -7
+        PAUSE 2
+        BEEP 0.146, -9
+        PAUSE 2
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -14
+        PAUSE 5
+        BEEP 0.146, -17
+        PAUSE 2
+        BEEP 0.146, -14
+        PAUSE 2
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -12
+        PAUSE 5
+        BEEP 0.195, -9
+        PAUSE 5
+        BEEP 0.146, -7
+        PAUSE 2
+        BEEP 0.146, -6
+        PAUSE 2
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -2
+        PAUSE 5
+        BEEP 0.146, 0
+        PAUSE 2
+        BEEP 0.146, -2
+        PAUSE 2
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -6
+        PAUSE 5
+        BEEP 0.146, -7
+        PAUSE 2
+        BEEP 0.146, -6
+        PAUSE 2
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -2
+        PAUSE 5
+        BEEP 0.146, 0
+        PAUSE 2
+        BEEP 0.146, -2
+        PAUSE 2
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -5
+        PAUSE 5
+        BEEP 0.195, -6
+        PAUSE 5
+        BEEP 0.146, -7
+        PAUSE 2
+        BEEP 0.146, -9
+        PAUSE 2
+    '/
+
+        BEEP 0.169, -20
+        BEEP 0.169, -20
+        BEEP 0.169, -8
+        BEEP 0.169, -20
+        BEEP 0.169, -20
+        BEEP 0.169, -10
+        BEEP 0.169, -20
+        BEEP 0.169, -8
+        BEEP 0.169, -20
+        BEEP 0.169, -20
+        BEEP 0.169, -10
+        BEEP 0.169, -20
+        BEEP 0.169, -11
+        BEEP 0.169, -20
+        BEEP 0.169, -15
+        BEEP 0.169, -13
+        BEEP 0.346, -20
+        PAUSE 18
+        BEEP 0.346, -20
+        PAUSE 9
+        BEEP 0.346, -8
+
+
+    end if
+
+    Dim roadPos as uByte = 1
+    Dim tmpX as Byte
+    Dim tmpY as uByte
+
+    Dim car1Enabled as uByte
+    Dim car1X as Byte
+    Dim car1Y as byte
+
+    Dim car2Enabled as uByte
+    Dim car2X as Byte
+    Dim car2Y as byte
+
+    Dim topCar as byte = 20
+
+    Dim playerX as uByte = 3
+
+    Dim dead as uByte = 0
+
+    Dim keys as string
+
+    Dim lifes as uByte = 4
+    Dim probApp as uByte
+    Dim frm as uByte
+    Dim numCars as uByte
+    Dim score as uInteger = 0
+
+    HideNextTitle()
+    SetScore(score)
+
+    while lifes > 0
+
+        car1Enabled = 0
+        car2Enabled = 0
+        topCar = 20
+        playerX = 3
+        roadPos = 1
+
+        probApp = int(cLevel / 10)
+        frm = 10 - (cLevel mod 10)
+        numCars = 10 + int(cLevel / 10)
+        SetLifes(lifes)
+        SetLevel(cLevel)
+
+        FillRect(1,10,1,20,0)
+        FillRect(1,1,1,20,1)
+        FillRect(10,10,1,20,1)
+
+        SetCell(3,20,1)
+        SetCell(5,20,1)
+        SetCell(4,19,1)
+        FillRect(3,5,18,18,1)
+        SetCell(4,17,1)
+
+        
+
+        while not dead
+
+            SetCell(1,roadPos, 0)
+            SetCell(10,roadPos, 0)
+            SetCell(1,roadPos + 10, 0)
+            SetCell(10,roadPos + 10, 0)
+
+            if roadpos = 1 then
+                SetCell(1,20, 1)
+                SetCell(10,20, 1)
+            else
+                SetCell(1,roadPos - 1, 1)
+                SetCell(10,roadPos - 1, 1)
+            end if
+
+            SetCell(1,roadPos + 9, 1)
+            SetCell(10,roadPos + 9, 1)
+
+            if roadpos = 10 then roadPos = 1 else roadPos = roadPos + 1
+
+            if not car1Enabled and topCar > 6 and int(rnd * 20) <= probApp + 1 then
+            
+                car1Y = -2
+                car1X = (int(rnd * 2) + 1) * 3
+                topCar = -2
+                PlaceCar(car1X, -3)
+                car1Enabled = 1
+            
+            else if car1Enabled then
+
+                PlaceCar(car1X, car1Y)
+                car1Y = car1Y + 1
+                topCar = car1Y
+                if car1Y > 20 then 
+                    car1Enabled = 0
+                    numCars = numCars - 1
+                    score = score + 1
+                    SetScore(score)
+                    if numCars = 0 then exit while
+                end if
+                
+                if car1Enabled and car1Y > 4 and car1Y < 12 and int(rnd * 60) <= probApp + 1 then
+                    if car1X = 3 then tmpX = 3 else tmpX = -3
+                    UpdateScreen()
+                    MoveRect(car1X, car1X + 3, car1Y, car1Y + 4, tmpX, 0)
+                    car1X = car1X + tmpX
+                end if
+
+            end if
+         
+            if not car2Enabled and topCar > 6 and int(rnd * 20) <= probApp + 1 then
+
+                car2X = (int(rnd * 2) + 1) * 3
+                car2Y = -2
+                topCar = -2
+                PlaceCar(car2X, -3)
+                car2Enabled = 1
+
+            else if car2Enabled then
+
+                PlaceCar(car2X, car2Y)
+                car2Y = car2Y + 1
+
+                if car2Y < topCar or not car1Enabled then topCar = car2Y
+                if car2Y > 20 then 
+                    car2Enabled = 0
+                    numCars = numCars - 1
+                    score = score + 1
+                    SetScore(score)
+                    if numCars = 0 then exit while
+                end if
+                
+                if car2Enabled and car2Y > 4 and car2Y < 12 and int(rnd * 60) <= probApp + 1 then
+                    if car2X = 3 then tmpX = 3 else tmpX = -3
+                    UpdateScreen()
+                    MoveRect(car2X, car2X + 3, car2Y, car2Y + 4, tmpX, 0)
+                    car2X = car2X + tmpX
+                end if
+
+            end if
+
+            if (car1Enabled and car1Y > 13 and car1X = playerX) or_
+               (car2Enabled and car2Y > 13 and car2X = playerX) then
+
+                dead = 1
+                exit while
+
+            end if
+
+            UpdateScreen()
+
+            ResetFrameCounter()
+                        
+            while frm > Frames()
+
+                keys = inkey$
+
+                if keys = "o" then
+
+                    if playerX = 6 then
+                        MoveRect(6,8,17,20,-3,0)
+                        UpdateScreen()
+                        playerX = 3
+                        if (car1Enabled and car1Y > 13 and car1X = playerX) or_
+                           (car2Enabled and car2Y > 13 and car2X = playerX) then
+
+                            dead = 1
+                            exit while
+
+                        end if
+                    end if
+                    
+                else if keys = "p" then
+
+                    if playerX = 3 then
+                        MoveRect(3,5,17,20,3,0)
+                        UpdateScreen()
+                        playerX = 6
+                        if (car1Enabled and car1Y > 13 and car1X = playerX) or_
+                           (car2Enabled and car2Y > 13 and car2X = playerX) then
+
+                            dead = 1
+                            exit while
+
+                        end if
+                    end if
+
+                else if keys = "q" then
+
+                    exit while
+
+                end if
+
+            end while
+
+        end while
+
+        if dead then
+
+            lifes = lifes - 1
+            Explode(playerX + 1, 18)
+            ShowCurtain()
+            dead = 0
+
+        else
+
+            cLevel = cLevel + 1
+            if cLevel > 99 then return 1
+
+            if cLevel mod 10 = 0 then
+
+                BEEP 0.131, 14
+                BEEP 0.265, 12
+                BEEP 0.265, 10
+                BEEP 0.265, 9
+                BEEP 0.265, 7
+                BEEP 0.131, 5
+                BEEP 0.131, 7
+
+            end if
+            score = score + 10
+            ShowCurtain()
+        end if
+
+    end while
+
+    return 0
+
+end function
+
+sub PlaceCar(prevX as byte, prevY as byte)
+
+    if prevY < 1 then
+
+        FillRect(prevX, prevX + 3, 1, prevY + 3, 0)
+
+        SetCell(prevX + 1, prevY + 4, 1)
+
+        if prevY > -3 then 
+            SetCell(prevX, prevY + 3, 1)
+            SetCell(prevX + 1, prevY + 3, 1)
+            SetCell(prevX + 2, prevY + 3, 1)
+        end if
+
+        if prevY > -2 then 
+            SetCell(prevX + 1, prevY + 2, 1)
+        end if
+
+        if prevY = 0 then 
+            SetCell(prevX, prevY + 1, 1)
+            SetCell(prevX + 2, prevY + 1, 1)
+        end if
+
+    else if prevY > 16 then
+
+        if prevY = 20 then
+            FillRect(prevX, prevX + 2, 20, 20, 0)
+        else
+            MoveRect(prevX, prevX + 2, prevY, 19, 0, 1)
+        end if
+
+    else
+
+        MoveRect(prevX, prevX + 2, prevY, prevY + 3, 0, 1)
+
+    end if
+
+end sub

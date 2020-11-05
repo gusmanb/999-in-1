@@ -199,6 +199,7 @@ sub MoveRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDisp as byte, yDis
 
 end sub
 
+/'
 function DisplaceCollideRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDisp as byte, yDisp as byte) as uByte
 
     Dim x as byte
@@ -290,7 +291,7 @@ function DisplaceCollideRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDi
     end if
 
 end function
-
+'/
 
 sub FillRect(x1 as uByte, x2 as uByte,  y1 as uByte, y2 as uByte, state as uByte)
 
@@ -379,6 +380,29 @@ end sub
 
 sub SetScore(newScore as uInteger)
     workingScore = newScore
+end sub
+
+sub SetLifes(Lifes as uByte)
+
+    Dim upper as uByte = 0
+    Dim lower as uByte = 0
+
+    Dim tmpY as uByte
+
+    if lifes > 4 then 
+        upper = 15
+        Lifes = Lifes - 4
+        for tmpY = 1 to 4
+            if tmpY <= Lifes then lower = lower bor (1 << tmpY - 1)
+        next tmpY
+    else
+        for tmpY = 1 to 4
+            if tmpY <= Lifes then upper = upper bor (1 << tmpY - 1)
+        next tmpY
+    end if
+
+    SetSymbol(upper, lower)
+
 end sub
 
 sub HideNextTitle()

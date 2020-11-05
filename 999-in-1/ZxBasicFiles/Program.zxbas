@@ -2,10 +2,12 @@
 
 #include "Timer.zxbas"
 #include "Screen.zxbas"
-#include "Transitions.zxbas"
+#include "TransitionsAndEffects.zxbas"
 #include "Intro.zxbas"
 #include "Tetris.zxbas"
 #include "Arkanoid.zxbas"
+#include "Racing.zxbas"
+#include "Snake.zxbas"
 #include "GameSelector.zxbas"
 
 Randomize

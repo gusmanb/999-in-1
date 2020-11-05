@@ -643,26 +643,3 @@ function RunArkanoid(cLevel as uByte) as uByte
     return 0
 
 end function
-
-sub SetLifes(Lifes as uByte)
-
-    Dim upper as uByte = 0
-    Dim lower as uByte = 0
-
-    Dim tmpY as uByte
-
-    if lifes > 4 then 
-        upper = 15
-        Lifes = Lifes - 4
-        for tmpY = 1 to 4
-            if tmpY <= Lifes then lower = lower bor (1 << tmpY - 1)
-        next tmpY
-    else
-        for tmpY = 1 to 4
-            if tmpY <= Lifes then upper = upper bor (1 << tmpY - 1)
-        next tmpY
-    end if
-
-    SetSymbol(upper, lower)
-
-end sub
