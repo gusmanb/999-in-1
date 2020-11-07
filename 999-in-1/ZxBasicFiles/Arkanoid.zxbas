@@ -146,7 +146,7 @@ Dim arkaScreens(10,12) as uInteger => _
 
 Dim playedArkaMusic as uByte = 0
 
-sub LoadScreen(screenNumber as uByte)
+sub LoadArkanoidScreen(screenNumber as uByte)
 
     FillRect(1,10,1,20,0)
     
@@ -317,7 +317,7 @@ function RunArkanoid(cLevel as uByte) as uByte
 
         if playerX > 0 then FillRect(1,10,20,20,0) ' borrar nave
         if ballXbyte > 0 then SetCell(ballXbyte, ballYbyte, 0) 'borrar bola
-        LoadScreen((cLevel mod 10) + 1) 'hacer mod al nº real de niveles
+        LoadArkanoidScreen((cLevel mod 10) + 1) 'hacer mod al nº real de niveles
         frm = 11 - cLevel / 10
         SetLevel(cLevel)
         bricksLeft = CountOnCells()

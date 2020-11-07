@@ -102,6 +102,157 @@ Dim tetrisPieces(7,2,4) as uByte => {_
     } _
 }
 
+Dim tetrisScreens(10,10) as uInteger => _
+{_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0111111110,_
+        %0111111110,_
+        %0011001100,_
+        %0100100100,_
+        %1010101010_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %1010101010,_
+        %1101001001,_
+        %1000100100,_
+        %0111111110,_
+        %0110011010_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %1010101010,_
+        %0011001100,_
+        %1000100100,_
+        %1010101010,_
+        %0100100100_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %1101001001,_
+        %0110011010,_
+        %1000100100,_
+        %0100100100,_
+        %0001001000_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0101010101,_
+        %0110110110,_
+        %0101001010,_
+        %1000100100,_
+        %0110011010_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0110001100,_
+        %1110110111,_
+        %1101001001,_
+        %1011001101,_
+        %0111001110_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %0000000000,_
+        %1010101010,_
+        %1010101010,_
+        %0111011111,_
+        %1010101010,_
+        %0111011111,_
+        %1010101010_
+    },_
+    {_
+        %0000000000,_
+        %0000000000,_
+        %1010110101,_
+        %1100110011,_
+        %0101111010,_
+        %0101011010,_
+        %1010101010,_
+        %1101101101,_
+        %1011011011,_
+        %1101111011_
+    },_
+    {_
+        %0000000000,_
+        %0010000100,_
+        %1010101010,_
+        %0101010101,_
+        %1101111011,_
+        %0011001100,_
+        %0111111110,_
+        %1010101010,_
+        %0011001100,_
+        %1101111011_
+    }_
+}
+
+sub LoadTetrisScreen(screenNumber as uByte)
+
+    FillRect(1,10,1,20,0)
+    
+    Dim tmpY as uByte
+    Dim tmpB as uInteger    
+    for tmpY = 1 to 10
+    
+        tmpB = tetrisScreens(screenNumber,tmpY)
+
+        if tmpB band 512 then SetCell(1, tmpY + 10, 1)
+        if tmpB band 256 then SetCell(2, tmpY + 10, 1)
+        if tmpB band 128 then SetCell(3, tmpY + 10, 1)
+        if tmpB band 64 then SetCell(4, tmpY + 10, 1)
+        if tmpB band 32 then SetCell(5, tmpY + 10, 1)
+        if tmpB band 16 then SetCell(6, tmpY + 10, 1)
+        if tmpB band 8 then SetCell(7, tmpY + 10, 1)
+        if tmpB band 4 then SetCell(8, tmpY + 10, 1)
+        if tmpB band 2 then SetCell(9, tmpY + 10, 1)
+        if tmpB band 1 then SetCell(10, tmpY + 10, 1)
+
+    next tmpY
+
+    UpdateScreen()
+
+end sub
+
 Dim playedTetrisMusic as uByte = 0
 Dim expandedPiece(4,4,4) as uByte
 Dim expandedSize (4,2) as Byte
@@ -393,7 +544,7 @@ function RunTetris(cLevel as uByte) as uByte
     
 
     Dim lines as uByte = 0
-    Dim nextLines as uByte = 5 + (cLevel mod 10)
+    Dim nextLines as uByte = 10 + int(cLevel / 10)
 
     beep 0.1, 10
     beep 0.1, 12
@@ -401,7 +552,7 @@ function RunTetris(cLevel as uByte) as uByte
     beep 0.1, 17
 
     nextPiece =  INT(RND * 7) + 1
-
+    LoadTetrisScreen((cLevel mod 10) + 1)
     while not dead
 
         if currentPiece = 255 then
@@ -476,20 +627,22 @@ function RunTetris(cLevel as uByte) as uByte
                             BEEP 0.333, 16
                             PAUSE 25
 
-                            ShowCurtain()
-                            FillRect(1,10,1,20,0)
+                            
 
                         end if
+
+                        ShowCurtain()
+
+                        beep 0.1, 10
+                        beep 0.1, 17
 
                         cLevel = cLevel + 1
                         frms = 40 / ((cLevel / 10) + 1)
                         lines = 0
-                        nextLines = 5 + (cLevel mod 10)
+                        nextLines = 10 + int(cLevel / 10)
                         score = score + 50
                         SetLevel(cLevel)
-
-                        beep 0.1, 10
-                        beep 0.1, 17
+                        LoadTetrisScreen((cLevel mod 10) + 1)
 
                     end if
 

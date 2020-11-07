@@ -1,50 +1,50 @@
 ﻿REM Write your ZX BASIC (Boriel's BASIC) code here
 
-Dim dead(20,10) as uByte = {_ 'Comprimirlo!
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
-{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
-{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
-{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 }, _
-{ 1, 0, 1, 0 ,1 ,1 ,0 ,1 ,0 ,1 }, _
-{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 }, _
-{ 1, 0, 1, 1 ,0 ,0 ,1 ,1 ,0 ,1 }, _
-{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
-{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
-{ 1, 0, 1, 0 ,0 ,0 ,0 ,1 ,0 ,1 }, _
-{ 0, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,0 }, _
-{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
-{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 0 ,1 ,1 ,0 ,1 ,1 ,1 }, _
-{ 1, 1, 0, 1 ,1 ,1 ,1 ,0 ,1 ,1 }, _
-{ 0, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,0 }, _
-{ 1, 0, 1, 1 ,1 ,1 ,1 ,1 ,0 ,1 } _
+Dim deadPic(20) as uInteger => {_ 'Comprimirlo!
+    1111111111b, _
+    1110000111b, _
+    1101111011b, _
+    1101111011b, _
+    1011111101b, _
+    1010110101b, _
+    1011111101b, _
+    1011001101b, _
+    1101111011b, _
+    1110110111b, _
+    1010000101b, _
+    0011111100b, _
+    1101111011b, _
+    1110110111b, _
+    1111001111b, _
+    1111001111b, _
+    1110110111b, _
+    1101111011b, _
+    0011111100b, _
+    1011111101b _
 }
 
 
-Dim win(20,10) as uByte = {_ 'Comprimirlo!
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,1 }, _
-{ 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 }, _
-{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
-{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
-{ 0, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,0 }, _
-{ 1, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,1 }, _
-{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,0 ,0 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 0 ,0 ,0 ,0 ,1 ,1 ,1 }, _
-{ 1, 1, 0, 0 ,0 ,0 ,0 ,0 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 }, _
-{ 1, 1, 1, 1 ,1 ,1 ,1 ,1 ,1 ,1 } _
+Dim winPic(20) as uInteger => {_ 'Comprimirlo!
+ 1111111111b, _
+ 1111111111b, _
+ 1111111111b, _
+ 1100000011b, _
+ 0000000000b, _
+ 0100000010b, _
+ 0100000010b, _
+ 0100000010b, _
+ 1000000001b, _
+ 1110000111b, _
+ 1111001111b, _
+ 1111001111b, _
+ 1111001111b, _
+ 1111001111b, _
+ 1111001111b, _
+ 1110000111b, _
+ 1100000011b, _
+ 1111111111b, _
+ 1111111111b, _
+ 1111111111b  _
 }
 
 
@@ -64,13 +64,24 @@ end sub
 
 sub ShowDeath()
 
-    Dim tmpX as uByte
     Dim tmpY as uByte
+    Dim tmpB as uInteger
 
     for tmpY = 1 to 20
-        for tmpX = 1 to 10
-            SetCell(tmpX, tmpY, dead(tmpY,tmpX))
-        next tmpX
+    
+            tmpB = deadPic(tmpY)
+
+            if not (tmpB band 512) then SetCell(1, tmpY, 0)
+            if not (tmpB band 256) then SetCell(2, tmpY, 0)
+            if not (tmpB band 128) then SetCell(3, tmpY, 0)
+            if not (tmpB band 64) then SetCell(4, tmpY, 0)
+            if not (tmpB band 32) then SetCell(5, tmpY, 0)
+            if not (tmpB band 16) then SetCell(6, tmpY, 0)
+            if not (tmpB band 8) then SetCell(7, tmpY, 0)
+            if not (tmpB band 4) then SetCell(8, tmpY, 0)
+            if not (tmpB band 2) then SetCell(9, tmpY, 0)
+            if not (tmpB band 1) then SetCell(10, tmpY, 0)
+
     next tmpY
 
     UpdateScreen()
@@ -103,13 +114,24 @@ end sub
 
 sub ShowWin()
 
-    Dim tmpX as uByte
     Dim tmpY as uByte
+    Dim tmpB as uInteger
 
     for tmpY = 1 to 20
-        for tmpX = 1 to 10
-            SetCell(tmpX, tmpY, win(tmpY,tmpX))
-        next tmpX
+    
+            tmpB = winPic(tmpY)
+
+            if not (tmpB band 512) then SetCell(1, tmpY, 0)
+            if not (tmpB band 256) then SetCell(2, tmpY, 0)
+            if not (tmpB band 128) then SetCell(3, tmpY, 0)
+            if not (tmpB band 64) then SetCell(4, tmpY, 0)
+            if not (tmpB band 32) then SetCell(5, tmpY, 0)
+            if not (tmpB band 16) then SetCell(6, tmpY, 0)
+            if not (tmpB band 8) then SetCell(7, tmpY, 0)
+            if not (tmpB band 4) then SetCell(8, tmpY, 0)
+            if not (tmpB band 2) then SetCell(9, tmpY, 0)
+            if not (tmpB band 1) then SetCell(10, tmpY, 0)
+
     next tmpY
 
     UpdateScreen()
