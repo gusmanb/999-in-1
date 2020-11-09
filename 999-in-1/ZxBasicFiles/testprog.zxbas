@@ -1,0 +1,16 @@
+﻿REM @options --asm --array-base 1 --string-base 1 --optimize 1 --org 32768 --heap-size 128 --explicit --strict -D HIDE_LOAD_MSG
+
+Dim arrtest(60) as uInteger => { 1, 2, 3, 2, 15, 1297, 0, 3, 11, 1152, 0, 3, 139, 856, 0, 2, 26, 1297, 0, 2, 14, 964, 0, 3, 20, 1023, 0, 3, 156, 759, 0, 2, 14, 964, 0, 3, 27, 759, 0, 3, 24, 856, 0, 3, 30, 673, 0, 3, 27, 759, 0, 3, 24, 856, 0, 4, 219, 634, 0, 25 }
+
+
+sub TestRefArr(ByRef InputArr() as uinteger)
+
+    print at 0,0; arrtest(1);  'imprime correctamente '1'
+    print at 1,0; InputArr(1); ' debería imprimir '1', imprime '2'
+    print at 2,0; ubound(arrtest, 1); " - "; lbound(arrtest, 1)
+    print at 3,0; ubound(InputArr, 1); " - "; lbound(InputArr, 1)
+    pause 0
+
+end sub
+
+TestRefArr(arrtest)

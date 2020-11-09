@@ -102,7 +102,7 @@ Dim tetrisPieces(7,2,4) as uByte => {_
     } _
 }
 
-Dim tetrisScreens(10,10) as uInteger => _
+Dim tetrisScreens(10,10) as uInteger at 24696 /' => _
 {_
     {_
         %0000000000,_
@@ -224,7 +224,7 @@ Dim tetrisScreens(10,10) as uInteger => _
         %0011001100,_
         %1101111011_
     }_
-}
+} '/
 
 sub LoadTetrisScreen(screenNumber as uByte)
 
@@ -327,7 +327,7 @@ function WillCollide(xPos as byte, yPos as byte, xDisp as byte, yDisp as byte, c
 
         bY = tmpY + yPos + yDisp - 1
 
-        if by < 1 then continue for
+        if bY < 1 then continue for
 
         xorY = tmpY + yDisp
 
@@ -436,7 +436,7 @@ function EraseLines(yPos as byte) as uByte
         full = 1
         bY = tmpY + yPos
 
-        if bY < top or by > 20 then continue for
+        if bY < top or bY > 20 then continue for
 
         for tmpX = 1 to 10
 
@@ -465,57 +465,7 @@ function RunTetris(cLevel as uByte) as uByte
 
     if not playedTetrisMusic then
 
-        BEEP 0.350, 14
-        PAUSE 2
-        BEEP 0.800, 12
-        PAUSE 2
-        BEEP 0.167, 9
-        PAUSE 2
-        BEEP 0.167, 12
-        PAUSE 2
-        BEEP 0.183, 10
-        PAUSE 2
-        BEEP 0.067, 9
-        PAUSE 2
-        BEEP 0.067, 7
-        PAUSE 2
-        BEEP 0.383, 5
-        PAUSE 2
-        BEEP 0.367, 0
-        PAUSE 2
-        BEEP 0.167, 9
-        PAUSE 2
-        BEEP 0.183, 12
-        PAUSE 2
-        BEEP 0.167, 7
-        PAUSE 2
-        BEEP 0.167, 9
-        PAUSE 2
-        BEEP 0.383, 5
-        PAUSE 2
-        BEEP 0.383, 0
-        PAUSE 2
-        BEEP 0.367, 2
-        PAUSE 2
-        BEEP 0.183, 2
-        PAUSE 2
-        BEEP 0.167, 4
-        PAUSE 2
-        BEEP 0.167, 7
-        PAUSE 2
-        BEEP 0.167, 5
-        PAUSE 2
-        BEEP 0.183, 4
-        PAUSE 2
-        BEEP 0.167, 2
-        PAUSE 2
-        BEEP 0.383, 0
-        PAUSE 2
-        BEEP 0.367, 0
-        PAUSE 2
-        BEEP 0.383, 0
-        PAUSE 30
-
+        PlayMusic(tetrisIntroMusic, 100)
         playedTetrisMusic = 1
 
     end if
@@ -596,38 +546,7 @@ function RunTetris(cLevel as uByte) as uByte
 
                         if cLevel mod 10 = 9 then
 
-                            BEEP 0.067, -1
-                            PAUSE 2
-                            BEEP 0.050, 4
-                            PAUSE 3
-                            BEEP 0.033, 6
-                            PAUSE 3
-                            BEEP 0.283, 11
-                            PAUSE 2
-                            BEEP 0.083, 4
-                            PAUSE 2
-                            BEEP 0.033, 9
-                            PAUSE 3
-                            BEEP 0.050, 8
-                            PAUSE 3
-                            BEEP 0.283, 13
-                            PAUSE 2
-                            BEEP 0.033, 9
-                            PAUSE 3
-                            BEEP 0.050, 13
-                            PAUSE 3
-                            BEEP 0.050, 11
-                            PAUSE 3
-                            BEEP 0.050, 15
-                            PAUSE 3
-                            BEEP 0.050, 13
-                            PAUSE 3
-                            BEEP 0.050, 11
-                            PAUSE 4
-                            BEEP 0.333, 16
-                            PAUSE 25
-
-                            
+                            PlayMusic(tetrisLevelMusic, 60)
 
                         end if
 

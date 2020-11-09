@@ -7,29 +7,7 @@ function RunRacing(cLevel as uByte) as uByte
     if not playedRacingMusic then
 
         playedRacingMusic = 1
-
-        BEEP 0.169, -20
-        BEEP 0.169, -20
-        BEEP 0.169, -8
-        BEEP 0.169, -20
-        BEEP 0.169, -20
-        BEEP 0.169, -10
-        BEEP 0.169, -20
-        BEEP 0.169, -8
-        BEEP 0.169, -20
-        BEEP 0.169, -20
-        BEEP 0.169, -10
-        BEEP 0.169, -20
-        BEEP 0.169, -11
-        BEEP 0.169, -20
-        BEEP 0.169, -15
-        BEEP 0.169, -13
-        BEEP 0.346, -20
-        PAUSE 18
-        BEEP 0.346, -20
-        PAUSE 9
-        BEEP 0.346, -8
-
+        PlayMusic(raceIntroMusic, 42)
 
     end if
 
@@ -95,7 +73,7 @@ function RunRacing(cLevel as uByte) as uByte
             SetCell(1,roadPos + 10, 0)
             SetCell(10,roadPos + 10, 0)
 
-            if roadpos = 1 then
+            if roadPos = 1 then
                 SetCell(1,20, 1)
                 SetCell(10,20, 1)
             else
@@ -106,7 +84,7 @@ function RunRacing(cLevel as uByte) as uByte
             SetCell(1,roadPos + 9, 1)
             SetCell(10,roadPos + 9, 1)
 
-            if roadpos = 10 then roadPos = 1 else roadPos = roadPos + 1
+            if roadPos = 10 then roadPos = 1 else roadPos = roadPos + 1
 
             if not car1Enabled and topCar > 6 and int(rnd * 20) <= probApp + 1 then
             
@@ -239,13 +217,7 @@ function RunRacing(cLevel as uByte) as uByte
 
             if cLevel mod 10 = 0 then
 
-                BEEP 0.131, 14
-                BEEP 0.265, 12
-                BEEP 0.265, 10
-                BEEP 0.265, 9
-                BEEP 0.265, 7
-                BEEP 0.131, 5
-                BEEP 0.131, 7
+                PlayMusic(raceLevelMusic, 14)
 
             end if
             score = score + 10

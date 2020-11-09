@@ -81,6 +81,7 @@ function getPaddedText(StringToPad as string, PadChar as string, Length as uByte
 
 end function
 
+
 sub InitScreen()
 
     udgAddress = @sprites
@@ -389,7 +390,7 @@ sub SetLifes(Lifes as uByte)
 
     Dim tmpY as uByte
 
-    if lifes > 4 then 
+    if Lifes > 4 then 
         upper = 15
         Lifes = Lifes - 4
         for tmpY = 1 to 4

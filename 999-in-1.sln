@@ -5,7 +5,25 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F16D4249-6279-474E-8826-742E7FF7445C}") = "999-in-1", "999-in-1\999-in-1.z80cdproj", "{1AB5ACB3-78B5-4BA3-9A94-68857130E9F5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeeperToArray", "BeeperToArray\BeeperToArray.csproj", "{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinArrayToDefs", "BinArrayToDefs\BinArrayToDefs.csproj", "{14D468FB-6A64-4586-9391-6714949A9B8A}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D468FB-6A64-4586-9391-6714949A9B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D468FB-6A64-4586-9391-6714949A9B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D468FB-6A64-4586-9391-6714949A9B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D468FB-6A64-4586-9391-6714949A9B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

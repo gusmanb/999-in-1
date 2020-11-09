@@ -1,6 +1,6 @@
 ﻿REM Write your ZX BASIC (Boriel's BASIC) code here
 
-Dim arkaScreens(10,12) as uInteger => _
+Dim arkaScreens(10,12) as uInteger at 24896 /' => _
 {_
     {_
         %0000000000,_
@@ -142,7 +142,7 @@ Dim arkaScreens(10,12) as uInteger => _
         %1001111001,_
         %1111111111_
     }_
-}
+}'/
 
 Dim playedArkaMusic as uByte = 0
 
@@ -193,7 +193,7 @@ function GetSpeedX(cell as uByte) as float
 
         if tmpX < 10 then
             return -0.5
-        else if tmpx < 20 then
+        else if tmpX < 20 then
             return 0
         else
             return 0.5
@@ -230,56 +230,7 @@ function RunArkanoid(cLevel as uByte) as uByte
     if not playedArkaMusic then
 
         playedArkaMusic = 1
-        BEEP 0.033, 0
-        BEEP 0.200, 0
-        BEEP 0.033, 0
-        BEEP 0.067, 0
-        BEEP 0.033, 7
-        BEEP 0.200, 7
-        pause 10
-        BEEP 0.167, -17
-        pause 10
-        BEEP 0.167, -12
-        pause 10
-        BEEP 0.033, 6
-        BEEP 0.083, 6
-        BEEP 0.033, 7
-        BEEP 0.083, 7
-        BEEP 0.033, 9
-        BEEP 0.067, 9
-        BEEP 0.033, 7
-        BEEP 0.200, 7
-        pause 10
-        BEEP 0.167, -17
-        pause 10
-        BEEP 0.167, -12
-        pause 2
-        BEEP 0.167, -17
-        pause 2
-        BEEP 0.167, -16
-        pause 2
-        BEEP 0.167, -13
-        BEEP 0.033, 0
-        BEEP 0.200, 0
-        BEEP 0.033, 0
-        BEEP 0.067, 0
-        BEEP 0.033, 7
-        BEEP 0.200, 7
-        pause 10
-        'BEEP 0.167, -17
-        'pause 10
-        BEEP 0.167, -12
-        pause 10
-        BEEP 0.033, 9
-        BEEP 0.050, 9
-        BEEP 0.033, 7
-        BEEP 0.050, 7
-        BEEP 0.033, 6
-        BEEP 0.050, 6
-        BEEP 0.033, 9
-        BEEP 0.050, 9
-        BEEP 0.033, 7
-        BEEP 0.300, 7
+        PlayMusic(arkaIntroMusic, 96)
 
     end if
 
@@ -533,18 +484,7 @@ function RunArkanoid(cLevel as uByte) as uByte
                         SetCell(ballXbyte, ballYbyte + 1, 1)
                         UpdateScreen()
 
-                        BEEP 0.133, 10
-                        BEEP 0.133, 6
-                        BEEP 0.133, 7
-                        BEEP 0.133, 2
-                        BEEP 0.133, 5
-                        BEEP 0.133, 1
-                        BEEP 0.133, 2
-                        BEEP 0.133, -2
-                        BEEP 0.133, -5
-                        BEEP 0.133, -5
-                        BEEP 0.133, -5
-                        BEEP 0.133, -5
+                        PlayMusic(arkaDeathMusic, 24)
 
                         lifes = lifes - 1
 

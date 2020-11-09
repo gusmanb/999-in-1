@@ -1,6 +1,17 @@
-﻿
+﻿REM @options --asm --array-base 1 --string-base 1 --optimize 2 --org 32768 --heap-size 128 --explicit --strict -D HIDE_LOAD_MSG
 
+start:
+
+#include "ArrayData.zxbas"
+
+asm
+.org 32790
+ld hl, ZXBASIC_USER_DATA_END
+end asm
+
+#include <keys.bas>
 #include "Timer.zxbas"
+#include "Music.zxbas"
 #include "Screen.zxbas"
 #include "TransitionsAndEffects.zxbas"
 #include "Intro.zxbas"
@@ -8,6 +19,7 @@
 #include "Arkanoid.zxbas"
 #include "Racing.zxbas"
 #include "Snake.zxbas"
+#include "Destroyer.zxbas"
 #include "GameSelector.zxbas"
 
 Randomize

@@ -1,6 +1,6 @@
 ﻿dim playedSnakeMusic as uByte = 0
 
-Dim snakeScreens(10,20) as uInteger => _
+Dim snakeScreens(10,20) as uInteger at 25136 /' => _
 {_
     {_
         %0000000000,_
@@ -222,7 +222,7 @@ Dim snakeScreens(10,20) as uInteger => _
         %0000000000,_
         %1110000111_
     }_
-}
+}'/
 
 sub LoadSnakeScreen(screenNumber as uByte)
 
@@ -254,27 +254,7 @@ function RunSnake(cLevel as uByte) as uByte
     if not playedSnakeMusic then
 
         playedSnakeMusic = 1
-
-        BEEP 0.303, -12
-        PAUSE 15
-        BEEP 0.336, -8
-        PAUSE 13
-        BEEP 0.317, -5
-        PAUSE 7
-        BEEP 0.280, -1
-        PAUSE 9
-        BEEP 0.234, 0
-        PAUSE 3
-        BEEP 0.450, -12
-        PAUSE 8
-        BEEP 0.483, -8
-        PAUSE 6
-        BEEP 0.347, -5
-        PAUSE 5
-        BEEP 0.244, -1
-        PAUSE 10
-        BEEP 0.228, 2
-        PAUSE 4
+        PlayMusic(snakeIntroMusic, 40)
 
     end if
 
@@ -469,13 +449,7 @@ function RunSnake(cLevel as uByte) as uByte
 
             if cLevel mod 10 = 0 then
 
-                BEEP 0.131, 14
-                BEEP 0.265, 12
-                BEEP 0.265, 10
-                BEEP 0.265, 9
-                BEEP 0.265, 7
-                BEEP 0.131, 5
-                BEEP 0.131, 7
+                PlayMusic(snakeLevelMusic, 14)
 
             end if
             score = score + 10

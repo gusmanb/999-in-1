@@ -1,0 +1,225 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+Dim playedDestroyerMusic as uByte = 0
+
+function FindBottom() as uByte
+
+    Dim tmpY as Byte
+    Dim tmpX as Byte
+
+    Dim bottom as uByte = 0
+
+    for tmpY = 1 to 17
+
+        for tmpX = 1 to 10
+
+            if screenCells(tmpX, tmpY) then 
+                bottom = tmpY
+                exit for
+            end if
+
+        next tmpX
+
+    next tmpY
+
+    return bottom
+
+end function
+
+function RunDestroyer(cLevel as uByte) as uByte
+
+    if not playedDestroyerMusic then
+
+        playedDestroyerMusic = 1
+        PlayMusic(destroyerIntroMusic, 68)
+
+    end if
+
+    Dim tmpX as Byte
+    Dim tmpY as Byte
+
+    Dim dead as uByte = 0
+
+    Dim keys as string
+
+    Dim lifes as uByte = 4
+    Dim frm as uByte
+    Dim score as uInteger = 0
+
+    Dim shipX as uByte
+    Dim shotX as uByte
+    Dim shotY as uByte
+
+    Dim shotVisible as uByte = 0
+    Dim bricksLeft as uByte
+
+    Dim cnt as uInteger = 0
+    Dim update as uByte = 0
+
+    HideNextTitle()
+    SetScore(score)
+
+    while lifes > 0
+
+        FillRect(1,10,1,20,0)
+
+        bricksLeft = ((int(cLevel mod 10) + 1) * 5) + 50
+        shotVisible = 0
+        
+        shipX = 5
+
+        FillRect(shipX - 1, shipX + 1, 20, 20, 1)
+        SetCell(shipX, 19, 1)
+
+        SetLevel(cLevel)
+        SetLifes(lifes)
+        UpdateScreen()
+
+        frm = 50 - (int(cLevel / 10) * 2)
+
+        while not dead and bricksLeft > 0
+
+            if shotVisible then
+                SetCell(shotX, shotY, 0)
+                UpdateScreen()
+            end if
+
+            tmpY = FindBottom()
+
+            if tmpY > 16 then
+                dead = 1
+                exit while
+            else
+
+                MoveRect(1,10,1,tmpY,0,1)
+
+                for tmpX = 1 to 1 + int(cLevel mod 10)
+                    SetCell(int(rnd * 10) + 1, 1, 1)
+                next tmpX 
+
+            end if
+
+            if shotVisible then
+                SetCell(shotX, shotY, 1)
+            end if
+
+            cnt = 0
+            UpdateScreen()
+            ResetFrameCounter()
+                        
+            while frm > Frames()
+
+                if shotVisible then
+                    if shotY > 1 and screenCells(shotX, shotY - 1) then
+                        beep 0.025, -30
+                        shotVisible = 0
+                        SetCell(shotX, shotY, 0)
+                        SetCell(shotX, shotY - 1, 0)
+                        score = score + 1
+                        SetScore(score)
+                        bricksLeft = bricksLeft - 1
+                        if bricksLeft = 0 then exit while
+                    else if shotY = 1 then
+                        shotVisible = 0
+                        SetCell(shotX, shotY, 0)
+                    else
+                        SetCell(shotX, shotY, 0)
+                        shotY = shotY - 1
+                        SetCell(shotX, shotY, 1)
+                    end if
+                    UpdateScreen()
+                end if
+
+                if cnt = 0 or cnt < Frames() then
+
+                    keys = inkey$
+
+                    if MultiKeys(KEYO) then
+
+                        if shipX = 2 then
+                            FillRect(shipX - 1,shipX + 1, 19, 20, 0)
+                            shipX = shipX - 1
+                            SetCell(shipX, 19,1)
+                            SetCell(shipX, 20,1)
+                            SetCell(shipX + 1, 20,1)
+                            update = 1
+                        else if shipX = 10 then
+                            MoveRect(shipX - 1,shipX, 19, 20, -1,0)
+                            SetCell(shipX, 20,1)
+                            shipX = shipX - 1
+                            update = 1
+                        else if shipX > 2 then
+                            MoveRect(shipX - 1,shipX + 1, 19, 20, -1,0)
+                            shipX = shipX - 1
+                            update = 1
+                        end if
+
+                    else if MultiKeys(KEYP) then
+                        if shipX = 9 then
+                            FillRect(shipX - 1,shipX + 1, 19, 20, 0)
+                            shipX = shipX + 1
+                            SetCell(shipX, 19,1)
+                            SetCell(shipX, 20,1)
+                            SetCell(shipX - 1, 20,1)
+                            update = 1
+                        else if shipX = 1 then
+                            MoveRect(shipX, shipX + 1, 19, 20, 1,0)
+                            SetCell(shipX, 20,1)
+                            shipX = shipX + 1
+                            update = 1
+                        else if shipX < 9 then
+                            MoveRect(shipX - 1,shipX + 1, 19, 20, 1,0)
+                            shipX = shipX + 1
+                            update = 1
+                        end if
+                    end if
+
+                    if MultiKeys(KEYSPACE) then
+                        if not shotVisible then
+                            shotVisible = 1
+                            shotX = shipX
+                            shotY = 18
+                            SetCell(shotX, shotY, 1)
+                            UpdateScreen()
+                        end if
+                    end if
+
+                    if update then
+                        update = 0
+                        cnt = Frames() + 4
+                        UpdateScreen()
+                    end if
+
+                end if
+
+            end while
+
+        end while
+
+        if dead then
+
+            lifes = lifes - 1
+            Explode(shipX, 19)
+            ShowCurtain()
+            dead = 0
+
+        else
+
+            cLevel = cLevel + 1
+            if cLevel > 99 then return 1
+
+            if cLevel mod 10 = 0 then
+
+                PlayMusic(destroyerLevelMusic, 54)
+
+            end if
+            score = score + 10
+            SetScore(score)
+            ShowCurtain()
+        end if
+
+    end while
+
+    return 0
+
+end function
