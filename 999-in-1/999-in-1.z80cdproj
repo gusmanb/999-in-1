@@ -18,6 +18,7 @@
     </Z80Asm>
     <ZxBasic Include="ZxBasicFiles\Arkanoid.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Destroyer.zxbas" />
+    <ZxBasic Include="ZxBasicFiles\GhostHunter.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Music.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Racing.zxbas" />
     <ZxBasic Include="ZxBasicFiles\Snake.zxbas" />

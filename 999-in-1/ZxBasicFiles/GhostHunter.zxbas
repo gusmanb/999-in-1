@@ -1,0 +1,225 @@
+﻿REM Write your ZX BASIC (Boriel's BASIC) code here
+
+Dim playedGhostMusic as uByte = 0
+Dim bigGhost(20) as uInteger at 25536
+function RunGhostHunter(cLevel as uByte) as uByte
+
+    if not playedGhostMusic then
+
+        playedGhostMusic = 1
+        PlayMusic(ghostIntroMusic, 60)
+
+    end if
+
+    Dim dead as uByte = 0
+
+    Dim keys as string
+
+    Dim lifes as uByte = 4
+    Dim score as uInteger = 0
+
+    Dim ghostPosition as uByte = 0
+    Dim ghostVisible as uByte = 0
+    Dim ghostFrames as uByte = 0
+    Dim ghostsLeft as uByte = 0
+
+    HideNextTitle()
+    SetScore(score)
+
+    while lifes > 0
+
+        FillRect(1,10,1,20,0)
+
+        ghostsLeft = (int(cLevel mod 10) + 1) + 5
+        ghostVisible = 0
+
+        SetLevel(cLevel)
+        SetLifes(lifes)
+        UpdateScreen()
+
+        while not dead and ghostsLeft > 0
+
+            while not ghostVisible
+
+                if inkey$ <> "" then
+                    dead = 1
+                    exit while
+                end if
+
+                if int(rnd * 5000) < (int(cLevel / 10) + 1) * 10 then
+                    ghostPosition = int(rnd * ((cLevel mod 10) + 1)) / 2
+                    '0 = izq, 1 = der, 2 = arr, 3 = ab, 4 = spc
+                    ghostFrames = 47 - int(cLevel / 10) * 3
+                    DrawGhost(ghostPosition)
+                    ghostVisible = 1
+                end if
+
+            end while
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while ghostVisible and ghostFrames > Frames() and not dead
+
+                keys = inkey$
+
+                if (keys = "o" and ghostPosition = 0) or _
+                    (keys = "p" and ghostPosition = 1) or _
+                    (keys = "q" and ghostPosition = 2) or _
+                    (keys = "a" and ghostPosition = 3) or _
+                    (keys = " " and ghostPosition = 4) then
+
+                    ghostVisible = 0
+                    ghostsLeft = ghostsLeft - 1
+                    score = score + 1
+                    KillGhost(ghostPosition)
+                    SetScore(score)
+                    UpdateScreen()
+                    while inkey$ <> ""
+                    end while
+                else if keys <> "" then
+
+                    dead = 1
+                    ghostVisible = 0
+
+                end if
+
+            end while
+
+            if ghostVisible then dead = 1
+            ghostVisible = 0
+
+        end while
+
+        if dead then
+
+            lifes = lifes - 1
+            ShowBigGhost()
+            ShowCurtain()
+            dead = 0
+
+        else
+
+            cLevel = cLevel + 1
+            if cLevel > 99 then return 1
+
+            if cLevel mod 10 = 0 then
+
+                PlayMusic(ghostLevelMusic, 18)
+
+            end if
+            score = score + 10
+            SetScore(score)
+            ShowCurtain()
+
+        end if
+
+    end while
+
+    return 0    
+    '/
+
+end function
+
+sub ShowBigGhost()
+
+    FillRect(1,10,1,20,0)
+
+    Dim tmpY as uByte
+    Dim tmpB as uInteger
+
+    for tmpY = 1 to 20
+    
+            tmpB = bigGhost(tmpY)
+
+            if (tmpB band 512) then SetCell(1, tmpY, 1)
+            if (tmpB band 256) then SetCell(2, tmpY, 1)
+            if (tmpB band 128) then SetCell(3, tmpY, 1)
+            if (tmpB band 64) then SetCell(4, tmpY, 1)
+            if (tmpB band 32) then SetCell(5, tmpY, 1)
+            if (tmpB band 16) then SetCell(6, tmpY, 1)
+            if (tmpB band 8) then SetCell(7, tmpY, 1)
+            if (tmpB band 4) then SetCell(8, tmpY, 1)
+            if (tmpB band 2) then SetCell(9, tmpY, 1)
+            if (tmpB band 1) then SetCell(10, tmpY, 1)
+
+    next tmpY
+
+    UpdateScreen()
+
+    pause 1
+
+    PlayMusic(ghostScarySound, 66)
+    PlayMusic(ghostScarySound, 66)
+
+    while inkey$ <> ""
+    end while
+
+    pause 80
+
+end sub
+
+sub DrawGhost(gPos as uByte)
+    
+    Dim x as uByte
+    Dim y as uByte
+
+    if gPos = 0 then
+        x = 1
+        y = 4
+    else if gPos = 1 then
+        x = 6
+        y = 10
+    else if gPos = 2 then
+        x = 3
+        y = 1
+    else if gPos = 3 then
+        x = 4
+        y = 15
+    else
+        x = 3
+        y = 7
+    end if
+
+    FillRect(x, x + 4, y, y + 5, 1)
+    SetCell(x,y,0)
+    SetCell(x+4,y,0)
+    SetCell(x+1,y+1,0)
+    SetCell(x+3,y+1,0)
+    FillRect(x+1,x+3,y+3, y+3,0)
+    SetCell(x+1,y+5,0)
+    SetCell(x+3,y+5,0)
+
+end sub
+
+sub KillGhost(gPos as uByte)
+
+    Dim x as uByte
+    Dim y as uByte
+
+    if gPos = 0 then
+        x = 1
+        y = 4
+    else if gPos = 1 then
+        x = 6
+        y = 10
+    else if gPos = 2 then
+        x = 3
+        y = 1
+    else if gPos = 3 then
+        x = 4
+        y = 15
+    else
+        x = 3
+        y = 7
+    end if
+
+    Dim buc as uByte
+
+    for buc = 0 to 5
+        FillRect(x, x + 4, y + buc, y + buc, 0)
+        UpdateScreen()
+        Beep 0.005, 32
+    next buc
+
+end sub

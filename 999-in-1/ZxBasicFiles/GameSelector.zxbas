@@ -512,6 +512,99 @@ function ShowDestroyer() as uByte
 
 end function
 
+function ShowGhost() as uByte
+
+    FillRect(1,10,1,20,0)
+
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as string
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    FillRect(1,10, 9,10,1)
+    FillRect(1,10, 19,20,1)
+    while action = 0
+
+        for buc = 1 to 4
+
+            if buc = 1 or buc = 3 then
+
+                'erase
+                FillRect(1,10,11,18,0)
+
+            else if buc = 2 then
+
+                FillRect(1, 5, 12, 17, 1)
+                SetCell(1,12,0)
+                SetCell(5,12,0)
+                SetCell(2,13,0)
+                SetCell(4,13,0)
+                FillRect(2,4,15, 15,0)
+                SetCell(2,17,0)
+                SetCell(4,17,0)
+
+            else if buc = 4 then
+
+                FillRect(6, 10, 12, 17, 1)
+                SetCell(6,12,0)
+                SetCell(10,12,0)
+                SetCell(7,13,0)
+                SetCell(9,13,0)
+                FillRect(7,9,15, 15,0)
+                SetCell(7,17,0)
+                SetCell(9,17,0)
+
+            end if
+
+            ShowChar("F", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 30
+
+                ShowChar("F", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = inkey
+
+                if inp <> "" then
+
+                    if inp = "q" then
+                        level = level + 1
+                        if level > 99 then level = 0
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "a" then
+                        level = level - 1
+                        if level < 0 then level = 99
+                        SetLevel(level)
+                        UpdateScreen()
+                    else if inp = "o" then
+                        return 2
+                    else if inp = "p" then
+                        return 1
+                    else if inp = " " then
+                        return 3
+                    end if
+
+                end if
+
+            end while
+
+        next buc
+
+    end while
+
+end function
+
 function SelectGame() as uByte
 
     ShowNextTitle()
@@ -543,14 +636,18 @@ function SelectGame() as uByte
 
             action = ShowDestroyer()
 
+        else if game = 5 then
+
+            action = ShowGhost()
+
         end if 
 
         if action = 1 then
             game = game + 1
-            if game > 4 then game = 0
+            if game > 5 then game = 0
         else if action = 2 then
             game = game - 1
-            if game > 4 then game = 4
+            if game > 5 then game = 5
         else if action = 3 then
 
             FillRect(1,10,1,20,0)
@@ -565,6 +662,8 @@ function SelectGame() as uByte
                 return RunSnake(level)
             else if game = 4 then
                 return RunDestroyer(level)
+            else if game = 5 then
+                return RunGhostHunter(level)
             'else if game = 3 then
             end if
 
