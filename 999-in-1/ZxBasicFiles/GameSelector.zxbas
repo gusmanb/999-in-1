@@ -61,6 +61,39 @@ sub ShowChar(Char as string, Phase as uByte)
 
 end sub
 
+function ScanKeyb() as uByte
+
+    Dim inp as string
+    Dim res as uByte = 0
+
+    inp = inkey
+
+    if inp <> "" then
+
+        if inp = "q" then
+            level = level + 1
+            if level > 99 then level = 0
+            SetLevel(level)
+            UpdateScreen()
+        else if inp = "a" then
+            level = level - 1
+            if level < 0 then level = 99
+            SetLevel(level)
+            UpdateScreen()
+        else if inp = "o" then
+            res = 2
+        else if inp = "p" then
+            res = 1
+        else if inp = " " then
+            res = 3
+        end if
+
+    end if
+
+    return res
+
+end function
+
 function ShowTetris() as uByte
 
     FillRect(1,10,1,20,0)
@@ -70,7 +103,7 @@ function ShowTetris() as uByte
     
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -108,34 +141,8 @@ function ShowTetris() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
-
-                'if hadInput and inp = "" then hadInput = 0
-
-                'if not hadInput and inp <> "" then
-                if inp <> "" then
-
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 0
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 0 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
-
-                    'hadInput = 1
-
-                end if
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -155,7 +162,7 @@ function ShowArkanoid() as uByte
     
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -208,34 +215,8 @@ function ShowArkanoid() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
-
-                'if hadInput and inp = "" then hadInput = 0
-
-                'if not hadInput and inp <> "" then
-                if inp <> "" then
-
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 1
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 1 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
-
-                    'hadInput = 1
-
-                end if
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -254,7 +235,7 @@ function ShowRacing() as uByte
 
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -317,29 +298,8 @@ function ShowRacing() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
-
-                if inp <> "" then
-
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 0
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 0 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
-
-                end if
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -357,7 +317,7 @@ function ShowSnake() as uByte
 
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -401,29 +361,8 @@ function ShowSnake() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
-
-                if inp <> "" then
-
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 0
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 0 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
-
-                end if
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -439,7 +378,7 @@ function ShowDestroyer() as uByte
 
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -480,29 +419,71 @@ function ShowDestroyer() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
+                inp = ScanKeyb()
+                if inp then return inp
 
-                if inp <> "" then
+            end while
 
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 0
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 0 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
+        next buc
 
-                end if
+    end while
+
+end function
+
+function ShowConstructor() as uByte
+
+    FillRect(1,10,1,20,0)
+
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as uByte
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    while action = 0
+
+        for buc = 0 to 8
+
+            if buc = 0 then
+
+                'erase
+                FillRect(1,10,10,20,0)
+
+                FillRect(1,10, 9,11,1)  
+                SetCell(4,11,0)
+                FillRect(3,5,20,20,1)
+                SetCell(4,19,1)
+                SetCell(4,18,1)
+    
+            else if buc = 8 then
+
+                FillRect(1,10,11,11,0)
+
+            else
+
+                SetCell(4,18 - buc + 1,0)
+                SetCell(4,18 - buc, 1)
+
+            end if
+
+            ShowChar("G", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 20
+
+                ShowChar("G", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -518,7 +499,7 @@ function ShowGhost() as uByte
 
     Dim action as uByte
     Dim buc as uByte
-    Dim inp as string
+    Dim inp as uByte
     'Dim hadInput as uByte
 
     Dim sense as byte = 1
@@ -573,29 +554,67 @@ function ShowGhost() as uByte
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()
 
-                inp = inkey
+                inp = ScanKeyb()
+                if inp then return inp
 
-                if inp <> "" then
+            end while
 
-                    if inp = "q" then
-                        level = level + 1
-                        if level > 99 then level = 0
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "a" then
-                        level = level - 1
-                        if level < 0 then level = 99
-                        SetLevel(level)
-                        UpdateScreen()
-                    else if inp = "o" then
-                        return 2
-                    else if inp = "p" then
-                        return 1
-                    else if inp = " " then
-                        return 3
-                    end if
+        next buc
 
-                end if
+    end while
+
+end function
+
+function ShowMatch() as uByte
+
+    Dim a as uByte
+    Dim b as uByte
+    Dim c as uByte
+
+    FillRect(1,10,1,20,0)
+
+    Dim action as uByte
+    Dim buc as uByte
+    Dim inp as uByte
+    'Dim hadInput as uByte
+
+    Dim sense as byte = 1
+    Dim state as byte = 1
+
+    FillRect(1,10, 9,10,1)
+
+    while action = 0
+
+        a = 6
+        b = 2
+        c = 8
+        
+        for buc = 1 to 4
+
+            ShowFigure(2,17,a)
+            ShowFigure(5,17,b)
+            ShowFigure(8,17,c)
+
+            a = a + 1
+            b = b + 1
+            c = c + 1
+
+            ShowChar("G", state)
+            state = state + sense
+            if state = 1 or state = 9 then sense = -sense   
+
+            UpdateScreen()
+            ResetFrameCounter()
+
+            while Frames() < 30
+
+                ShowChar("G", state)
+                state = state + sense
+                if state = 1 or state = 9 then sense = -sense
+                UpdateScreen()
+
+                inp = ScanKeyb()
+                if inp then return inp
 
             end while
 
@@ -640,14 +659,22 @@ function SelectGame() as uByte
 
             action = ShowGhost()
 
+        else if game = 6 then
+
+            action = ShowConstructor()
+
+        else if game = 7 then
+
+            action = ShowMatch()
+
         end if 
 
         if action = 1 then
             game = game + 1
-            if game > 5 then game = 0
+            if game > 7 then game = 0
         else if action = 2 then
             game = game - 1
-            if game > 5 then game = 5
+            if game > 7 then game = 7
         else if action = 3 then
 
             FillRect(1,10,1,20,0)
@@ -664,6 +691,10 @@ function SelectGame() as uByte
                 return RunDestroyer(level)
             else if game = 5 then
                 return RunGhostHunter(level)
+            else if game = 6 then
+                return RunConstructor(level)
+            else if game = 7 then
+                return RunMatch(level)
             'else if game = 3 then
             end if
 

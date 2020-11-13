@@ -128,7 +128,7 @@ function max(a as byte, b as byte) as byte
 
 end function
 
-sub Explode(X as uByte, Y as uByte)
+sub Explode(X as uByte, Y as uByte, Fast as uByte)
 
     Dim x1 as Byte
     Dim x2 as Byte
@@ -197,13 +197,17 @@ sub Explode(X as uByte, Y as uByte)
     UpdateScreen()
     pause 5
 
-    for tmpX = 1 to 10
+    if not Fast then
 
-        InvertRect(max(x1, 1),min(x2, 10),max(y1, 1), min(y2, 20))
-        FillRect(max(x1 + 1, 1),min(x2 - 1, 10),max(y1 + 1, 1), min(y2 - 1, 20), 0)
-        UpdateScreen()
-        pause 1
+        for tmpX = 1 to 10
 
-    next tmpX
+            InvertRect(max(x1, 1),min(x2, 10),max(y1, 1), min(y2, 20))
+            FillRect(max(x1 + 1, 1),min(x2 - 1, 10),max(y1 + 1, 1), min(y2 - 1, 20), 0)
+            UpdateScreen()
+            pause 1
+
+        next tmpX
+
+    end if
 
 end sub    

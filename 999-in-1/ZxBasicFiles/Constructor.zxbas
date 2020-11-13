@@ -1,15 +1,15 @@
 ﻿REM Write your ZX BASIC (Boriel's BASIC) code here
 
-Dim playedDestroyerMusic as uByte = 0
+Dim playedConstructorMusic as uByte = 0
 
-function FindBottom() as uByte
+function FindConstructorBottom(Top as uByte) as uByte
 
     Dim tmpY as Byte
     Dim tmpX as Byte
 
     Dim bottom as uByte = 0
 
-    for tmpY = 1 to 17
+    for tmpY = Top to 18
 
         for tmpX = 1 to 10
 
@@ -26,12 +26,35 @@ function FindBottom() as uByte
 
 end function
 
-function RunDestroyer(cLevel as uByte) as uByte
+function CheckLine(Line as uByte) as uByte
 
-    if not playedDestroyerMusic then
+    Dim tmpX as uByte
+    for tmpX = 1 to 10
 
-        playedDestroyerMusic = 1
-        PlayMusic(destroyerIntroMusic, 68)
+        if not screenCells(tmpX, Line) then return 0
+
+    next tmpX
+
+    FillRect(1,10,Line,Line, 0)
+    tmpX = FindConstructorBottom(Line + 1)
+
+    if tmpX > 0 then
+
+        MoveRect(1,10,Line + 1, tmpX, 0, -1)
+        beep 0.025, -30
+
+    end if
+
+    return 1
+
+end function
+
+function RunConstructor(cLevel as uByte) as uByte
+
+    if not playedConstructorMusic then
+
+        playedConstructorMusic = 1
+        PlayMusic(constructorIntroMusic, 88)
 
     end if
 
@@ -39,8 +62,6 @@ function RunDestroyer(cLevel as uByte) as uByte
     Dim tmpY as Byte
 
     Dim dead as uByte = 0
-
-    Dim keys as string
 
     Dim lifes as uByte = 4
     Dim frm as uByte
@@ -51,7 +72,7 @@ function RunDestroyer(cLevel as uByte) as uByte
     Dim shotY as uByte
 
     Dim shotVisible as uByte = 0
-    Dim bricksLeft as uByte
+    Dim linesLeft as uByte
 
     Dim cnt as uInteger = 0
     Dim update as uByte = 0
@@ -63,7 +84,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
         FillRect(1,10,1,20,0)
 
-        bricksLeft = ((int(cLevel mod 10) + 1) * 5) + 50
+        linesLeft = int(cLevel mod 10) + 5
         shotVisible = 0
         
         shipX = 5
@@ -75,16 +96,16 @@ function RunDestroyer(cLevel as uByte) as uByte
         SetLifes(lifes)
         UpdateScreen()
 
-        frm = 50 - (int(cLevel / 10) * 2)
+        frm = 120 - (int(cLevel / 10) * 10)
 
-        while not dead and bricksLeft > 0
+        while not dead and linesLeft > 0
 
             if shotVisible then
                 SetCell(shotX, shotY, 0)
                 UpdateScreen()
             end if
 
-            tmpY = FindBottom()
+            tmpY = FindConstructorBottom(1)
 
             if tmpY > 16 then
                 dead = 1
@@ -93,7 +114,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
                 MoveRect(1,10,1,tmpY,0,1)
 
-                for tmpX = 1 to 1 + int(cLevel mod 10)
+                for tmpX = 1 to 10 - int(cLevel mod 10)
                     SetCell(int(rnd * 10) + 1, 1, 1)
                 next tmpX 
 
@@ -110,18 +131,14 @@ function RunDestroyer(cLevel as uByte) as uByte
             while frm > Frames()
 
                 if shotVisible then
-                    if shotY > 1 and screenCells(shotX, shotY - 1) then
-                        beep 0.025, -30
+                    if shotY = 1 or screenCells(shotX, shotY - 1) then
                         shotVisible = 0
-                        SetCell(shotX, shotY, 0)
-                        SetCell(shotX, shotY - 1, 0)
-                        score = score + 1
-                        SetScore(score)
-                        bricksLeft = bricksLeft - 1
-                        if bricksLeft = 0 then exit while
-                    else if shotY = 1 then
-                        shotVisible = 0
-                        SetCell(shotX, shotY, 0)
+                        if CheckLine(shotY) then
+                            score = score + 1
+                            SetScore(score)
+                            linesLeft = linesLeft - 1
+                            if linesLeft = 0 then exit while
+                        end if
                     else
                         SetCell(shotX, shotY, 0)
                         shotY = shotY - 1
@@ -131,8 +148,6 @@ function RunDestroyer(cLevel as uByte) as uByte
                 end if
 
                 if cnt = 0 or cnt < Frames() then
-
-                    keys = inkey$
 
                     if MultiKeys(KEYO) then
 
@@ -200,6 +215,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
             lifes = lifes - 1
             Explode(shipX, 19, 0)
+            
             ShowCurtain()
             dead = 0
 
@@ -210,7 +226,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
             if cLevel mod 10 = 0 then
 
-                PlayMusic(destroyerLevelMusic, 54)
+                PlayMusic(constructorLevelMusic, 86)
 
             end if
             score = score + 10

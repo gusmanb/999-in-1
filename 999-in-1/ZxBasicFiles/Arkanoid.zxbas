@@ -550,6 +550,10 @@ function RunArkanoid(cLevel as uByte) as uByte
                                         wasPressed = 1
                                     end if
 
+                                else if keys = " " then
+            
+                                    exit while
+
                                 end if
 
                             end if

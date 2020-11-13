@@ -15,6 +15,7 @@ namespace BinArrayToDefs
     public partial class Form1 : Form
     {
         Regex rxLine = new Regex("%([01]+)(b?)(,?)", RegexOptions.IgnoreCase);
+        Regex intLine = new Regex("([0-9]+)", RegexOptions.IgnoreCase);
         public Form1()
         {
             InitializeComponent();
@@ -26,9 +27,11 @@ namespace BinArrayToDefs
             StringBuilder sb = new StringBuilder();
             int len = 0;
 
-            foreach (var line in textBox1.Lines)
+            string[] lines = checkBox1.Checked ? textBox1.Text.Substring(textBox1.Text.IndexOf("{")).Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries) : textBox1.Lines;
+
+            foreach (var line in lines)
             {
-                var m = rxLine.Match(line);
+                var m = checkBox1.Checked ? intLine.Match(line) : rxLine.Match(line);
                 if (m != null && m.Success)
                 {
                     if (isNewline)
@@ -37,9 +40,9 @@ namespace BinArrayToDefs
                         sb.Append("DEFW ");
                     }
 
-                    int val = Convert.ToInt32(m.Groups[1].Value, 2);
+                    int val = checkBox1.Checked ? int.Parse(m.Groups[1].Value) : Convert.ToInt32(m.Groups[1].Value, 2);
 
-                    if (string.IsNullOrWhiteSpace(m.Groups[3].Value))
+                    if (!checkBox1.Checked && string.IsNullOrWhiteSpace(m.Groups[3].Value))
                     {
                         sb.AppendLine(val.ToString("X4") + "h");
                         isNewline = true;
@@ -52,6 +55,9 @@ namespace BinArrayToDefs
                 }     
 
             }
+
+            if (checkBox1.Checked)
+                sb.Remove(sb.Length - 2, 2).Append("\r\n");
 
             sb.AppendLine($";length: {len}");
 

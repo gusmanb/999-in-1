@@ -1,4 +1,4 @@
-﻿REM @options --asm --array-base 1 --string-base 1 --optimize 1 --org 32768 --heap-size 128 --explicit --strict -D HIDE_LOAD_MSG
+﻿REM @options --asm --array-base 1 --string-base 1 --optimize 2 --org 32768 --heap-size 128 --explicit --strict -D HIDE_LOAD_MSG
 
 start:
 
@@ -21,15 +21,17 @@ end asm
 #include "Snake.zxbas"
 #include "Destroyer.zxbas"
 #include "GhostHunter.zxbas"
+#include "Constructor.zxbas"
+#include "MatchFigures.zxbas"
 #include "GameSelector.zxbas"
 
 Randomize
 
 InitScreen()
 
-'InitIntro()
-'InvertIntro()
-'InvertIntro()
+InitIntro()
+InvertIntro()
+InvertIntro()
 
 do
     if(SelectGame()) then

@@ -438,7 +438,7 @@ function RunSnake(cLevel as uByte) as uByte
         if dead then
 
             lifes = lifes - 1
-            Explode(snake(1,1), snake(1,2))
+            Explode(snake(1,1), snake(1,2), 0)
             ShowCurtain()
             dead = 0
 
