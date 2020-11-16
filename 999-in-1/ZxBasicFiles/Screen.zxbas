@@ -90,7 +90,7 @@ sub InitScreen()
     paper 0
     bright 1
     border 0
-    cls
+    'cls
 
     print at 0, 10; "9999 IN ONE"
     

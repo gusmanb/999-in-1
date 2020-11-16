@@ -48,7 +48,7 @@ sub InitIntro()
     UpdateScreen()
 
 end sub
-
+/'
 sub InvertIntro()
 
     Dim x as uByte
@@ -94,3 +94,4 @@ sub InvertIntro()
     pause 30
 
 end sub
+'/

@@ -347,10 +347,11 @@ function RunArkanoid(cLevel as uByte) as uByte
                     tmpX = int(ballX + speedX) - ballXbyte
                     tmpY = int(ballY + speedY) - ballYbyte
 
-                    if (tmpX < 0 and tmpY < 0 and ballXbyte > 1 and ballYbyte > 1  and screenCells(ballXbyte + tmpX, ballYbyte + tmpY)) or _
-                       (tmpX > 0 and tmpY < 0 and ballXbyte < 10 and ballYbyte > 1  and screenCells(ballXbyte + tmpX, ballYbyte + tmpY)) or _
-                       (tmpX < 0 and tmpY > 0 and ballXbyte > 1 and ballYbyte < 12  and screenCells(ballXbyte + tmpX, ballYbyte + tmpY)) or _
-                       (tmpX > 0 and tmpY > 0 and ballXbyte < 10 and ballYbyte < 12  and screenCells(ballXbyte + tmpX, ballYbyte + tmpY)) then
+                    if screenCells(ballXbyte + tmpX, ballYbyte + tmpY) and _
+                        ((tmpX < 0 and tmpY < 0 and ballXbyte > 1 and ballYbyte > 1) or _
+                        (tmpX > 0 and tmpY < 0 and ballXbyte < 10 and ballYbyte > 1) or _
+                        (tmpX < 0 and tmpY > 0 and ballXbyte > 1 and ballYbyte < 12) or _
+                        (tmpX > 0 and tmpY > 0 and ballXbyte < 10 and ballYbyte < 12)) then
 
                         if screenCells(ballXbyte, ballYbyte + tmpY) then
 

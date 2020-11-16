@@ -210,4 +210,58 @@ sub Explode(X as uByte, Y as uByte, Fast as uByte)
 
     end if
 
-end sub    
+end sub
+/'
+sub Explode2(x as uByte, y as uByte)
+
+    Dim particles(8,2) as byte
+    Dim buc as uByte
+    Dim cnt as uByte 
+
+    for buc = 1 to 5
+
+        for cnt = 1 to 8
+
+            if particles(cnt, 1) > 0 and particles(cnt, 1) < 10 and _
+               particles(cnt, 2) > 0 and particles(cnt, 2) < 20 then
+                SetCell(particles(cnt, 1), particles(cnt, 2), 0)
+            end if
+
+        next cnt
+
+        particles(1,1) = particles (1,1) + 1
+        particles(2,1) = particles (2,1) - 1
+        particles(3,2) = particles (3,2) + 1
+        particles(4,2) = particles (4,2) - 1
+
+        particles(5,1) = particles (5,1) + 1
+        particles(5,2) = particles (5,2) - 1
+
+        particles(6,1) = particles (6,1) - 1
+        particles(6,2) = particles (6,2) - 1
+
+        particles(7,1) = particles (7,1) - 1
+        particles(7,2) = particles (7,2) + 1
+
+        particles(8,1) = particles (8,1) + 1
+        particles(8,2) = particles (8,2) + 1
+
+        for cnt = 1 to 8
+
+            if particles(cnt, 1) > 0 and particles(cnt, 1) < 10 and _
+               particles(cnt, 2) > 0 and particles(cnt, 2) < 20 then
+                SetCell(particles(cnt, 1), particles(cnt, 2), 1)
+            end if
+
+        next cnt
+
+        UpdateScreen()
+        ResetFrameCounter()
+        while Frames() < 10
+            beep 0.05,-35
+        end while
+
+    next buc
+
+end sub
+'/

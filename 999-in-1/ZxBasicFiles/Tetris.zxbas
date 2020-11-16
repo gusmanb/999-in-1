@@ -1,7 +1,7 @@
 ﻿REM Write your ZX BASIC (Boriel's BASIC) code here
 
                 'y, x, pieza
-Dim tetrisPieces(7,2,4) as uByte => {_
+Dim tetrisPieces(7,2,4) as uByte at 28080/'=> {_
     { _
         { _                         'I
             11111000b,_
@@ -100,7 +100,7 @@ Dim tetrisPieces(7,2,4) as uByte => {_
             00000000b_
         } _
     } _
-}
+}'/
 
 Dim tetrisScreens(10,10) as uInteger at 24696 /' => _
 {_

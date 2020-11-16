@@ -30,8 +30,10 @@ Randomize
 InitScreen()
 
 InitIntro()
-InvertIntro()
-InvertIntro()
+'InvertIntro()
+'InvertIntro()
+
+pause 50
 
 do
     if(SelectGame()) then

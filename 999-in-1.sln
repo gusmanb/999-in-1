@@ -7,7 +7,15 @@ Project("{F16D4249-6279-474E-8826-742E7FF7445C}") = "999-in-1", "999-in-1\999-in
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeeperToArray", "BeeperToArray\BeeperToArray.csproj", "{B1E01DDC-6250-4FE5-8719-59CF9C5040EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinArrayToDefs", "BinArrayToDefs\BinArrayToDefs.csproj", "{14D468FB-6A64-4586-9391-6714949A9B8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinArrayToDefs", "BinArrayToDefs\BinArrayToDefs.csproj", "{14D468FB-6A64-4586-9391-6714949A9B8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F5E72F0A-45EC-44F0-A44E-A4266714342C}"
+	ProjectSection(SolutionItems) = preProject
+		bg.tap = bg.tap
+		bg2.tap = bg2.tap
+		gamebg.scr = gamebg.scr
+		gamebg2.scr = gamebg2.scr
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

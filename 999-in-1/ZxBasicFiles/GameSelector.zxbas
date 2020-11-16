@@ -599,7 +599,7 @@ function ShowMatch() as uByte
             b = b + 1
             c = c + 1
 
-            ShowChar("G", state)
+            ShowChar("H", state)
             state = state + sense
             if state = 1 or state = 9 then sense = -sense   
 
@@ -608,7 +608,7 @@ function ShowMatch() as uByte
 
             while Frames() < 30
 
-                ShowChar("G", state)
+                ShowChar("H", state)
                 state = state + sense
                 if state = 1 or state = 9 then sense = -sense
                 UpdateScreen()

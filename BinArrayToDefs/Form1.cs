@@ -34,23 +34,28 @@ namespace BinArrayToDefs
                 var m = checkBox1.Checked ? intLine.Match(line) : rxLine.Match(line);
                 if (m != null && m.Success)
                 {
+                    int itLen = m.Groups[1].Value.Length;
+
                     if (isNewline)
                     {
                         isNewline = false;
-                        sb.Append("DEFW ");
+                        if(itLen <= 8)
+                            sb.Append("DEFB ");
+                        else
+                            sb.Append("DEFW ");
                     }
 
                     int val = checkBox1.Checked ? int.Parse(m.Groups[1].Value) : Convert.ToInt32(m.Groups[1].Value, 2);
 
                     if (!checkBox1.Checked && string.IsNullOrWhiteSpace(m.Groups[3].Value))
                     {
-                        sb.AppendLine(val.ToString("X4") + "h");
+                        sb.AppendLine("0" + val.ToString(itLen <= 8 ? "X2" : "X4") + "h");
                         isNewline = true;
                     }
                     else
-                        sb.Append(val.ToString("X4") + "h, ");
+                        sb.Append("0" + val.ToString(itLen <= 8 ? "X2" : "X4") + "h, ");
                     
-                    len += 2;
+                    len += itLen <= 8 ? 1 : 2;
 
                 }     
 
