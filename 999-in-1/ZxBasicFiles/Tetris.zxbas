@@ -624,6 +624,10 @@ function RunTetris(cLevel as uByte) as uByte
                             wasPressed = 1
                             pressDelay = 200
                         end if
+                    else if keys = "h" then
+
+                        return 0
+
                     end if
                 end if
 

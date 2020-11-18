@@ -329,6 +329,9 @@ function RunArkanoid(cLevel as uByte) as uByte
                             pressDelay = 50
                             wasPressed = 1
                         end if
+                    else if keys = "h" then
+            
+                        return 0
 
                     end if
 
@@ -554,6 +557,10 @@ function RunArkanoid(cLevel as uByte) as uByte
                                 else if keys = " " then
             
                                     exit while
+
+                                else if keys = "h" then
+            
+                                    return 0
 
                                 end if
 

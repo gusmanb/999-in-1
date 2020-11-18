@@ -197,6 +197,10 @@ function RunRacing(cLevel as uByte) as uByte
 
                     exit while
 
+                else if keys = "h" then
+
+                    return 0
+
                 end if
 
             end while

@@ -72,6 +72,7 @@ function RunConstructor(cLevel as uByte) as uByte
     Dim shotY as uByte
 
     Dim shotVisible as uByte = 0
+    Dim wasShot as uByte = 0
     Dim linesLeft as uByte
 
     Dim cnt as uInteger = 0
@@ -96,7 +97,7 @@ function RunConstructor(cLevel as uByte) as uByte
         SetLifes(lifes)
         UpdateScreen()
 
-        frm = 120 - (int(cLevel / 10) * 10)
+        frm = 150 - (int(cLevel / 10) * 10)
 
         while not dead and linesLeft > 0
 
@@ -187,16 +188,21 @@ function RunConstructor(cLevel as uByte) as uByte
                             shipX = shipX + 1
                             update = 1
                         end if
+                    else if MultiKeys(KEYH) then
+                        return 0
                     end if
 
                     if MultiKeys(KEYSPACE) then
-                        if not shotVisible then
+                        if not shotVisible and not wasShot then
                             shotVisible = 1
+                            wasShot = 1
                             shotX = shipX
                             shotY = 18
                             SetCell(shotX, shotY, 1)
                             UpdateScreen()
                         end if
+                    else
+                        if wasShot then wasShot = 0
                     end if
 
                     if update then

@@ -429,6 +429,10 @@ function RunSnake(cLevel as uByte) as uByte
 
                     snakeDir = 1
 
+                else if keys = "h" then
+
+                    return 0
+
                 end if
 
             end while

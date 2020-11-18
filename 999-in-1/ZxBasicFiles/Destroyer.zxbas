@@ -55,6 +55,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
     Dim cnt as uInteger = 0
     Dim update as uByte = 0
+    Dim wasShot as uByte = 0
 
     HideNextTitle()
     SetScore(score)
@@ -75,7 +76,7 @@ function RunDestroyer(cLevel as uByte) as uByte
         SetLifes(lifes)
         UpdateScreen()
 
-        frm = 50 - (int(cLevel / 10) * 2)
+        frm = 60 - (int(cLevel / 10) * 2)
 
         while not dead and bricksLeft > 0
 
@@ -172,16 +173,21 @@ function RunDestroyer(cLevel as uByte) as uByte
                             shipX = shipX + 1
                             update = 1
                         end if
+                    else if MultiKeys(KEYH) then
+                        return 0
                     end if
 
                     if MultiKeys(KEYSPACE) then
-                        if not shotVisible then
+                        if not shotVisible and not wasShot then
                             shotVisible = 1
+                            wasShot = 1
                             shotX = shipX
                             shotY = 18
                             SetCell(shotX, shotY, 1)
                             UpdateScreen()
                         end if
+                    else
+                        if wasShot then wasShot = 0
                     end if
 
                     if update then

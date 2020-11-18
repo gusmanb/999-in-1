@@ -42,6 +42,7 @@ function RunGhostHunter(cLevel as uByte) as uByte
             while not ghostVisible
 
                 if inkey$ <> "" then
+                    if inkey$ = "h" then return 0
                     dead = 1
                     exit while
                 end if
@@ -77,6 +78,8 @@ function RunGhostHunter(cLevel as uByte) as uByte
                     UpdateScreen()
                     while inkey$ <> ""
                     end while
+                else if keys = "h" then
+                    return 0
                 else if keys <> "" then
 
                     dead = 1
@@ -166,10 +169,10 @@ sub DrawGhost(gPos as uByte)
 
     if gPos = 0 then
         x = 1
-        y = 4
+        y = 7
     else if gPos = 1 then
         x = 6
-        y = 10
+        y = 7
     else if gPos = 2 then
         x = 3
         y = 1
@@ -177,7 +180,7 @@ sub DrawGhost(gPos as uByte)
         x = 4
         y = 15
     else
-        x = 3
+        x = 4
         y = 7
     end if
 
@@ -199,10 +202,10 @@ sub KillGhost(gPos as uByte)
 
     if gPos = 0 then
         x = 1
-        y = 4
+        y = 7
     else if gPos = 1 then
         x = 6
-        y = 10
+        y = 7
     else if gPos = 2 then
         x = 3
         y = 1
@@ -210,7 +213,7 @@ sub KillGhost(gPos as uByte)
         x = 4
         y = 15
     else
-        x = 3
+        x = 4
         y = 7
     end if
 
