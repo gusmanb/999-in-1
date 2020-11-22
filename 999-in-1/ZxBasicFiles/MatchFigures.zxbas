@@ -182,7 +182,7 @@ function RunMatch(cLevel as uByte) as uByte
 
                     if update then
                         update = 0
-                        cnt = Frames() + 6
+                        cnt = Frames() + 10
                         UpdateScreen()
                     end if
 

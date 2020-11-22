@@ -61,13 +61,30 @@ sub ShowCurtain()
     next tmpY
 end sub
 
+sub FillLine(Line as uByte, Pixels as uInteger)
+
+    if Pixels band 512 then SetCell(1, Line, 0)
+    if Pixels band 256 then SetCell(2, Line, 0)
+    if Pixels band 128 then SetCell(3, Line, 0)
+    if Pixels band 64 then SetCell(4, Line, 0)
+    if Pixels band 32 then SetCell(5, Line, 0)
+    if Pixels band 16 then SetCell(6, Line, 0)
+    if Pixels band 8 then SetCell(7, Line, 0)
+    if Pixels band 4 then SetCell(8, Line, 0)
+    if Pixels band 2 then SetCell(9, Line, 0)
+    if Pixels band 1 then SetCell(10, Line, 0)
+
+end sub
+
 sub ShowDeath()
 
     Dim tmpY as uByte
-    Dim tmpB as uInteger
+    'Dim tmpB as uInteger
 
     for tmpY = 1 to 20
     
+            FillLine(tmpY, deadPic(tmpY))
+            /'
             tmpB = deadPic(tmpY)
 
             if not (tmpB band 512) then SetCell(1, tmpY, 0)
@@ -80,6 +97,7 @@ sub ShowDeath()
             if not (tmpB band 4) then SetCell(8, tmpY, 0)
             if not (tmpB band 2) then SetCell(9, tmpY, 0)
             if not (tmpB band 1) then SetCell(10, tmpY, 0)
+            '/
 
     next tmpY
 
@@ -92,12 +110,15 @@ end sub
 sub ShowWin()
 
     Dim tmpY as uByte
-    Dim tmpB as uInteger
+    'Dim tmpB as uInteger
 
     for tmpY = 1 to 20
     
-            tmpB = winPic(tmpY)
+            FillLine(tmpY, winPic(tmpY))
 
+            'tmpB = winPic(tmpY)
+
+            /'
             if not (tmpB band 512) then SetCell(1, tmpY, 0)
             if not (tmpB band 256) then SetCell(2, tmpY, 0)
             if not (tmpB band 128) then SetCell(3, tmpY, 0)
@@ -108,6 +129,7 @@ sub ShowWin()
             if not (tmpB band 4) then SetCell(8, tmpY, 0)
             if not (tmpB band 2) then SetCell(9, tmpY, 0)
             if not (tmpB band 1) then SetCell(10, tmpY, 0)
+            '/
 
     next tmpY
 

@@ -45,7 +45,7 @@ namespace BinArrayToDefs
                             sb.Append("DEFW ");
                     }
 
-                    int val = checkBox1.Checked ? int.Parse(m.Groups[1].Value) : Convert.ToInt32(m.Groups[1].Value, 2);
+                    int val = checkBox1.Checked ? int.Parse(m.Groups[1].Value) : Convert.ToInt32(checkBox2.Checked ? InvertBits(m.Groups[1].Value) : m.Groups[1].Value, 2);
 
                     if (!checkBox1.Checked && string.IsNullOrWhiteSpace(m.Groups[3].Value))
                     {
@@ -67,6 +67,14 @@ namespace BinArrayToDefs
             sb.AppendLine($";length: {len}");
 
             textBox2.Text = sb.ToString();
+        }
+
+        private string InvertBits(string value)
+        {
+            value = value.Replace('0', 'x');
+            value = value.Replace('1', '0');
+            value = value.Replace('x', '1');
+            return value;
         }
     }
 }

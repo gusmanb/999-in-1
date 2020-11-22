@@ -112,7 +112,7 @@ function RunDestroyer(cLevel as uByte) as uByte
 
                 if shotVisible then
                     if shotY > 1 and screenCells(shotX, shotY - 1) then
-                        beep 0.025, -30
+                        beep 0.03, -20
                         shotVisible = 0
                         SetCell(shotX, shotY, 0)
                         SetCell(shotX, shotY - 1, 0)

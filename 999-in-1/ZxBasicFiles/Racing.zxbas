@@ -225,6 +225,7 @@ function RunRacing(cLevel as uByte) as uByte
 
             end if
             score = score + 10
+            SetScore(score)
             ShowCurtain()
         end if
 

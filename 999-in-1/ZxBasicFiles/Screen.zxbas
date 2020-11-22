@@ -23,19 +23,19 @@ Dim sprites(22, 8) as uByte => { _
             { 0,0,119,68,36,20,119,0 }, _       'sc                     f
             { 0,0,119,85,86,85,117,0 }, _       'or                     g
             { 0,0,96,64,96,64,96,0 }, _         'e                      h
-            { 0,0,54,69,38,20,100,0 }, _        'sp                     i
-            { 0,0,119,68,102,68,119,0 }, _      'ee                     j
-            { 0,0,192,160,160,160,192,0 }, _    'd                      k
+            { 15,48,71,95,156,187,183,183 }, _  'esquina SI             i
+            { 183,183,187,156,95,71,48,15 }, _  'esquina II             j
+            { 240,12,226,250,57,221,237,237 }, _'esquina SD             k
             { 0,0,71,68,70,68,119,0 }, _        'le                     l
             { 0,0,87,84,86,84,39,0 }, _         've                     m
             { 0,0,64,64,64,64,112,0 }, _        'l                      n
             { 0,0,151,212,182,148,151,0 }, _    'ne                     o
             { 0,0,87,34,34,34,82,0 }, _         'xt                     p
-            {255,199,187,187,187,199,255,255},_ 'esquina                q
-            {255,85,170,255,170,85,255,0},_     '^                      r
-            {93,107,93,107,93,107,93,107},_     '>                      s
-            {0,255,170,85,255,85,170,255},_     '                       t
-            {214,186,214,186,214,186,214,186}, _'<                      u
+            { 237,237,221,57,250,226,12,240},_  'esquina ID             q
+            { 255,0,0,255,255,255,255,0},_      '^                      r
+            {123,123,123,123,123,123,123,123},_ '>                      s
+            {0,255,255,255,255,0,0,255},_       '                       t
+            {222,222,222,222,222,222,222,222}, _'<                      u
             { 0,54,69,37,22,20,100,0 }_         'sp (2)                 v
   }
 
@@ -94,16 +94,16 @@ sub InitScreen()
 
     print at 0, 10; "9999 IN ONE"
     
-    ink 1
-    paper 7
+    ink 4
+    paper 0
     bright 0
 
-    print at scrYCellsOffset, scrXCellsOffset; "\q\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\q"
+    print at scrYCellsOffset, scrXCellsOffset; "\i\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\k"
 
     Dim buc as uByte
     for buc = 1 to 20
-        print at scrYCellsOffset + buc, scrXCellsOffset; "\u               \s"
-        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; "\a"
+        print at scrYCellsOffset + buc, scrXCellsOffset; "\u"; paper 7; "               " ; paper 0; "\s"
+        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; paper 7; "\a"
     next buc
 
     sprites(1,1) = 0
@@ -115,7 +115,7 @@ sub InitScreen()
     sprites(1,7) = 0
     sprites(1,8) = 0
 
-    print at scrYCellsOffset + 21, scrXCellsOffset; "\q\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\q"
+    print at scrYCellsOffset + 21, scrXCellsOffset; "\j\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\q"
 
     ink 0
     paper 7
@@ -186,11 +186,15 @@ sub MoveRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDisp as byte, yDis
     Dim x as byte
     Dim y as byte
 
-    for y = y1 to y2
-        for x = x1 to x2
-            SetCell(x, y, 0)
-        next x
-    next y
+    if xDisp > 0 then
+        FillRect(x1, x1 + (xDisp - 1), y1, y2, 0)
+    else if xDisp < 0 then
+        FillRect(x2 + (xDisp + 1), x2, y1, y2, 0)
+    else if yDisp > 0 then
+        FillRect(x1, x2, y1, y1 + (yDisp - 1), 0)
+    else if yDisp < 0 then
+        FillRect(x1, x2, y2 + (yDisp + 1), y2, 0)
+    end if
 
     for y = y1 to y2
         for x = x1 to x2
@@ -200,100 +204,6 @@ sub MoveRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDisp as byte, yDis
 
 end sub
 
-/'
-function DisplaceCollideRect(x1 as Byte, x2 as Byte, y1 as Byte, y2 as Byte, xDisp as byte, yDisp as byte) as uByte
-
-    Dim x as byte
-    Dim y as byte
-    Dim st as uByte
-
-    if xDisp <> 0 and yDisp <> 0 then return 255 'Diagonales no soportadas
-
-    if yDisp > 0 then
-
-        if y2 + yDisp > 20 then return 2
-
-        for y = y1 to y2
-            for x = x1 to x2
-                if screenCells(x, y) <> 0 and screenCells(x, y + yDisp) then return 1 'colisiona
-            next x
-        next y
-
-        for y = y1 to y2
-            for x = x1 to x2
-                st = screenCells(x, y)
-                if st <> 0 then SetCell(x, y + yDisp, st)
-            next x
-        next y
-
-        return 0
-
-    else if yDisp < 0 then
-
-        if y1 + yDisp < 1 then return 2
-
-        for y = y2 to y1 step -1
-            for x = x1 to x2
-                if screenCells(x, y) <> 0 and screenCells(x, y + yDisp) then return 1 'colisiona
-            next x
-        next y
-
-        for y = y2 to y1 step -1
-            for x = x1 to x2
-                st = screenCells(x, y)
-                if st <> 0 then SetCell(x, y + yDisp, st)
-            next x
-        next y
-
-        return 0
-
-    else if xDisp > 0 then
-
-        if x2 + xDisp > 10 then return 2
-        
-        for x = x1 to x2
-            for y = y1 to y2
-                if screenCells(x, y) <> 0 and screenCells(x + xDisp, y) then return 1 'colisiona
-            
-            next y
-        next x
-
-        for x = x1 to x2
-            for y = y1 to y2
-                st = screenCells(x, y)
-                if st <> 0 then SetCell(x + xDisp, y, st)
-            next y
-        next x
-
-        return 0
-
-    else if xDisp < 0 then
-
-        if x2 + xDisp < 1 then return 2
-        
-        for x = x2 to x1 step -1
-            for y = y1 to y2
-                if screenCells(x, y) <> 0 and screenCells(x + xDisp, y) then return 1 'colisiona
-            
-            next y
-        next x
-
-        for x = x2 to x1 step -1
-            for y = y1 to y2
-                st = screenCells(x, y)
-                if st <> 0 then SetCell(x + xDisp, y, st)
-            next y
-        next x
-
-        return 0
-
-    else
-        return 0
-    end if
-
-end function
-'/
-
 sub FillRect(x1 as uByte, x2 as uByte,  y1 as uByte, y2 as uByte, state as uByte)
 
     Dim x as uByte
@@ -301,9 +211,7 @@ sub FillRect(x1 as uByte, x2 as uByte,  y1 as uByte, y2 as uByte, state as uByte
 
     for y = y1 to y2
         for x = x1 to x2
-
             SetCell(x, y, state)
-
         next x
     next y
 
@@ -414,6 +322,7 @@ sub ShowNextTitle()
     print at scrYNextOffset, scrXNextOffset; "\o\p"
 end sub
 
+/'
 function CountOnCells() as uByte
 
     Dim onCells as uByte = 0
@@ -429,6 +338,7 @@ function CountOnCells() as uByte
     return onCells
 
 end function
+'/
 
 sub UpdateScreen()
 

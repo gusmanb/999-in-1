@@ -146,32 +146,64 @@ Dim arkaScreens(10,12) as uInteger at 24896 /' => _
 
 Dim playedArkaMusic as uByte = 0
 
-sub LoadArkanoidScreen(screenNumber as uByte)
+function LoadArkanoidScreen(screenNumber as uByte) as uByte
 
     FillRect(1,10,1,20,0)
     
     Dim tmpY as uByte
     Dim tmpB as uInteger    
+    Dim cnt as uByte = 0
     for tmpY = 1 to 12
     
         tmpB = arkaScreens(screenNumber,tmpY)
 
-        if tmpB band 512 then SetCell(1, tmpY, 1)
-        if tmpB band 256 then SetCell(2, tmpY, 1)
-        if tmpB band 128 then SetCell(3, tmpY, 1)
-        if tmpB band 64 then SetCell(4, tmpY, 1)
-        if tmpB band 32 then SetCell(5, tmpY, 1)
-        if tmpB band 16 then SetCell(6, tmpY, 1)
-        if tmpB band 8 then SetCell(7, tmpY, 1)
-        if tmpB band 4 then SetCell(8, tmpY, 1)
-        if tmpB band 2 then SetCell(9, tmpY, 1)
-        if tmpB band 1 then SetCell(10, tmpY, 1)
-
+        if tmpB band 512 then 
+            SetCell(1, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 256 then 
+            SetCell(2, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 128 then 
+            SetCell(3, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 64 then 
+            SetCell(4, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 32 then 
+            SetCell(5, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 16 then 
+            SetCell(6, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 8 then 
+            SetCell(7, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 4 then 
+            SetCell(8, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 2 then 
+            SetCell(9, tmpY, 1)
+            cnt = cnt + 1
+        end if
+        if tmpB band 1 then 
+            SetCell(10, tmpY, 1)
+            cnt = cnt + 1
+        end if
     next tmpY
 
     UpdateScreen()
 
-end sub
+    return cnt
+
+end function
 
 function GetSpeedX(cell as uByte) as float
     
@@ -268,15 +300,14 @@ function RunArkanoid(cLevel as uByte) as uByte
 
         if playerX > 0 then FillRect(1,10,20,20,0) ' borrar nave
         if ballXbyte > 0 then SetCell(ballXbyte, ballYbyte, 0) 'borrar bola
-        LoadArkanoidScreen((cLevel mod 10) + 1) 'hacer mod al nº real de niveles
+        bricksLeft = LoadArkanoidScreen((cLevel mod 10) + 1) 'hacer mod al nº real de niveles
         frm = 11 - cLevel / 10
         SetLevel(cLevel)
-        bricksLeft = CountOnCells()
 
         while bricksLeft > 0 and lifes > 0
             
-            if playerX > 0 then FillRect(1,10,20,20,0) ' borrar nave
-            if ballXbyte > 0 then SetCell(ballXbyte, ballYbyte, 0) 'borrar bola
+            'if playerX > 0 then FillRect(1,10,20,20,0) ' borrar nave
+            'if ballXbyte > 0 then SetCell(ballXbyte, ballYbyte, 0) 'borrar bola
 
             playerX = 4
             ballX = 6
@@ -437,7 +468,7 @@ function RunArkanoid(cLevel as uByte) as uByte
                                 SetCell(ballXbyte, ballYbyte + tmpY, 0)
                                 bricksLeft = bricksLeft - 1
                                 score = score + 1
-                            SetScore(score)
+                                SetScore(score)
                                 beepBrick = 1
                             end if                
 
@@ -495,7 +526,8 @@ function RunArkanoid(cLevel as uByte) as uByte
                         if lifes = 0 then exit while
 
                         SetLifes(lifes)
-
+                        SetCell(ballXbyte, ballYbyte + 1, 0)
+                        FillRect(1,10,20,20,0)
                         UpdateScreen()
                         exit while
 

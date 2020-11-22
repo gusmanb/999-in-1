@@ -41,7 +41,8 @@ function CheckLine(Line as uByte) as uByte
     if tmpX > 0 then
 
         MoveRect(1,10,Line + 1, tmpX, 0, -1)
-        beep 0.025, -30
+        beep 0.05, -20
+        beep 0.05, 20
 
     end if
 
