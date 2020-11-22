@@ -24,14 +24,14 @@ Dim sprites(22, 8) as uByte => { _
             { 0,0,119,85,86,85,117,0 }, _       'or                     g
             { 0,0,96,64,96,64,96,0 }, _         'e                      h
             { 15,48,71,95,156,187,183,183 }, _  'esquina SI             i
-            { 183,183,187,156,95,71,48,15 }, _  'esquina II             j
+            { 111,55,27,27,27,27,54,110 }, _  'esquina II             j
             { 240,12,226,250,57,221,237,237 }, _'esquina SD             k
             { 0,0,71,68,70,68,119,0 }, _        'le                     l
             { 0,0,87,84,86,84,39,0 }, _         've                     m
             { 0,0,64,64,64,64,112,0 }, _        'l                      n
             { 0,0,151,212,182,148,151,0 }, _    'ne                     o
             { 0,0,87,34,34,34,82,0 }, _         'xt                     p
-            { 237,237,221,57,250,226,12,240},_  'esquina ID             q
+            {246,236,216,216,216,216,108,118},_ 'esquina ID             q
             { 255,0,0,255,255,255,255,0},_      '^                      r
             {123,123,123,123,123,123,123,123},_ '>                      s
             {0,255,255,255,255,0,0,255},_       '                       t
@@ -44,7 +44,7 @@ Dim sprites(22, 8) as uByte => { _
 
 Dim udgAddress as uInteger at 23675
 
-const scrYCellsOffset as uInteger = 2
+const scrYCellsOffset as uInteger = 0
 const scrXCellsOffset as uInteger = 7
 
 const scrXCellCount as uInteger = 10
@@ -63,6 +63,10 @@ const scrXSymbolOffset as uInteger = scrXCellsOffset + 11
 const scrYLevelOffset as uInteger = scrYCellsOffset + 10
 const scrXLevelOffset as uInteger = scrXCellsOffset + 12
 
+const bgColor as uByte = 0
+const caseColor as uByte = 5
+const screenColor as uByte = 7
+const lcdColor as uByte = 0
 
 function getPaddedText(StringToPad as string, PadChar as string, Length as uByte) as string
 
@@ -86,24 +90,17 @@ sub InitScreen()
 
     udgAddress = @sprites
 
-    ink 7
-    paper 0
-    bright 1
-    border 0
-    'cls
-
-    print at 0, 10; "9999 IN ONE"
-    
-    ink 4
-    paper 0
+    ink caseColor
+    paper bgColor
     bright 0
+    border 0
 
     print at scrYCellsOffset, scrXCellsOffset; "\i\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\k"
 
     Dim buc as uByte
     for buc = 1 to 20
-        print at scrYCellsOffset + buc, scrXCellsOffset; "\u"; paper 7; "               " ; paper 0; "\s"
-        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; paper 7; "\a"
+        print at scrYCellsOffset + buc, scrXCellsOffset; "\u"; paper screenColor; "               " ; paper bgColor; "\s"
+        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; paper screenColor; "\a"
     next buc
 
     sprites(1,1) = 0
@@ -116,9 +113,11 @@ sub InitScreen()
     sprites(1,8) = 0
 
     print at scrYCellsOffset + 21, scrXCellsOffset; "\j\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\q"
+    print at scrYCellsOffset + 23, scrXCellsOffset; "\u"; inverse 1 ; "  9999 IN ONE  "; inverse 0;  "\s"
+    print at scrYCellsOffset + 22, scrXCellsOffset; "\u"; inverse 1 ; "               "; inverse 0;  "\s"
 
-    ink 0
-    paper 7
+    ink lcdColor
+    paper screenColor
     bright 0
 
 

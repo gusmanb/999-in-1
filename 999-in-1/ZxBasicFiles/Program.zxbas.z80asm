@@ -359,88 +359,67 @@ _InitScreen:
 	inc sp
 	ld hl, _sprites.__DATA__
 	ld (_udgAddress), hl
-	ld a, 7
+	ld a, 6
 	call INK
 	call COPY_ATTR
 	xor a
 	call PAPER
 	call COPY_ATTR
-	ld a, 1
+	xor a
 	call BRIGHT
 	call COPY_ATTR
 	xor a
 	call BORDER
 	xor a
 	push af
-	ld a, 10
+	ld a, 7
 	call PRINT_AT
 	ld hl, __LABEL15
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
-	ld a, 4
-	call INK
-	call COPY_ATTR
-	xor a
-	call PAPER
-	call COPY_ATTR
-	xor a
-	call BRIGHT
-	call COPY_ATTR
-	ld a, 2
-	push af
-	ld a, 7
-	call PRINT_AT
-	ld hl, __LABEL16
-	xor a
-	call __PRINTSTR
-	call PRINT_EOL
 	ld (ix-1), 1
-	jp __LABEL17
-__LABEL20:
+	jp __LABEL16
+__LABEL19:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
-	inc hl
-	inc hl
 	ld a, l
 	push af
 	ld a, 7
 	call PRINT_AT
-	ld hl, __LABEL22
+	ld hl, __LABEL21
 	xor a
 	call __PRINTSTR
 	ld a, 7
 	call PAPER_TMP
-	ld hl, __LABEL23
+	ld hl, __LABEL22
 	xor a
 	call __PRINTSTR
 	xor a
 	call PAPER_TMP
-	ld hl, __LABEL24
+	ld hl, __LABEL23
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL_ATTR
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
-	inc hl
-	inc hl
 	ld a, l
 	push af
 	ld a, 18
 	call PRINT_AT
 	ld a, 7
 	call PAPER_TMP
-	ld hl, __LABEL25
+	ld hl, __LABEL24
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL_ATTR
 	inc (ix-1)
-__LABEL17:
+__LABEL16:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL20
+	jp nc, __LABEL19
 	xor a
 	ld (_sprites.__DATA__ + 0), a
 	xor a
@@ -457,14 +436,50 @@ __LABEL17:
 	ld (_sprites.__DATA__ + 6), a
 	xor a
 	ld (_sprites.__DATA__ + 7), a
+	ld a, 21
+	push af
+	ld a, 7
+	call PRINT_AT
+	ld hl, __LABEL25
+	xor a
+	call __PRINTSTR
+	call PRINT_EOL
 	ld a, 23
 	push af
 	ld a, 7
 	call PRINT_AT
+	ld hl, __LABEL21
+	xor a
+	call __PRINTSTR
+	ld a, 1
+	call INVERSE_TMP
 	ld hl, __LABEL26
 	xor a
 	call __PRINTSTR
-	call PRINT_EOL
+	xor a
+	call INVERSE_TMP
+	ld hl, __LABEL23
+	xor a
+	call __PRINTSTR
+	call PRINT_EOL_ATTR
+	ld a, 22
+	push af
+	ld a, 7
+	call PRINT_AT
+	ld hl, __LABEL21
+	xor a
+	call __PRINTSTR
+	ld a, 1
+	call INVERSE_TMP
+	ld hl, __LABEL22
+	xor a
+	call __PRINTSTR
+	xor a
+	call INVERSE_TMP
+	ld hl, __LABEL23
+	xor a
+	call __PRINTSTR
+	call PRINT_EOL_ATTR
 	xor a
 	call INK
 	call COPY_ATTR
@@ -474,7 +489,7 @@ __LABEL17:
 	xor a
 	call BRIGHT
 	call COPY_ATTR
-	ld a, 3
+	ld a, 1
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -482,7 +497,7 @@ __LABEL17:
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
-	ld a, 7
+	ld a, 5
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -490,7 +505,7 @@ __LABEL17:
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
-	ld a, 12
+	ld a, 10
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -1175,7 +1190,7 @@ _HideNextTitle:
 	push ix
 	ld ix, 0
 	add ix, sp
-	ld a, 7
+	ld a, 5
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -1191,7 +1206,7 @@ _ShowNextTitle:
 	push ix
 	ld ix, 0
 	add ix, sp
-	ld a, 7
+	ld a, 5
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -1272,8 +1287,6 @@ __LABEL106:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
-	inc hl
-	inc hl
 	ld a, l
 	push af
 	ld a, (ix-1)
@@ -1354,7 +1367,7 @@ __LABEL118:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
-	ld de, 8
+	ld de, 6
 	add hl, de
 	ld a, l
 	push af
@@ -1393,7 +1406,7 @@ __LABEL110:
 	jp z, __LABEL123
 	ld hl, (_workingScore)
 	ld (_screenScore), hl
-	ld a, 5
+	ld a, 3
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -1418,7 +1431,7 @@ __LABEL123:
 	jp z, __LABEL126
 	ld a, (_workingLevel)
 	ld (_screenLevel), a
-	ld a, 14
+	ld a, 12
 	push af
 	ld a, 19
 	call PRINT_AT
@@ -1438,7 +1451,7 @@ __LABEL123:
 __LABEL126:
 	xor a
 	ld (_currentOp), a
-#line 402
+#line 401
 		di
 		ld de, _workingCells.__DATA__
 		ld a, 0
@@ -1448,7 +1461,7 @@ __LABEL126:
 		ld bc, 199
 		ldir
 		ei
-#line 411
+#line 410
 _UpdateScreen__leave:
 	ld sp, ix
 	pop ix
@@ -14154,19 +14167,6 @@ _SelectGame__leave:
 	pop ix
 	ret
 __LABEL15:
-	DEFW 000Bh
-	DEFB 39h
-	DEFB 39h
-	DEFB 39h
-	DEFB 39h
-	DEFB 20h
-	DEFB 49h
-	DEFB 4Eh
-	DEFB 20h
-	DEFB 4Fh
-	DEFB 4Eh
-	DEFB 45h
-__LABEL16:
 	DEFW 0011h
 	DEFB 98h
 	DEFB 0A1h
@@ -14185,10 +14185,10 @@ __LABEL16:
 	DEFB 0A1h
 	DEFB 0A1h
 	DEFB 9Ah
-__LABEL22:
+__LABEL21:
 	DEFW 0001h
 	DEFB 0A4h
-__LABEL23:
+__LABEL22:
 	DEFW 000Fh
 	DEFB 20h
 	DEFB 20h
@@ -14205,13 +14205,13 @@ __LABEL23:
 	DEFB 20h
 	DEFB 20h
 	DEFB 20h
-__LABEL24:
+__LABEL23:
 	DEFW 0001h
 	DEFB 0A2h
-__LABEL25:
+__LABEL24:
 	DEFW 0001h
 	DEFB 90h
-__LABEL26:
+__LABEL25:
 	DEFW 0011h
 	DEFB 99h
 	DEFB 0A3h
@@ -14230,6 +14230,23 @@ __LABEL26:
 	DEFB 0A3h
 	DEFB 0A3h
 	DEFB 0A0h
+__LABEL26:
+	DEFW 000Fh
+	DEFB 20h
+	DEFB 20h
+	DEFB 39h
+	DEFB 39h
+	DEFB 39h
+	DEFB 39h
+	DEFB 20h
+	DEFB 49h
+	DEFB 4Eh
+	DEFB 20h
+	DEFB 4Fh
+	DEFB 4Eh
+	DEFB 45h
+	DEFB 20h
+	DEFB 20h
 __LABEL27:
 	DEFW 0003h
 	DEFB 95h
@@ -14365,7 +14382,7 @@ __ADDF:	; Addition
 
 		jp __FPSTACK_POP
 
-#line 14282 "Program.zxbas"
+#line 14299 "Program.zxbas"
 #line 1 "array.asm"
 
 ; vim: ts=4:et:sw=4:
@@ -14535,7 +14552,7 @@ TMP_ARR_PTR:
 
 		ENDP
 
-#line 14283 "Program.zxbas"
+#line 14300 "Program.zxbas"
 #line 1 "arrayalloc.asm"
 
 
@@ -15011,7 +15028,7 @@ __ALLOC_INITIALIZED_LOCAL_ARRAY:
 
 
 #line 137 "C:/zxbasic/library-asm/arrayalloc.asm"
-#line 14284 "Program.zxbas"
+#line 14301 "Program.zxbas"
 #line 1 "asc.asm"
 
 	; Returns the ascii code for the given str
@@ -15240,7 +15257,7 @@ __ASC_END:
 
 		ret
 		ENDP
-#line 14285 "Program.zxbas"
+#line 14302 "Program.zxbas"
 #line 1 "band16.asm"
 
 ; vim:ts=4:et:
@@ -15262,7 +15279,7 @@ __BAND16:
 
 	    ret
 
-#line 14286 "Program.zxbas"
+#line 14303 "Program.zxbas"
 #line 1 "beeper.asm"
 
 ; vim:ts=4:et:sw=4:
@@ -15283,7 +15300,7 @@ __BEEPER:
 	    ret
 
 
-#line 14287 "Program.zxbas"
+#line 14304 "Program.zxbas"
 #line 1 "border.asm"
 
 	; __FASTCALL__ Routine to change de border
@@ -15293,7 +15310,7 @@ __BEEPER:
 
 	; Nothing to do! (Directly from the ZX Spectrum ROM)
 
-#line 14288 "Program.zxbas"
+#line 14305 "Program.zxbas"
 #line 1 "bright.asm"
 
 	; Sets bright flag in ATTR_P permanently
@@ -15350,7 +15367,7 @@ BRIGHT_TMP:
 		ld hl, ATTR_T
 		jr __SET_BRIGHT
 	    ENDP
-#line 14289 "Program.zxbas"
+#line 14306 "Program.zxbas"
 #line 1 "chr.asm"
 
 	; CHR$(x, y, x) returns the string CHR$(x) + CHR$(y) + CHR$(z)
@@ -15428,7 +15445,7 @@ __CHR_END:
 
 			ENDP
 
-#line 14290 "Program.zxbas"
+#line 14307 "Program.zxbas"
 #line 1 "copy_attr.asm"
 
 
@@ -16534,7 +16551,7 @@ __REFRESH_TMP:
 
 		ENDP
 
-#line 14291 "Program.zxbas"
+#line 14308 "Program.zxbas"
 #line 1 "div32.asm"
 
 #line 1 "neg32.asm"
@@ -16710,7 +16727,7 @@ __MODI32:	; 32bits signed division modulus
 			call __DIVI32START
 			jp __MODU32START
 
-#line 14292 "Program.zxbas"
+#line 14309 "Program.zxbas"
 #line 1 "div8.asm"
 
 				; --------------------------------
@@ -16800,7 +16817,7 @@ __MODI8_FAST:	; __FASTCALL__ entry
 
 		ret		; a = Modulus
 
-#line 14293 "Program.zxbas"
+#line 14310 "Program.zxbas"
 #line 1 "eq16.asm"
 
 __EQ16:	; Test if 16bit values HL == DE
@@ -16811,7 +16828,7 @@ __EQ16:	; Test if 16bit values HL == DE
 			inc a
 			ret
 
-#line 14294 "Program.zxbas"
+#line 14311 "Program.zxbas"
 
 #line 1 "ftou32reg.asm"
 
@@ -16908,7 +16925,7 @@ __FTOU8:	; Converts float in C ED LH to Unsigned byte in A
 		ld a, l
 		ret
 
-#line 14296 "Program.zxbas"
+#line 14313 "Program.zxbas"
 #line 1 "gtf.asm"
 
 #line 1 "u32tofreg.asm"
@@ -17028,7 +17045,7 @@ __GTF:	; A > B
 		call __FPSTACK_POP
 		jp __FTOU8; Convert to 8 bits
 
-#line 14297 "Program.zxbas"
+#line 14314 "Program.zxbas"
 
 #line 1 "inkey.asm"
 
@@ -17092,7 +17109,8 @@ __EMPTY_INKEY:
 
 		ENDP
 
-#line 14299 "Program.zxbas"
+#line 14316 "Program.zxbas"
+
 #line 1 "lei32.asm"
 
 
@@ -17158,7 +17176,7 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14300 "Program.zxbas"
+#line 14318 "Program.zxbas"
 #line 1 "lei8.asm"
 
 __LEI8: ; Signed <= comparison for 8bit int
@@ -17182,7 +17200,7 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14301 "Program.zxbas"
+#line 14319 "Program.zxbas"
 #line 1 "loadstr.asm"
 
 
@@ -17228,7 +17246,7 @@ __LOADSTR:		; __FASTCALL__ entry
 			ldir	; Copies string (length number included)
 			pop hl	; Recovers destiny in hl as result
 			ret
-#line 14302 "Program.zxbas"
+#line 14320 "Program.zxbas"
 #line 1 "ltf.asm"
 
 
@@ -17257,7 +17275,7 @@ __LTF:	; A < B
 		call __FPSTACK_POP
 		jp __FTOU8 ; Convert to 8 bits
 
-#line 14303 "Program.zxbas"
+#line 14321 "Program.zxbas"
 #line 1 "lti32.asm"
 
 
@@ -17285,11 +17303,11 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14304 "Program.zxbas"
+#line 14322 "Program.zxbas"
 #line 1 "lti8.asm"
 
 
-#line 14305 "Program.zxbas"
+#line 14323 "Program.zxbas"
 #line 1 "mul32.asm"
 
 #line 1 "_mul32.asm"
@@ -17382,7 +17400,7 @@ __TO32BIT:  ; Converts H'L'HLB'C'AC to DEHL (Discards H'L'HL)
 			ret
 
 
-#line 14306 "Program.zxbas"
+#line 14324 "Program.zxbas"
 #line 1 "mul8.asm"
 
 __MUL8:		; Performs 8bit x 8bit multiplication
@@ -17436,7 +17454,7 @@ __MUL8B:
 		ret		; result = HL
 		ENDP
 
-#line 14307 "Program.zxbas"
+#line 14325 "Program.zxbas"
 #line 1 "mulf.asm"
 
 
@@ -17460,7 +17478,7 @@ __MULF:	; Multiplication
 
 		jp __FPSTACK_POP
 
-#line 14308 "Program.zxbas"
+#line 14326 "Program.zxbas"
 #line 1 "negf.asm"
 
 
@@ -17488,7 +17506,7 @@ __NEGF:	; A = -A
 		jp __FPSTACK_POP
 
 
-#line 14309 "Program.zxbas"
+#line 14327 "Program.zxbas"
 
 #line 1 "pause.asm"
 
@@ -17498,7 +17516,7 @@ __PAUSE:
 		ld b, h
 	    ld c, l
 	    jp 1F3Dh  ; PAUSE_1
-#line 14311 "Program.zxbas"
+#line 14329 "Program.zxbas"
 #line 1 "ploadf.asm"
 
 	; Parameter / Local var load
@@ -17544,7 +17562,7 @@ __PLOADF:
 	    add hl, de
 	    jp __LOADF
 
-#line 14312 "Program.zxbas"
+#line 14330 "Program.zxbas"
 
 #line 1 "print_eol_attr.asm"
 
@@ -17557,7 +17575,7 @@ __PLOADF:
 PRINT_EOL_ATTR:
 		call PRINT_EOL
 		jp COPY_ATTR
-#line 14314 "Program.zxbas"
+#line 14332 "Program.zxbas"
 #line 1 "printstr.asm"
 
 
@@ -17616,7 +17634,7 @@ __PRINT_STR:
 
 			ENDP
 
-#line 14315 "Program.zxbas"
+#line 14333 "Program.zxbas"
 #line 1 "pstoref.asm"
 
 	; Stores FP number in A ED CB at location HL+IX
@@ -17666,7 +17684,7 @@ __PSTOREF:
 		pop de
 	    jp __STOREF
 
-#line 14316 "Program.zxbas"
+#line 14334 "Program.zxbas"
 #line 1 "pstorestr.asm"
 
 ; vim:ts=4:et:sw=4
@@ -17987,7 +18005,7 @@ __PSTORE_STR:
 	    add hl, bc
 	    jp __STORE_STR
 
-#line 14317 "Program.zxbas"
+#line 14335 "Program.zxbas"
 #line 1 "pstorestr2.asm"
 
 ; vim:ts=4:et:sw=4
@@ -18046,7 +18064,7 @@ __PSTORE_STR2:
 	    add hl, bc
 	    jp __STORE_STR2
 
-#line 14318 "Program.zxbas"
+#line 14336 "Program.zxbas"
 #line 1 "random.asm"
 
 	; RANDOM functions
@@ -18166,7 +18184,7 @@ RND_LOOP:
 
 	    ENDP
 
-#line 14319 "Program.zxbas"
+#line 14337 "Program.zxbas"
 #line 1 "str.asm"
 
 	; The STR$( ) BASIC function implementation
@@ -18246,7 +18264,7 @@ __STR_END:
 
 		ENDP
 
-#line 14320 "Program.zxbas"
+#line 14338 "Program.zxbas"
 #line 1 "strcat.asm"
 
 
@@ -18393,7 +18411,7 @@ __STRCATEND:
 
 			ENDP
 
-#line 14321 "Program.zxbas"
+#line 14339 "Program.zxbas"
 #line 1 "string.asm"
 
 	; String library
@@ -18622,7 +18640,7 @@ __FREE_END:
 
 			ENDP
 
-#line 14322 "Program.zxbas"
+#line 14340 "Program.zxbas"
 
 #line 1 "strslice.asm"
 
@@ -18732,7 +18750,7 @@ __FREE_ON_EXIT:
 
 		ENDP
 
-#line 14324 "Program.zxbas"
+#line 14342 "Program.zxbas"
 
 #line 1 "swap32.asm"
 
@@ -18752,7 +18770,7 @@ __SWAP32:
 	    push bc
 		ret
 
-#line 14326 "Program.zxbas"
+#line 14344 "Program.zxbas"
 
 
 ZXBASIC_USER_DATA:
@@ -20076,14 +20094,14 @@ _sprites.__DATA__:
 	DEFB 0BBh
 	DEFB 0B7h
 	DEFB 0B7h
-	DEFB 0B7h
-	DEFB 0B7h
-	DEFB 0BBh
-	DEFB 9Ch
-	DEFB 5Fh
-	DEFB 47h
-	DEFB 30h
-	DEFB 0Fh
+	DEFB 6Fh
+	DEFB 37h
+	DEFB 1Bh
+	DEFB 1Bh
+	DEFB 1Bh
+	DEFB 1Bh
+	DEFB 36h
+	DEFB 6Eh
 	DEFB 0F0h
 	DEFB 0Ch
 	DEFB 0E2h
@@ -20132,14 +20150,14 @@ _sprites.__DATA__:
 	DEFB 22h
 	DEFB 52h
 	DEFB 00h
-	DEFB 0EDh
-	DEFB 0EDh
-	DEFB 0DDh
-	DEFB 39h
-	DEFB 0FAh
-	DEFB 0E2h
-	DEFB 0Ch
-	DEFB 0F0h
+	DEFB 0F6h
+	DEFB 0ECh
+	DEFB 0D8h
+	DEFB 0D8h
+	DEFB 0D8h
+	DEFB 0D8h
+	DEFB 6Ch
+	DEFB 76h
 	DEFB 0FFh
 	DEFB 00h
 	DEFB 00h
