@@ -317,7 +317,7 @@ function RunSnake(cLevel as uByte) as uByte
 
         frm = 12 - int(cLevel / 10)
 
-        warmup = 10
+        warmup = 50
 
         while not dead
 

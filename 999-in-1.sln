@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		bg2.tap = bg2.tap
 		gamebg.scr = gamebg.scr
 		gamebg2.scr = gamebg2.scr
+		Help.txt = Help.txt
 	EndProjectSection
 EndProject
 Global

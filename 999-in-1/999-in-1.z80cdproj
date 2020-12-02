@@ -16,27 +16,29 @@
     <Z80Asm Include="ZxBasicFiles\Program.zxbas.z80asm">
       <DependentUpon>Program.zxbas</DependentUpon>
     </Z80Asm>
-    <ZxBasic Include="ZxBasicFiles\Arkanoid.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Constructor.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Destroyer.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\GhostHunter.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\MatchFigures.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Music.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Racing.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Snake.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Tetris.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Timer.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\GameSelector.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Intro.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\Program.zxbas" />
     <Z80Test Include="Z80UnitTests\UnitTest.z80test" />
     <Tzx Include="TapeFiles\tetris.tzx" />
     <Tzx Include="TapeFiles\Welcome.tzx" />
-    <ZxBasic Include="ZxBasicFiles\Screen.zxbas" />
-    <ZxBasic Include="ZxBasicFiles\TransitionsAndEffects.zxbas" />
   </ItemGroup>
   <ItemGroup>
     <Tap Include="TapeFiles\dwsfszf.tap" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ZxBasicFiles\Arkanoid.zxbas" />
+    <None Include="ZxBasicFiles\Constructor.zxbas" />
+    <None Include="ZxBasicFiles\Destroyer.zxbas" />
+    <None Include="ZxBasicFiles\GameSelector.zxbas" />
+    <None Include="ZxBasicFiles\GhostHunter.zxbas" />
+    <None Include="ZxBasicFiles\Intro.zxbas" />
+    <None Include="ZxBasicFiles\MatchFigures.zxbas" />
+    <None Include="ZxBasicFiles\Music.zxbas" />
+    <None Include="ZxBasicFiles\Program.zxbas" />
+    <None Include="ZxBasicFiles\Racing.zxbas" />
+    <None Include="ZxBasicFiles\Screen.zxbas" />
+    <None Include="ZxBasicFiles\Snake.zxbas" />
+    <None Include="ZxBasicFiles\Tetris.zxbas" />
+    <None Include="ZxBasicFiles\Timer.zxbas" />
+    <None Include="ZxBasicFiles\TransitionsAndEffects.zxbas" />
   </ItemGroup>
   <Import Project="$(CustomProjectExtensionsPath)Spect.Net.CodeDiscover.targets" />
 </Project>

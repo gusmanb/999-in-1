@@ -2,6 +2,9 @@
 
 Dim screenCells(10, 20) as uByte
 Dim workingCells(10, 20) as uByte
+Dim attribs(24,32) as uByte at 22528
+
+
 Dim ops(3, 200) as uByte
 Dim currentOp as uByte
 
@@ -47,6 +50,9 @@ Dim udgAddress as uInteger at 23675
 const scrYCellsOffset as uInteger = 0
 const scrXCellsOffset as uInteger = 7
 
+const scrYAttribsOffset as uByte = 1
+const scrXAttribsOffset as uByte = 8
+
 const scrXCellCount as uInteger = 10
 const scrYCellCount as uInteger = 20
 
@@ -67,6 +73,9 @@ const bgColor as uByte = 0
 const caseColor as uByte = 5
 const screenColor as uByte = 7
 const lcdColor as uByte = 0
+
+const onCellAttrib as uByte = 56
+const offCellAttrib as uByte = 63
 
 function getPaddedText(StringToPad as string, PadChar as string, Length as uByte) as string
 
@@ -99,8 +108,8 @@ sub InitScreen()
 
     Dim buc as uByte
     for buc = 1 to 20
-        print at scrYCellsOffset + buc, scrXCellsOffset; "\u"; paper screenColor; "               " ; paper bgColor; "\s"
-        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; paper screenColor; "\a"
+        print at scrYCellsOffset + buc, scrXCellsOffset; "\u"; paper screenColor; ink screenColor; "\b\b\b\b\b\b\b\b\b\b     " ; paper bgColor; ink caseColor; "\s"
+        print at scrYCellsOffset + buc, scrXCellsOffset + scrXCellCount + 1; paper screenColor; ink lcdColor; "\a"
     next buc
 
     sprites(1,1) = 0
@@ -217,7 +226,6 @@ sub FillRect(x1 as uByte, x2 as uByte,  y1 as uByte, y2 as uByte, state as uByte
 end sub
 
 sub SetCell(x as uByte, y as uByte, state as uByte)
-
 
     Dim opNum as uByte
     opNum = workingCells(x, y)
@@ -359,7 +367,13 @@ sub UpdateScreen()
                 newValue = ops(3, buc)
 
                 screenCells(x, y) = newValue
-                print at y + scrYCellsOffset, x + scrXCellsOffset; chr(144 + newValue)
+
+                if newValue then
+                    attribs(y + scrYAttribsOffset, x + scrXAttribsOffset) = onCellAttrib
+                else
+                    attribs(y + scrYAttribsOffset, x + scrXAttribsOffset) = offCellAttrib
+                end if
+                'print at y + scrYCellsOffset, x + scrXCellsOffset; chr(144 + newValue)
 
             end if
 

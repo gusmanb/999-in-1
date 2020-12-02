@@ -359,7 +359,7 @@ _InitScreen:
 	inc sp
 	ld hl, _sprites.__DATA__
 	ld (_udgAddress), hl
-	ld a, 6
+	ld a, 5
 	call INK
 	call COPY_ATTR
 	xor a
@@ -393,11 +393,15 @@ __LABEL19:
 	call __PRINTSTR
 	ld a, 7
 	call PAPER_TMP
+	ld a, 7
+	call INK_TMP
 	ld hl, __LABEL22
 	xor a
 	call __PRINTSTR
 	xor a
 	call PAPER_TMP
+	ld a, 5
+	call INK_TMP
 	ld hl, __LABEL23
 	xor a
 	call __PRINTSTR
@@ -411,6 +415,8 @@ __LABEL19:
 	call PRINT_AT
 	ld a, 7
 	call PAPER_TMP
+	xor a
+	call INK_TMP
 	ld hl, __LABEL24
 	xor a
 	call __PRINTSTR
@@ -471,7 +477,7 @@ __LABEL16:
 	call __PRINTSTR
 	ld a, 1
 	call INVERSE_TMP
-	ld hl, __LABEL22
+	ld hl, __LABEL27
 	xor a
 	call __PRINTSTR
 	xor a
@@ -493,7 +499,7 @@ __LABEL16:
 	push af
 	ld a, 19
 	call PRINT_AT
-	ld hl, __LABEL27
+	ld hl, __LABEL28
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
@@ -501,7 +507,7 @@ __LABEL16:
 	push af
 	ld a, 19
 	call PRINT_AT
-	ld hl, __LABEL28
+	ld hl, __LABEL29
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
@@ -509,7 +515,7 @@ __LABEL16:
 	push af
 	ld a, 19
 	call PRINT_AT
-	ld hl, __LABEL29
+	ld hl, __LABEL30
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
@@ -579,12 +585,12 @@ _InvertRect:
 	push hl
 	ld a, (ix+9)
 	ld (ix-2), a
-	jp __LABEL30
-__LABEL33:
+	jp __LABEL31
+__LABEL34:
 	ld a, (ix+5)
 	ld (ix-1), a
-	jp __LABEL35
-__LABEL38:
+	jp __LABEL36
+__LABEL39:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
@@ -599,7 +605,7 @@ __LABEL38:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp nz, __LABEL40
+	jp nz, __LABEL41
 	ld a, 1
 	push af
 	ld a, (ix-2)
@@ -607,8 +613,8 @@ __LABEL38:
 	ld a, (ix-1)
 	push af
 	call _SetCell
-	jp __LABEL41
-__LABEL40:
+	jp __LABEL42
+__LABEL41:
 	xor a
 	push af
 	ld a, (ix-2)
@@ -616,17 +622,17 @@ __LABEL40:
 	ld a, (ix-1)
 	push af
 	call _SetCell
-__LABEL41:
+__LABEL42:
 	inc (ix-1)
-__LABEL35:
+__LABEL36:
 	ld a, (ix+7)
 	cp (ix-1)
-	jp nc, __LABEL38
+	jp nc, __LABEL39
 	inc (ix-2)
-__LABEL30:
+__LABEL31:
 	ld a, (ix+11)
 	cp (ix-2)
-	jp nc, __LABEL33
+	jp nc, __LABEL34
 _InvertRect__leave:
 	ld sp, ix
 	pop ix
@@ -649,7 +655,7 @@ _MoveRect:
 	xor a
 	call __LTI8
 	or a
-	jp z, __LABEL42
+	jp z, __LABEL43
 	xor a
 	push af
 	ld a, (ix+11)
@@ -667,91 +673,91 @@ _MoveRect:
 	ld a, (ix+5)
 	push af
 	call _FillRect
-	jp __LABEL43
-__LABEL42:
-	ld a, (ix+13)
-	ld h, 0
-	call __LTI8
-	or a
-	jp z, __LABEL44
-	xor a
-	push af
-	ld a, (ix+11)
-	push af
-	ld a, (ix+9)
-	push af
-	ld a, (ix+7)
-	push af
-	ld a, (ix+7)
-	push af
-	ld a, (ix+13)
-	inc a
-	ld h, a
-	pop af
-	add a, h
-	push af
-	call _FillRect
-	jp __LABEL45
-__LABEL44:
-	ld a, (ix+15)
-	ld h, a
-	xor a
-	call __LTI8
-	or a
-	jp z, __LABEL46
-	xor a
-	push af
-	ld a, (ix+9)
-	push af
-	ld a, (ix+15)
-	dec a
-	ld h, a
-	pop af
-	add a, h
-	push af
-	ld a, (ix+9)
-	push af
-	ld a, (ix+7)
-	push af
-	ld a, (ix+5)
-	push af
-	call _FillRect
-	jp __LABEL47
-__LABEL46:
-	ld a, (ix+15)
-	ld h, 0
-	call __LTI8
-	or a
-	jp z, __LABEL49
-	xor a
-	push af
-	ld a, (ix+11)
-	push af
-	ld a, (ix+11)
-	push af
-	ld a, (ix+15)
-	inc a
-	ld h, a
-	pop af
-	add a, h
-	push af
-	ld a, (ix+7)
-	push af
-	ld a, (ix+5)
-	push af
-	call _FillRect
-__LABEL49:
-__LABEL47:
-__LABEL45:
+	jp __LABEL44
 __LABEL43:
+	ld a, (ix+13)
+	ld h, 0
+	call __LTI8
+	or a
+	jp z, __LABEL45
+	xor a
+	push af
+	ld a, (ix+11)
+	push af
+	ld a, (ix+9)
+	push af
+	ld a, (ix+7)
+	push af
+	ld a, (ix+7)
+	push af
+	ld a, (ix+13)
+	inc a
+	ld h, a
+	pop af
+	add a, h
+	push af
+	call _FillRect
+	jp __LABEL46
+__LABEL45:
+	ld a, (ix+15)
+	ld h, a
+	xor a
+	call __LTI8
+	or a
+	jp z, __LABEL47
+	xor a
+	push af
+	ld a, (ix+9)
+	push af
+	ld a, (ix+15)
+	dec a
+	ld h, a
+	pop af
+	add a, h
+	push af
+	ld a, (ix+9)
+	push af
+	ld a, (ix+7)
+	push af
+	ld a, (ix+5)
+	push af
+	call _FillRect
+	jp __LABEL48
+__LABEL47:
+	ld a, (ix+15)
+	ld h, 0
+	call __LTI8
+	or a
+	jp z, __LABEL50
+	xor a
+	push af
+	ld a, (ix+11)
+	push af
+	ld a, (ix+11)
+	push af
+	ld a, (ix+15)
+	inc a
+	ld h, a
+	pop af
+	add a, h
+	push af
+	ld a, (ix+7)
+	push af
+	ld a, (ix+5)
+	push af
+	call _FillRect
+__LABEL50:
+__LABEL48:
+__LABEL46:
+__LABEL44:
 	ld a, (ix+9)
 	ld (ix-2), a
-	jp __LABEL50
-__LABEL53:
+	jp __LABEL51
+__LABEL54:
 	ld a, (ix+5)
 	ld (ix-1), a
-	jp __LABEL55
-__LABEL58:
+	jp __LABEL56
+__LABEL59:
 	ld a, (ix-2)
 	ld l, a
 	add a, a
@@ -778,19 +784,19 @@ __LABEL58:
 	push af
 	call _SetCell
 	inc (ix-1)
-__LABEL55:
+__LABEL56:
 	ld h, (ix-1)
 	ld a, (ix+7)
 	call __LTI8
 	or a
-	jp z, __LABEL58
+	jp z, __LABEL59
 	inc (ix-2)
-__LABEL50:
+__LABEL51:
 	ld h, (ix-2)
 	ld a, (ix+11)
 	call __LTI8
 	or a
-	jp z, __LABEL53
+	jp z, __LABEL54
 _MoveRect__leave:
 	exx
 	ld hl, 12
@@ -811,12 +817,12 @@ _FillRect:
 	push hl
 	ld a, (ix+9)
 	ld (ix-2), a
-	jp __LABEL60
-__LABEL63:
+	jp __LABEL61
+__LABEL64:
 	ld a, (ix+5)
 	ld (ix-1), a
-	jp __LABEL65
-__LABEL68:
+	jp __LABEL66
+__LABEL69:
 	ld a, (ix+13)
 	push af
 	ld a, (ix-2)
@@ -825,15 +831,15 @@ __LABEL68:
 	push af
 	call _SetCell
 	inc (ix-1)
-__LABEL65:
+__LABEL66:
 	ld a, (ix+7)
 	cp (ix-1)
-	jp nc, __LABEL68
+	jp nc, __LABEL69
 	inc (ix-2)
-__LABEL60:
+__LABEL61:
 	ld a, (ix+11)
 	cp (ix-2)
-	jp nc, __LABEL63
+	jp nc, __LABEL64
 _FillRect__leave:
 	ld sp, ix
 	pop ix
@@ -868,7 +874,7 @@ _SetCell:
 	ld a, (hl)
 	ld (ix-1), a
 	or a
-	jp z, __LABEL70
+	jp z, __LABEL71
 	ld a, (ix+9)
 	push af
 	ld a, (ix+7)
@@ -885,7 +891,7 @@ _SetCell:
 	call __ARRAY
 	pop af
 	sub (hl)
-	jp z, __LABEL72
+	jp z, __LABEL73
 	ld a, (ix+5)
 	push af
 	ld a, (ix-1)
@@ -899,8 +905,8 @@ _SetCell:
 	call __ARRAY
 	pop af
 	ld (hl), a
-	jp __LABEL73
-__LABEL72:
+	jp __LABEL74
+__LABEL73:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -911,9 +917,9 @@ __LABEL72:
 	ld hl, _ops
 	call __ARRAY
 	ld (hl), 0
-__LABEL73:
-	jp __LABEL71
-__LABEL70:
+__LABEL74:
+	jp __LABEL72
+__LABEL71:
 	ld a, (ix+7)
 	ld l, a
 	ld h, 0
@@ -928,7 +934,7 @@ __LABEL70:
 	call __ARRAY
 	ld a, (hl)
 	sub (ix+9)
-	jp z, __LABEL75
+	jp z, __LABEL76
 	ld hl, _currentOp
 	inc (hl)
 	ld a, (ix+5)
@@ -984,8 +990,8 @@ __LABEL70:
 	call __ARRAY
 	ld a, (_currentOp)
 	ld (hl), a
-__LABEL75:
-__LABEL71:
+__LABEL76:
+__LABEL72:
 _SetCell__leave:
 	ld sp, ix
 	pop ix
@@ -1007,58 +1013,58 @@ _SetSymbol:
 	and 3
 	ld (ix-1), a
 	or a
-	jp nz, __LABEL76
+	jp nz, __LABEL77
 	xor a
 	ld (_workingSymbol.__DATA__ + 2), a
-	jp __LABEL77
-__LABEL76:
+	jp __LABEL78
+__LABEL77:
 	ld a, (ix-1)
 	inc a
 	ld (_workingSymbol.__DATA__ + 2), a
-__LABEL77:
+__LABEL78:
 	ld a, (ix+5)
 	srl a
 	srl a
 	and 3
 	ld (ix-1), a
 	or a
-	jp nz, __LABEL78
+	jp nz, __LABEL79
 	xor a
 	ld (_workingSymbol.__DATA__ + 0), a
-	jp __LABEL79
-__LABEL78:
-	ld a, (ix-1)
-	inc a
-	ld (_workingSymbol.__DATA__ + 0), a
+	jp __LABEL80
 __LABEL79:
-	ld a, (ix+7)
-	and 3
-	ld (ix-1), a
-	or a
-	jp nz, __LABEL80
-	xor a
-	ld (_workingSymbol.__DATA__ + 3), a
-	jp __LABEL81
+	ld a, (ix-1)
+	inc a
+	ld (_workingSymbol.__DATA__ + 0), a
 __LABEL80:
+	ld a, (ix+7)
+	and 3
+	ld (ix-1), a
+	or a
+	jp nz, __LABEL81
+	xor a
+	ld (_workingSymbol.__DATA__ + 3), a
+	jp __LABEL82
+__LABEL81:
 	ld a, (ix-1)
 	inc a
 	ld (_workingSymbol.__DATA__ + 3), a
-__LABEL81:
+__LABEL82:
 	ld a, (ix+7)
 	srl a
 	srl a
 	and 3
 	ld (ix-1), a
 	or a
-	jp nz, __LABEL82
+	jp nz, __LABEL83
 	xor a
 	ld (_workingSymbol.__DATA__ + 1), a
-	jp __LABEL83
-__LABEL82:
+	jp __LABEL84
+__LABEL83:
 	ld a, (ix-1)
 	inc a
 	ld (_workingSymbol.__DATA__ + 1), a
-__LABEL83:
+__LABEL84:
 _SetSymbol__leave:
 	ld sp, ix
 	pop ix
@@ -1107,18 +1113,18 @@ _SetLifes:
 	inc sp
 	ld a, 4
 	cp (ix+5)
-	jp nc, __LABEL84
+	jp nc, __LABEL85
 	ld (ix-1), 15
 	ld a, (ix+5)
 	sub 4
 	ld (ix+5), a
 	ld (ix-3), 1
-	jp __LABEL86
-__LABEL89:
+	jp __LABEL87
+__LABEL90:
 	ld a, (ix+5)
 	sub (ix-3)
 	ccf
-	jp nc, __LABEL92
+	jp nc, __LABEL93
 	ld a, (ix-2)
 	push af
 	ld a, (ix-3)
@@ -1127,29 +1133,29 @@ __LABEL89:
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL1250
-__LABEL1249:
+	jr z, __LABEL1253
+__LABEL1252:
 	add a, a
-	djnz __LABEL1249
-__LABEL1250:
+	djnz __LABEL1252
+__LABEL1253:
 	pop de
 	or d
 	ld (ix-2), a
-__LABEL92:
+__LABEL93:
 	inc (ix-3)
-__LABEL86:
+__LABEL87:
 	ld a, 4
 	cp (ix-3)
-	jp nc, __LABEL89
-	jp __LABEL85
-__LABEL84:
+	jp nc, __LABEL90
+	jp __LABEL86
+__LABEL85:
 	ld (ix-3), 1
-	jp __LABEL93
-__LABEL96:
+	jp __LABEL94
+__LABEL97:
 	ld a, (ix+5)
 	sub (ix-3)
 	ccf
-	jp nc, __LABEL99
+	jp nc, __LABEL100
 	ld a, (ix-1)
 	push af
 	ld a, (ix-3)
@@ -1158,21 +1164,21 @@ __LABEL96:
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL1252
-__LABEL1251:
+	jr z, __LABEL1255
+__LABEL1254:
 	add a, a
-	djnz __LABEL1251
-__LABEL1252:
+	djnz __LABEL1254
+__LABEL1255:
 	pop de
 	or d
 	ld (ix-1), a
-__LABEL99:
+__LABEL100:
 	inc (ix-3)
-__LABEL93:
+__LABEL94:
 	ld a, 4
 	cp (ix-3)
-	jp nc, __LABEL96
-__LABEL85:
+	jp nc, __LABEL97
+__LABEL86:
 	ld a, (ix-2)
 	push af
 	ld a, (ix-1)
@@ -1194,7 +1200,7 @@ _HideNextTitle:
 	push af
 	ld a, 19
 	call PRINT_AT
-	ld hl, __LABEL100
+	ld hl, __LABEL101
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
@@ -1210,7 +1216,7 @@ _ShowNextTitle:
 	push af
 	ld a, 19
 	call PRINT_AT
-	ld hl, __LABEL28
+	ld hl, __LABEL29
 	xor a
 	call __PRINTSTR
 	call PRINT_EOL
@@ -1230,10 +1236,10 @@ _UpdateScreen:
 	xor a
 	ld hl, (_currentOp - 1)
 	cp h
-	jp nc, __LABEL102
+	jp nc, __LABEL103
 	ld (ix-3), 1
-	jp __LABEL103
-__LABEL106:
+	jp __LABEL104
+__LABEL107:
 	ld a, (ix-3)
 	ld l, a
 	ld h, 0
@@ -1246,7 +1252,7 @@ __LABEL106:
 	ld a, (hl)
 	ld (ix-1), a
 	or a
-	jp z, __LABEL109
+	jp z, __LABEL110
 	ld a, (ix-3)
 	ld l, a
 	ld h, 0
@@ -1284,39 +1290,55 @@ __LABEL106:
 	call __ARRAY
 	pop af
 	ld (hl), a
-	ld a, (ix-2)
-	ld l, a
-	ld h, 0
-	ld a, l
-	push af
-	ld a, (ix-1)
-	ld l, a
-	ld h, 0
-	ld de, 7
-	add hl, de
-	ld a, l
-	call PRINT_AT
 	ld a, (ix-5)
-	add a, 144
-	push af
-	ld hl, 1
-	call CHR
-	ld a, 1
-	call __PRINTSTR
-	call PRINT_EOL
-__LABEL109:
+	or a
+	jp z, __LABEL111
+	ld a, (ix-1)
+	add a, 8
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	inc a
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _attribs
+	call __ARRAY
+	ld (hl), 56
+	jp __LABEL112
+__LABEL111:
+	ld a, (ix-1)
+	add a, 8
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld a, (ix-2)
+	inc a
+	ld l, a
+	ld h, 0
+	dec hl
+	push hl
+	ld hl, _attribs
+	call __ARRAY
+	ld (hl), 63
+__LABEL112:
+__LABEL110:
 	inc (ix-3)
-__LABEL103:
+__LABEL104:
 	ld a, (_currentOp)
 	cp (ix-3)
-	jp nc, __LABEL106
-__LABEL102:
+	jp nc, __LABEL107
+__LABEL103:
 	ld (ix-2), 1
-	jp __LABEL110
-__LABEL113:
+	jp __LABEL113
+__LABEL116:
 	ld (ix-1), 1
-	jp __LABEL115
-__LABEL118:
+	jp __LABEL118
+__LABEL121:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
@@ -1347,7 +1369,7 @@ __LABEL118:
 	ld (ix-5), a
 	ld a, (ix-4)
 	sub (ix-5)
-	jp z, __LABEL121
+	jp z, __LABEL124
 	ld a, (ix-5)
 	push af
 	ld a, (ix-2)
@@ -1386,24 +1408,24 @@ __LABEL118:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL121:
+__LABEL124:
 	inc (ix-1)
-__LABEL115:
+__LABEL118:
 	ld a, 4
 	cp (ix-1)
-	jp nc, __LABEL118
+	jp nc, __LABEL121
 	inc (ix-2)
-__LABEL110:
+__LABEL113:
 	ld a, 2
 	cp (ix-2)
-	jp nc, __LABEL113
+	jp nc, __LABEL116
 	ld de, (_screenScore)
 	ld hl, (_workingScore)
 	or a
 	sbc hl, de
 	ld a, h
 	or l
-	jp z, __LABEL123
+	jp z, __LABEL126
 	ld hl, (_workingScore)
 	ld (_screenScore), hl
 	ld a, 3
@@ -1412,7 +1434,7 @@ __LABEL110:
 	call PRINT_AT
 	ld a, 4
 	push af
-	ld hl, __LABEL124
+	ld hl, __LABEL127
 	call __LOADSTR
 	push hl
 	ld hl, (_screenScore)
@@ -1424,11 +1446,11 @@ __LABEL110:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL123:
+__LABEL126:
 	ld hl, (_workingLevel - 1)
 	ld a, (_screenLevel)
 	sub h
-	jp z, __LABEL126
+	jp z, __LABEL129
 	ld a, (_workingLevel)
 	ld (_screenLevel), a
 	ld a, 12
@@ -1437,7 +1459,7 @@ __LABEL123:
 	call PRINT_AT
 	ld a, 2
 	push af
-	ld hl, __LABEL124
+	ld hl, __LABEL127
 	call __LOADSTR
 	push hl
 	ld a, (_screenLevel)
@@ -1448,10 +1470,10 @@ __LABEL123:
 	ld a, 1
 	call __PRINTSTR
 	call PRINT_EOL
-__LABEL126:
+__LABEL129:
 	xor a
 	ld (_currentOp), a
-#line 401
+#line 415
 		di
 		ld de, _workingCells.__DATA__
 		ld a, 0
@@ -1461,7 +1483,7 @@ __LABEL126:
 		ld bc, 199
 		ldir
 		ei
-#line 410
+#line 424
 _UpdateScreen__leave:
 	ld sp, ix
 	pop ix
@@ -1473,11 +1495,11 @@ _ShowCurtain:
 	ld hl, 0
 	push hl
 	ld (ix-2), 1
-	jp __LABEL127
-__LABEL130:
+	jp __LABEL130
+__LABEL133:
 	ld (ix-1), 1
-	jp __LABEL132
-__LABEL135:
+	jp __LABEL135
+__LABEL138:
 	ld a, 1
 	push af
 	ld a, (ix-2)
@@ -1486,20 +1508,20 @@ __LABEL135:
 	push af
 	call _SetCell
 	inc (ix-1)
-__LABEL132:
+__LABEL135:
 	ld a, 10
 	cp (ix-1)
-	jp nc, __LABEL135
+	jp nc, __LABEL138
 	call _UpdateScreen
 	ld hl, 11888
 	push hl
 	ld hl, 0
 	call __BEEPER
 	inc (ix-2)
-__LABEL127:
+__LABEL130:
 	ld a, 20
 	cp (ix-2)
-	jp nc, __LABEL130
+	jp nc, __LABEL133
 _ShowCurtain__leave:
 	ld sp, ix
 	pop ix
@@ -1514,7 +1536,7 @@ _FillLine:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL138
+	jp z, __LABEL141
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1522,14 +1544,14 @@ _FillLine:
 	ld a, 1
 	push af
 	call _SetCell
-__LABEL138:
+__LABEL141:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL140
+	jp z, __LABEL143
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1537,14 +1559,14 @@ __LABEL138:
 	ld a, 2
 	push af
 	call _SetCell
-__LABEL140:
+__LABEL143:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL142
+	jp z, __LABEL145
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1552,14 +1574,14 @@ __LABEL140:
 	ld a, 3
 	push af
 	call _SetCell
-__LABEL142:
+__LABEL145:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL144
+	jp z, __LABEL147
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1567,14 +1589,14 @@ __LABEL142:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL144:
+__LABEL147:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL146
+	jp z, __LABEL149
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1582,14 +1604,14 @@ __LABEL144:
 	ld a, 5
 	push af
 	call _SetCell
-__LABEL146:
+__LABEL149:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL148
+	jp z, __LABEL151
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1597,14 +1619,14 @@ __LABEL146:
 	ld a, 6
 	push af
 	call _SetCell
-__LABEL148:
+__LABEL151:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL150
+	jp z, __LABEL153
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1612,14 +1634,14 @@ __LABEL148:
 	ld a, 7
 	push af
 	call _SetCell
-__LABEL150:
+__LABEL153:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL152
+	jp z, __LABEL155
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1627,14 +1649,14 @@ __LABEL150:
 	ld a, 8
 	push af
 	call _SetCell
-__LABEL152:
+__LABEL155:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL154
+	jp z, __LABEL157
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1642,14 +1664,14 @@ __LABEL152:
 	ld a, 9
 	push af
 	call _SetCell
-__LABEL154:
+__LABEL157:
 	ld l, (ix+6)
 	ld h, (ix+7)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL156
+	jp z, __LABEL159
 	xor a
 	push af
 	ld a, (ix+5)
@@ -1657,7 +1679,7 @@ __LABEL154:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL156:
+__LABEL159:
 _FillLine__leave:
 	ld sp, ix
 	pop ix
@@ -1675,8 +1697,8 @@ _ShowDeath:
 	push hl
 	inc sp
 	ld (ix-1), 1
-	jp __LABEL157
-__LABEL160:
+	jp __LABEL160
+__LABEL163:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -1693,10 +1715,10 @@ __LABEL160:
 	push af
 	call _FillLine
 	inc (ix-1)
-__LABEL157:
+__LABEL160:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL160
+	jp nc, __LABEL163
 	call _UpdateScreen
 	ld hl, 46
 	push hl
@@ -1715,8 +1737,8 @@ _ShowWin:
 	push hl
 	inc sp
 	ld (ix-1), 1
-	jp __LABEL162
-__LABEL165:
+	jp __LABEL165
+__LABEL168:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -1733,10 +1755,10 @@ __LABEL165:
 	push af
 	call _FillLine
 	inc (ix-1)
-__LABEL162:
+__LABEL165:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL165
+	jp nc, __LABEL168
 	call _UpdateScreen
 	ld hl, 220
 	push hl
@@ -1755,10 +1777,10 @@ _min:
 	ld a, (ix+7)
 	call __LTI8
 	or a
-	jp z, __LABEL167
+	jp z, __LABEL170
 	ld a, (ix+7)
 	jp _min__leave
-__LABEL167:
+__LABEL170:
 	ld a, (ix+5)
 _min__leave:
 	ld sp, ix
@@ -1777,10 +1799,10 @@ _max:
 	ld h, (ix+7)
 	call __LTI8
 	or a
-	jp z, __LABEL169
+	jp z, __LABEL172
 	ld a, (ix+7)
 	jp _max__leave
-__LABEL169:
+__LABEL172:
 	ld a, (ix+5)
 _max__leave:
 	ld sp, ix
@@ -1808,8 +1830,8 @@ _Explode:
 	ld a, (ix+7)
 	ld (ix-4), a
 	ld (ix-5), 1
-	jp __LABEL171
-__LABEL174:
+	jp __LABEL174
+__LABEL177:
 	ld a, 1
 	push af
 	ld a, 20
@@ -1878,16 +1900,16 @@ __LABEL174:
 	ld hl, 1
 	call __BEEPER
 	inc (ix-5)
-__LABEL171:
+__LABEL174:
 	ld h, (ix-5)
 	ld a, 3
 	call __LTI8
 	or a
-	jp z, __LABEL174
+	jp z, __LABEL177
 	ld a, (ix-1)
 	ld (ix-5), a
-	jp __LABEL176
-__LABEL179:
+	jp __LABEL179
+__LABEL182:
 	ld a, (ix-5)
 	ld h, 1
 	call __LTI8
@@ -1897,15 +1919,15 @@ __LABEL179:
 	call __LTI8
 	pop de
 	or d
-	jp nz, __LABEL180
+	jp nz, __LABEL183
 	ld a, (ix-5)
 	and 1
-	jp nz, __LABEL183
+	jp nz, __LABEL186
 	ld a, (ix-3)
 	ld h, 1
 	call __LTI8
 	or a
-	jp nz, __LABEL180
+	jp nz, __LABEL183
 	xor a
 	push af
 	ld a, (ix-3)
@@ -1913,13 +1935,13 @@ __LABEL179:
 	ld a, (ix-5)
 	push af
 	call _SetCell
-	jp __LABEL184
-__LABEL183:
+	jp __LABEL187
+__LABEL186:
 	ld h, (ix-4)
 	ld a, 20
 	call __LTI8
 	or a
-	jp nz, __LABEL180
+	jp nz, __LABEL183
 	xor a
 	push af
 	ld a, (ix-4)
@@ -1927,19 +1949,19 @@ __LABEL183:
 	ld a, (ix-5)
 	push af
 	call _SetCell
-__LABEL184:
-__LABEL180:
+__LABEL187:
+__LABEL183:
 	inc (ix-5)
-__LABEL176:
+__LABEL179:
 	ld h, (ix-5)
 	ld a, (ix-2)
 	call __LTI8
 	or a
-	jp z, __LABEL179
+	jp z, __LABEL182
 	ld a, (ix-3)
 	ld (ix-6), a
-	jp __LABEL189
-__LABEL192:
+	jp __LABEL192
+__LABEL195:
 	ld a, (ix-6)
 	ld h, 1
 	call __LTI8
@@ -1949,15 +1971,15 @@ __LABEL192:
 	call __LTI8
 	pop de
 	or d
-	jp nz, __LABEL193
+	jp nz, __LABEL196
 	ld a, (ix-6)
 	and 1
-	jp nz, __LABEL196
+	jp nz, __LABEL199
 	ld a, (ix-1)
 	ld h, 1
 	call __LTI8
 	or a
-	jp nz, __LABEL193
+	jp nz, __LABEL196
 	xor a
 	push af
 	ld a, (ix-6)
@@ -1965,13 +1987,13 @@ __LABEL192:
 	ld a, (ix-1)
 	push af
 	call _SetCell
-	jp __LABEL197
-__LABEL196:
+	jp __LABEL200
+__LABEL199:
 	ld h, (ix-2)
 	ld a, 10
 	call __LTI8
 	or a
-	jp nz, __LABEL193
+	jp nz, __LABEL196
 	xor a
 	push af
 	ld a, (ix-6)
@@ -1979,24 +2001,24 @@ __LABEL196:
 	ld a, (ix-2)
 	push af
 	call _SetCell
-__LABEL197:
-__LABEL193:
+__LABEL200:
+__LABEL196:
 	inc (ix-6)
-__LABEL189:
+__LABEL192:
 	ld h, (ix-6)
 	ld a, (ix-4)
 	call __LTI8
 	or a
-	jp z, __LABEL192
+	jp z, __LABEL195
 	call _UpdateScreen
 	ld hl, 5
 	call __PAUSE
 	ld a, (ix+9)
 	or a
-	jp nz, __LABEL203
+	jp nz, __LABEL206
 	ld (ix-5), 1
-	jp __LABEL204
-__LABEL207:
+	jp __LABEL207
+__LABEL210:
 	ld a, 20
 	push af
 	ld a, (ix-4)
@@ -2057,13 +2079,13 @@ __LABEL207:
 	ld hl, 1
 	call __PAUSE
 	inc (ix-5)
-__LABEL204:
+__LABEL207:
 	ld h, (ix-5)
 	ld a, 10
 	call __LTI8
 	or a
-	jp z, __LABEL207
-__LABEL203:
+	jp z, __LABEL210
+__LABEL206:
 _Explode__leave:
 	ld sp, ix
 	pop ix
@@ -2083,8 +2105,8 @@ _InitIntro:
 	push hl
 	inc sp
 	ld (ix-1), 1
-	jp __LABEL209
-__LABEL212:
+	jp __LABEL212
+__LABEL215:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -2104,7 +2126,7 @@ __LABEL212:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL215
+	jp z, __LABEL218
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2112,14 +2134,14 @@ __LABEL212:
 	ld a, 1
 	push af
 	call _SetCell
-__LABEL215:
+__LABEL218:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL217
+	jp z, __LABEL220
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2127,14 +2149,14 @@ __LABEL215:
 	ld a, 2
 	push af
 	call _SetCell
-__LABEL217:
+__LABEL220:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL219
+	jp z, __LABEL222
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2142,14 +2164,14 @@ __LABEL217:
 	ld a, 3
 	push af
 	call _SetCell
-__LABEL219:
+__LABEL222:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL221
+	jp z, __LABEL224
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2157,14 +2179,14 @@ __LABEL219:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL221:
+__LABEL224:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL223
+	jp z, __LABEL226
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2172,14 +2194,14 @@ __LABEL221:
 	ld a, 5
 	push af
 	call _SetCell
-__LABEL223:
+__LABEL226:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL225
+	jp z, __LABEL228
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2187,14 +2209,14 @@ __LABEL223:
 	ld a, 6
 	push af
 	call _SetCell
-__LABEL225:
+__LABEL228:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL227
+	jp z, __LABEL230
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2202,14 +2224,14 @@ __LABEL225:
 	ld a, 7
 	push af
 	call _SetCell
-__LABEL227:
+__LABEL230:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL229
+	jp z, __LABEL232
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2217,14 +2239,14 @@ __LABEL227:
 	ld a, 8
 	push af
 	call _SetCell
-__LABEL229:
+__LABEL232:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL231
+	jp z, __LABEL234
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2232,14 +2254,14 @@ __LABEL229:
 	ld a, 9
 	push af
 	call _SetCell
-__LABEL231:
+__LABEL234:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL233
+	jp z, __LABEL236
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2247,12 +2269,12 @@ __LABEL231:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL233:
+__LABEL236:
 	inc (ix-1)
-__LABEL209:
+__LABEL212:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL212
+	jp nc, __LABEL215
 	call _UpdateScreen
 _InitIntro__leave:
 	ld sp, ix
@@ -2278,8 +2300,8 @@ _LoadTetrisScreen:
 	push af
 	call _FillRect
 	ld (ix-1), 1
-	jp __LABEL234
-__LABEL237:
+	jp __LABEL237
+__LABEL240:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -2304,7 +2326,7 @@ __LABEL237:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL240
+	jp z, __LABEL243
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2313,14 +2335,14 @@ __LABEL237:
 	ld a, 1
 	push af
 	call _SetCell
-__LABEL240:
+__LABEL243:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL242
+	jp z, __LABEL245
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2329,14 +2351,14 @@ __LABEL240:
 	ld a, 2
 	push af
 	call _SetCell
-__LABEL242:
+__LABEL245:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL244
+	jp z, __LABEL247
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2345,14 +2367,14 @@ __LABEL242:
 	ld a, 3
 	push af
 	call _SetCell
-__LABEL244:
+__LABEL247:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL246
+	jp z, __LABEL249
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2361,14 +2383,14 @@ __LABEL244:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL246:
+__LABEL249:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL248
+	jp z, __LABEL251
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2377,14 +2399,14 @@ __LABEL246:
 	ld a, 5
 	push af
 	call _SetCell
-__LABEL248:
+__LABEL251:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL250
+	jp z, __LABEL253
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2393,14 +2415,14 @@ __LABEL248:
 	ld a, 6
 	push af
 	call _SetCell
-__LABEL250:
+__LABEL253:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL252
+	jp z, __LABEL255
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2409,14 +2431,14 @@ __LABEL250:
 	ld a, 7
 	push af
 	call _SetCell
-__LABEL252:
+__LABEL255:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL254
+	jp z, __LABEL257
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2425,14 +2447,14 @@ __LABEL252:
 	ld a, 8
 	push af
 	call _SetCell
-__LABEL254:
+__LABEL257:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL256
+	jp z, __LABEL259
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2441,14 +2463,14 @@ __LABEL254:
 	ld a, 9
 	push af
 	call _SetCell
-__LABEL256:
+__LABEL259:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL258
+	jp z, __LABEL261
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -2457,12 +2479,12 @@ __LABEL256:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL258:
+__LABEL261:
 	inc (ix-1)
-__LABEL234:
+__LABEL237:
 	ld a, 10
 	cp (ix-1)
-	jp nc, __LABEL237
+	jp nc, __LABEL240
 	call _UpdateScreen
 _LoadTetrisScreen__leave:
 	ld sp, ix
@@ -2480,8 +2502,8 @@ _ExpandPiece:
 	push hl
 	push hl
 	ld (ix-2), 1
-	jp __LABEL259
-__LABEL262:
+	jp __LABEL262
+__LABEL265:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
@@ -2789,19 +2811,19 @@ __LABEL262:
 	call __ARRAY
 	ld (hl), 0
 	inc (ix-2)
-__LABEL259:
+__LABEL262:
 	ld a, 4
 	cp (ix-2)
-	jp nc, __LABEL262
+	jp nc, __LABEL265
 	ld (ix-4), 1
-	jp __LABEL264
-__LABEL267:
+	jp __LABEL267
+__LABEL270:
 	ld (ix-2), 1
-	jp __LABEL269
-__LABEL272:
+	jp __LABEL272
+__LABEL275:
 	ld (ix-3), 1
-	jp __LABEL274
-__LABEL277:
+	jp __LABEL277
+__LABEL280:
 	ld a, (ix-4)
 	ld l, a
 	ld h, 0
@@ -2821,7 +2843,7 @@ __LABEL277:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL280
+	jp z, __LABEL283
 	ld hl, 0
 	push hl
 	ld a, (ix-4)
@@ -2835,7 +2857,7 @@ __LABEL277:
 	ld h, (ix-2)
 	call __LTI8
 	or a
-	jp z, __LABEL282
+	jp z, __LABEL285
 	ld a, (ix-2)
 	push af
 	ld hl, 0
@@ -2849,7 +2871,7 @@ __LABEL277:
 	call __ARRAY
 	pop af
 	ld (hl), a
-__LABEL282:
+__LABEL285:
 	ld hl, 1
 	push hl
 	ld a, (ix-4)
@@ -2863,7 +2885,7 @@ __LABEL282:
 	ld h, (ix-3)
 	call __LTI8
 	or a
-	jp z, __LABEL284
+	jp z, __LABEL287
 	ld a, (ix-3)
 	push af
 	ld hl, 1
@@ -2877,23 +2899,23 @@ __LABEL282:
 	call __ARRAY
 	pop af
 	ld (hl), a
-__LABEL284:
-__LABEL280:
+__LABEL287:
+__LABEL283:
 	inc (ix-3)
-__LABEL274:
+__LABEL277:
 	ld a, 4
 	cp (ix-3)
-	jp nc, __LABEL277
+	jp nc, __LABEL280
 	inc (ix-2)
-__LABEL269:
+__LABEL272:
 	ld a, 4
 	cp (ix-2)
-	jp nc, __LABEL272
+	jp nc, __LABEL275
 	inc (ix-4)
-__LABEL264:
+__LABEL267:
 	ld a, 4
 	cp (ix-4)
-	jp nc, __LABEL267
+	jp nc, __LABEL270
 _ExpandPiece__leave:
 	ld sp, ix
 	pop ix
@@ -2912,7 +2934,7 @@ _WillCollide:
 	push hl
 	ld a, (ix+9)
 	or a
-	jp z, __LABEL286
+	jp z, __LABEL289
 	ld a, (ix+5)
 	add a, (ix+9)
 	ld (ix-1), a
@@ -2938,14 +2960,14 @@ _WillCollide:
 	call __LTI8
 	pop de
 	or d
-	jp z, __LABEL288
+	jp z, __LABEL291
 	ld a, 1
 	jp _WillCollide__leave
-__LABEL288:
-__LABEL286:
+__LABEL291:
+__LABEL289:
 	ld (ix-2), 1
-	jp __LABEL289
-__LABEL292:
+	jp __LABEL292
+__LABEL295:
 	ld a, (ix-2)
 	add a, (ix+7)
 	add a, (ix+11)
@@ -2954,13 +2976,13 @@ __LABEL292:
 	ld h, 1
 	call __LTI8
 	or a
-	jp nz, __LABEL293
+	jp nz, __LABEL296
 	ld a, (ix-2)
 	add a, (ix+11)
 	ld (ix-4), a
 	ld (ix-1), 1
-	jp __LABEL296
-__LABEL299:
+	jp __LABEL299
+__LABEL302:
 	ld a, (ix-1)
 	add a, (ix+5)
 	add a, (ix+9)
@@ -3047,11 +3069,11 @@ __LABEL299:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1253
+	jr z, __LABEL1256
 	ld a, h
-__LABEL1253:
+__LABEL1256:
 	or a
-	jp z, __LABEL302
+	jp z, __LABEL305
 	ld a, (ix-6)
 	ld h, 1
 	call __LTI8
@@ -3086,26 +3108,26 @@ __LABEL1253:
 	call __ARRAY
 	pop af
 	or (hl)
-	jp z, __LABEL304
+	jp z, __LABEL307
 	ld a, 1
 	jp _WillCollide__leave
-__LABEL304:
-__LABEL302:
+__LABEL307:
+__LABEL305:
 	inc (ix-1)
-__LABEL296:
+__LABEL299:
 	ld h, (ix-1)
 	ld a, 4
 	call __LTI8
 	or a
-	jp z, __LABEL299
-__LABEL293:
+	jp z, __LABEL302
+__LABEL296:
 	inc (ix-2)
-__LABEL289:
+__LABEL292:
 	ld h, (ix-2)
 	ld a, 4
 	call __LTI8
 	or a
-	jp z, __LABEL292
+	jp z, __LABEL295
 	xor a
 _WillCollide__leave:
 	exx
@@ -3119,8 +3141,8 @@ _DrawFigure:
 	push hl
 	push hl
 	ld (ix-2), 1
-	jp __LABEL305
-__LABEL308:
+	jp __LABEL308
+__LABEL311:
 	ld a, (ix-2)
 	add a, (ix+7)
 	dec a
@@ -3128,10 +3150,10 @@ __LABEL308:
 	ld h, 1
 	call __LTI8
 	or a
-	jp nz, __LABEL309
+	jp nz, __LABEL312
 	ld (ix-1), 1
-	jp __LABEL312
-__LABEL315:
+	jp __LABEL315
+__LABEL318:
 	ld a, (ix-1)
 	add a, (ix+5)
 	dec a
@@ -3139,7 +3161,7 @@ __LABEL315:
 	ld h, 1
 	call __LTI8
 	or a
-	jp nz, __LABEL316
+	jp nz, __LABEL319
 	ld a, (ix+9)
 	ld l, a
 	ld h, 0
@@ -3159,7 +3181,7 @@ __LABEL315:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL320
+	jp z, __LABEL323
 	ld a, (ix+11)
 	push af
 	ld a, (ix-4)
@@ -3167,19 +3189,19 @@ __LABEL315:
 	ld a, (ix-3)
 	push af
 	call _SetCell
-__LABEL320:
-__LABEL316:
+__LABEL323:
+__LABEL319:
 	inc (ix-1)
-__LABEL312:
+__LABEL315:
 	ld a, 4
 	cp (ix-1)
-	jp nc, __LABEL315
-__LABEL309:
+	jp nc, __LABEL318
+__LABEL312:
 	inc (ix-2)
-__LABEL305:
+__LABEL308:
 	ld a, 4
 	cp (ix-2)
-	jp nc, __LABEL308
+	jp nc, __LABEL311
 _DrawFigure__leave:
 	ld sp, ix
 	pop ix
@@ -3200,12 +3222,12 @@ _FindTop:
 	push hl
 	inc sp
 	ld (ix-1), 20
-	jp __LABEL321
-__LABEL324:
+	jp __LABEL324
+__LABEL327:
 	ld (ix-3), 1
 	ld (ix-2), 1
-	jp __LABEL326
-__LABEL329:
+	jp __LABEL329
+__LABEL332:
 	ld a, (ix-1)
 	ld l, a
 	add a, a
@@ -3224,38 +3246,38 @@ __LABEL329:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL332
+	jp z, __LABEL335
 	ld (ix-3), 0
-	jp __LABEL328
-__LABEL332:
+	jp __LABEL331
+__LABEL335:
 	inc (ix-2)
-__LABEL326:
+__LABEL329:
 	ld h, (ix-2)
 	ld a, 10
 	call __LTI8
 	or a
-	jp z, __LABEL329
-__LABEL328:
+	jp z, __LABEL332
+__LABEL331:
 	ld a, (ix-3)
 	or a
-	jp z, __LABEL334
+	jp z, __LABEL337
 	ld a, (ix-1)
 	sub 20
-	jp nz, __LABEL336
+	jp nz, __LABEL339
 	xor a
 	jp _FindTop__leave
-__LABEL336:
+__LABEL339:
 	ld a, (ix-1)
 	inc a
 	jp _FindTop__leave
-__LABEL334:
+__LABEL337:
 	dec (ix-1)
-__LABEL321:
+__LABEL324:
 	ld a, (ix-1)
 	ld h, 1
 	call __LTI8
 	or a
-	jp z, __LABEL324
+	jp z, __LABEL327
 	xor a
 _FindTop__leave:
 	ld sp, ix
@@ -3272,8 +3294,8 @@ _EraseLines:
 	call _FindTop
 	ld (ix-1), a
 	ld (ix-4), 3
-	jp __LABEL337
-__LABEL340:
+	jp __LABEL340
+__LABEL343:
 	ld (ix-2), 1
 	ld a, (ix-4)
 	add a, (ix+5)
@@ -3286,10 +3308,10 @@ __LABEL340:
 	call __LTI8
 	pop de
 	or d
-	jp nz, __LABEL341
+	jp nz, __LABEL344
 	ld (ix-5), 1
-	jp __LABEL344
-__LABEL347:
+	jp __LABEL347
+__LABEL350:
 	ld a, (ix-3)
 	ld l, a
 	add a, a
@@ -3306,19 +3328,19 @@ __LABEL347:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp nz, __LABEL350
+	jp nz, __LABEL353
 	ld (ix-2), 0
-	jp __LABEL346
-__LABEL350:
+	jp __LABEL349
+__LABEL353:
 	inc (ix-5)
-__LABEL344:
+__LABEL347:
 	ld a, 10
 	cp (ix-5)
-	jp nc, __LABEL347
-__LABEL346:
+	jp nc, __LABEL350
+__LABEL349:
 	ld a, (ix-2)
 	or a
-	jp z, __LABEL352
+	jp z, __LABEL355
 	inc (ix+5)
 	ld a, 1
 	push af
@@ -3340,15 +3362,15 @@ __LABEL346:
 	ld hl, 82
 	call __BEEPER
 	inc (ix-6)
-__LABEL352:
-__LABEL341:
+__LABEL355:
+__LABEL344:
 	dec (ix-4)
-__LABEL337:
+__LABEL340:
 	ld a, (ix-4)
 	ld h, 0
 	call __LTI8
 	or a
-	jp z, __LABEL340
+	jp z, __LABEL343
 	ld a, (ix-6)
 _EraseLines__leave:
 	ld sp, ix
@@ -3376,7 +3398,7 @@ _RunTetris:
 	ld bc, -3
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1254
+	ld hl, __LABEL1257
 	ld bc, 1
 	ldir
 	push ix
@@ -3384,12 +3406,12 @@ _RunTetris:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1255
+	ld hl, __LABEL1258
 	ld bc, 1
 	ldir
 	ld a, (_playedTetrisMusic)
 	or a
-	jp nz, __LABEL354
+	jp nz, __LABEL357
 	ld hl, 100
 	push hl
 	ld hl, _tetrisIntroMusic
@@ -3397,7 +3419,7 @@ _RunTetris:
 	call _PlayMusic
 	ld a, 1
 	ld (_playedTetrisMusic), a
-__LABEL354:
+__LABEL357:
 	ld a, (ix+5)
 	ld h, 10
 	call __DIVU8_FAST
@@ -3406,7 +3428,7 @@ __LABEL354:
 	ld a, 40
 	call __DIVU8_FAST
 	ld (ix-1), a
-	ld de, __LABEL355
+	ld de, __LABEL358
 	ld bc, -17
 	call __PSTORE_STR
 	call RND
@@ -3511,13 +3533,13 @@ __LABEL354:
 	inc a
 	push af
 	call _LoadTetrisScreen
-__LABEL356:
+__LABEL359:
 	ld a, (ix-2)
 	or a
-	jp nz, __LABEL357
+	jp nz, __LABEL360
 	ld a, (ix-3)
 	sub 255
-	jp nz, __LABEL359
+	jp nz, __LABEL362
 	ld (ix-4), 1
 	ld a, (ix-10)
 	ld (ix-3), a
@@ -3562,9 +3584,9 @@ __LABEL356:
 	call __ARRAY
 	ld a, (hl)
 	ld b, 4
-__LABEL1256:
+__LABEL1259:
 	srl a
-	djnz __LABEL1256
+	djnz __LABEL1259
 	push af
 	ld hl, 0
 	push hl
@@ -3579,12 +3601,12 @@ __LABEL1256:
 	call __ARRAY
 	ld a, (hl)
 	ld b, 4
-__LABEL1257:
+__LABEL1260:
 	srl a
-	djnz __LABEL1257
+	djnz __LABEL1260
 	push af
 	call _SetSymbol
-__LABEL359:
+__LABEL362:
 	ld a, (ix-4)
 	push af
 	ld a, (ix-4)
@@ -3599,15 +3621,15 @@ __LABEL359:
 	push af
 	call _WillCollide
 	or a
-	jp z, __LABEL360
+	jp z, __LABEL363
 	ld a, (ix-5)
 	ld h, 1
 	call __LTI8
 	or a
-	jp z, __LABEL362
+	jp z, __LABEL365
 	ld (ix-2), 1
-	jp __LABEL363
-__LABEL362:
+	jp __LABEL366
+__LABEL365:
 	ld a, 1
 	push af
 	ld a, (ix-4)
@@ -3622,20 +3644,20 @@ __LABEL362:
 	call _EraseLines
 	ld (ix-7), a
 	or a
-	jp z, __LABEL364
+	jp z, __LABEL367
 	ld a, (ix-7)
 	dec a
-	jp nz, __LABEL366
+	jp nz, __LABEL369
 	ld l, (ix-15)
 	ld h, (ix-14)
 	inc hl
 	ld (ix-15), l
 	ld (ix-14), h
-	jp __LABEL367
-__LABEL366:
+	jp __LABEL370
+__LABEL369:
 	ld a, (ix-7)
 	sub 2
-	jp nz, __LABEL368
+	jp nz, __LABEL371
 	ld l, (ix-15)
 	ld h, (ix-14)
 	inc hl
@@ -3643,55 +3665,55 @@ __LABEL366:
 	inc hl
 	ld (ix-15), l
 	ld (ix-14), h
-	jp __LABEL369
-__LABEL368:
+	jp __LABEL372
+__LABEL371:
 	ld a, (ix-7)
 	sub 3
-	jp nz, __LABEL370
+	jp nz, __LABEL373
 	ld l, (ix-15)
 	ld h, (ix-14)
 	ld de, 5
 	add hl, de
 	ld (ix-15), l
 	ld (ix-14), h
-	jp __LABEL371
-__LABEL370:
+	jp __LABEL374
+__LABEL373:
 	ld a, (ix-7)
 	sub 4
-	jp nz, __LABEL373
+	jp nz, __LABEL376
 	ld l, (ix-15)
 	ld h, (ix-14)
 	ld de, 10
 	add hl, de
 	ld (ix-15), l
 	ld (ix-14), h
-__LABEL373:
-__LABEL371:
-__LABEL369:
-__LABEL367:
+__LABEL376:
+__LABEL374:
+__LABEL372:
+__LABEL370:
 	ld a, (ix-12)
 	add a, (ix-7)
 	ld (ix-12), a
 	sub (ix-13)
 	ccf
-	jp nc, __LABEL375
+	jp nc, __LABEL378
 	ld a, (ix+5)
 	sub 99
-	jp nz, __LABEL377
+	jp nz, __LABEL380
 	ld a, 1
 	jp _RunTetris__leave
-__LABEL377:
+__LABEL380:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	sub 9
-	jp nz, __LABEL379
+	jp nz, __LABEL382
 	ld hl, 60
 	push hl
 	ld hl, _tetrisLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL379:
+__LABEL382:
 	call _ShowCurtain
 	ld hl, 908
 	push hl
@@ -3743,23 +3765,23 @@ __LABEL379:
 	inc a
 	push af
 	call _LoadTetrisScreen
-__LABEL375:
+__LABEL378:
 	ld l, (ix-15)
 	ld h, (ix-14)
 	push hl
 	call _SetScore
 	call _UpdateScreen
-	jp __LABEL365
-__LABEL364:
+	jp __LABEL368
+__LABEL367:
 	ld hl, 2949
 	push hl
 	ld hl, 6
 	call __BEEPER
-__LABEL365:
+__LABEL368:
 	ld (ix-3), 255
+__LABEL366:
+	jp __LABEL364
 __LABEL363:
-	jp __LABEL361
-__LABEL360:
 	xor a
 	push af
 	ld a, (ix-4)
@@ -3781,7 +3803,7 @@ __LABEL360:
 	call _DrawFigure
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL380:
+__LABEL383:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -3790,7 +3812,7 @@ __LABEL380:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL381
+	jp nc, __LABEL384
 	call INKEY
 	ld d, h
 	ld e, l
@@ -3799,14 +3821,14 @@ __LABEL380:
 	dec (ix-9)
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	ld h, (ix-8)
 	or a
-	jr z, __LABEL1258
+	jr z, __LABEL1261
 	ld a, h
-__LABEL1258:
+__LABEL1261:
 	push af
 	ld a, 1
 	cp (ix-9)
@@ -3814,26 +3836,26 @@ __LABEL1258:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1259
+	jr z, __LABEL1262
 	ld a, h
-__LABEL1259:
+__LABEL1262:
 	or a
-	jp nz, __LABEL380
+	jp nz, __LABEL383
 	ld (ix-8), 0
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL385
+	jp z, __LABEL388
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL387
+	jp z, __LABEL390
 	ld a, (ix-4)
 	push af
 	ld a, (ix-4)
@@ -3848,7 +3870,7 @@ __LABEL1259:
 	push af
 	call _WillCollide
 	or a
-	jp nz, __LABEL390
+	jp nz, __LABEL393
 	xor a
 	push af
 	ld a, (ix-4)
@@ -3871,16 +3893,16 @@ __LABEL1259:
 	call _UpdateScreen
 	ld (ix-8), 1
 	ld (ix-9), 70
+__LABEL393:
+	jp __LABEL391
 __LABEL390:
-	jp __LABEL388
-__LABEL387:
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL392
+	jp z, __LABEL395
 	ld a, (ix-4)
 	push af
 	ld a, (ix-4)
@@ -3895,7 +3917,7 @@ __LABEL387:
 	push af
 	call _WillCollide
 	or a
-	jp nz, __LABEL395
+	jp nz, __LABEL398
 	xor a
 	push af
 	ld a, (ix-4)
@@ -3918,32 +3940,32 @@ __LABEL387:
 	call _UpdateScreen
 	ld (ix-8), 1
 	ld (ix-9), 70
+__LABEL398:
+	jp __LABEL396
 __LABEL395:
-	jp __LABEL393
-__LABEL392:
-	ld l, (ix-17)
-	ld h, (ix-16)
-	ld de, __LABEL396
-	xor a
-	call __STREQ
-	or a
-	jp nz, __LABEL381
 	ld l, (ix-17)
 	ld h, (ix-16)
 	ld de, __LABEL399
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL400
+	jp nz, __LABEL384
+	ld l, (ix-17)
+	ld h, (ix-16)
+	ld de, __LABEL402
+	xor a
+	call __STREQ
+	or a
+	jp z, __LABEL403
 	ld a, (ix-4)
 	inc a
 	ld (ix-11), a
 	ld h, a
 	ld a, 4
 	cp h
-	jp nc, __LABEL403
+	jp nc, __LABEL406
 	ld (ix-11), 1
-__LABEL403:
+__LABEL406:
 	ld a, (ix-11)
 	push af
 	ld a, (ix-4)
@@ -3958,7 +3980,7 @@ __LABEL403:
 	push af
 	call _WillCollide
 	or a
-	jp nz, __LABEL405
+	jp nz, __LABEL408
 	xor a
 	push af
 	ld a, (ix-4)
@@ -3982,28 +4004,28 @@ __LABEL403:
 	call _UpdateScreen
 	ld (ix-8), 1
 	ld (ix-9), 200
-__LABEL405:
-	jp __LABEL401
-__LABEL400:
+__LABEL408:
+	jp __LABEL404
+__LABEL403:
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL406
+	ld de, __LABEL409
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL408
+	jp z, __LABEL411
 	xor a
 	jp _RunTetris__leave
-__LABEL408:
-__LABEL401:
-__LABEL393:
+__LABEL411:
+__LABEL404:
+__LABEL396:
+__LABEL391:
 __LABEL388:
-__LABEL385:
-	jp __LABEL380
-__LABEL381:
-__LABEL361:
-	jp __LABEL356
-__LABEL357:
+	jp __LABEL383
+__LABEL384:
+__LABEL364:
+	jp __LABEL359
+__LABEL360:
 	ld hl, 2949
 	push hl
 	ld hl, 28
@@ -4055,8 +4077,8 @@ _LoadArkanoidScreen:
 	push af
 	call _FillRect
 	ld (ix-1), 1
-	jp __LABEL409
-__LABEL412:
+	jp __LABEL412
+__LABEL415:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -4081,7 +4103,7 @@ __LABEL412:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL415
+	jp z, __LABEL418
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4090,14 +4112,14 @@ __LABEL412:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL415:
+__LABEL418:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL417
+	jp z, __LABEL420
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4106,14 +4128,14 @@ __LABEL415:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL417:
+__LABEL420:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL419
+	jp z, __LABEL422
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4122,14 +4144,14 @@ __LABEL417:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL419:
+__LABEL422:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL421
+	jp z, __LABEL424
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4138,14 +4160,14 @@ __LABEL419:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL421:
+__LABEL424:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL423
+	jp z, __LABEL426
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4154,14 +4176,14 @@ __LABEL421:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL423:
+__LABEL426:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL425
+	jp z, __LABEL428
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4170,14 +4192,14 @@ __LABEL423:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL425:
+__LABEL428:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL427
+	jp z, __LABEL430
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4186,14 +4208,14 @@ __LABEL425:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL427:
+__LABEL430:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL429
+	jp z, __LABEL432
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4202,14 +4224,14 @@ __LABEL427:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL429:
+__LABEL432:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL431
+	jp z, __LABEL434
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4218,14 +4240,14 @@ __LABEL429:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL431:
+__LABEL434:
 	ld l, (ix-4)
 	ld h, (ix-3)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL433
+	jp z, __LABEL436
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -4234,12 +4256,12 @@ __LABEL431:
 	push af
 	call _SetCell
 	inc (ix-2)
-__LABEL433:
+__LABEL436:
 	inc (ix-1)
-__LABEL409:
+__LABEL412:
 	ld a, 12
 	cp (ix-1)
-	jp nc, __LABEL412
+	jp nc, __LABEL415
 	call _UpdateScreen
 	ld a, (ix-2)
 _LoadArkanoidScreen__leave:
@@ -4259,7 +4281,7 @@ _GetSpeedX:
 	inc sp
 	ld a, (ix+5)
 	or a
-	jp nz, __LABEL434
+	jp nz, __LABEL437
 	call RND
 	push bc
 	push de
@@ -4272,20 +4294,20 @@ _GetSpeedX:
 	ld a, l
 	ld (ix-1), a
 	cp 20
-	jp nc, __LABEL436
+	jp nc, __LABEL439
 	ld a, 081h
 	ld de, 00080h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL436:
+__LABEL439:
 	ld a, 080h
 	ld de, 00080h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL434:
+__LABEL437:
 	ld a, (ix+5)
 	dec a
-	jp nz, __LABEL438
+	jp nz, __LABEL441
 	call RND
 	push bc
 	push de
@@ -4298,25 +4320,25 @@ __LABEL434:
 	ld a, l
 	ld (ix-1), a
 	cp 10
-	jp nc, __LABEL440
+	jp nc, __LABEL443
 	ld a, 080h
 	ld de, 00080h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL440:
+__LABEL443:
 	ld a, (ix-1)
 	cp 20
-	jp nc, __LABEL442
+	jp nc, __LABEL445
 	ld a, 000h
 	ld de, 00000h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL442:
+__LABEL445:
 	ld a, 080h
 	ld de, 00000h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL438:
+__LABEL441:
 	call RND
 	push bc
 	push de
@@ -4329,12 +4351,12 @@ __LABEL438:
 	ld a, l
 	ld (ix-1), a
 	cp 20
-	jp nc, __LABEL444
+	jp nc, __LABEL447
 	ld a, 081h
 	ld de, 00000h
 	ld bc, 00000h
 	jp _GetSpeedX__leave
-__LABEL444:
+__LABEL447:
 	ld a, 080h
 	ld de, 00000h
 	ld bc, 00000h
@@ -4365,12 +4387,12 @@ _GetSpeedY:
 	ld a, l
 	ld (ix-1), a
 	cp 20
-	jp nc, __LABEL446
+	jp nc, __LABEL449
 	ld a, 081h
 	ld de, 00080h
 	ld bc, 00000h
 	jp _GetSpeedY__leave
-__LABEL446:
+__LABEL449:
 	ld a, 080h
 	ld de, 00080h
 	ld bc, 00000h
@@ -4396,12 +4418,12 @@ _RunArkanoid:
 	ld bc, -3
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1260
+	ld hl, __LABEL1263
 	ld bc, 1
 	ldir
 	ld a, (_playedArkaMusic)
 	or a
-	jp nz, __LABEL449
+	jp nz, __LABEL452
 	ld a, 1
 	ld (_playedArkaMusic), a
 	ld hl, 96
@@ -4409,23 +4431,23 @@ _RunArkanoid:
 	ld hl, _arkaIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL449:
-	ld de, __LABEL355
+__LABEL452:
+	ld de, __LABEL358
 	ld bc, -21
 	call __PSTORE_STR
 	call _HideNextTitle
 	ld a, (ix-3)
 	push af
 	call _SetLifes
-__LABEL450:
+__LABEL453:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL451
+	jp nz, __LABEL454
 	ld a, (ix-4)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL453
+	jp nc, __LABEL456
 	xor a
 	push af
 	ld a, 20
@@ -4437,13 +4459,13 @@ __LABEL450:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL453:
+__LABEL456:
 	ld a, (ix-5)
 	ld h, a
 	xor a
 	call __LTI8
 	or a
-	jp z, __LABEL455
+	jp z, __LABEL458
 	xor a
 	push af
 	ld a, (ix-6)
@@ -4451,7 +4473,7 @@ __LABEL453:
 	ld a, (ix-5)
 	push af
 	call _SetCell
-__LABEL455:
+__LABEL458:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
@@ -4469,7 +4491,7 @@ __LABEL455:
 	ld a, (ix+5)
 	push af
 	call _SetLevel
-__LABEL456:
+__LABEL459:
 	ld a, (ix-7)
 	ld h, a
 	xor a
@@ -4484,11 +4506,11 @@ __LABEL456:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1261
+	jr z, __LABEL1264
 	ld a, h
-__LABEL1261:
+__LABEL1264:
 	or a
-	jp z, __LABEL457
+	jp z, __LABEL460
 	ld (ix-4), 4
 	ld a, 083h
 	ld de, 00040h
@@ -4537,14 +4559,14 @@ __LABEL1261:
 	ld e, l
 	ld bc, -21
 	call __PSTORE_STR2
-__LABEL458:
+__LABEL461:
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL399
+	ld de, __LABEL402
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL459
+	jp z, __LABEL462
 	call INKEY
 	ld d, h
 	ld e, l
@@ -4557,14 +4579,14 @@ __LABEL458:
 	ld (ix-18), h
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	ld h, (ix-13)
 	or a
-	jr z, __LABEL1262
+	jr z, __LABEL1265
 	ld a, h
-__LABEL1262:
+__LABEL1265:
 	push af
 	ld l, (ix-19)
 	ld h, (ix-18)
@@ -4576,29 +4598,29 @@ __LABEL1262:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1263
+	jr z, __LABEL1266
 	ld a, h
-__LABEL1263:
+__LABEL1266:
 	or a
-	jp nz, __LABEL458
+	jp nz, __LABEL461
 	ld (ix-13), 0
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL463
+	jp z, __LABEL466
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL464
+	jp z, __LABEL467
 	ld a, 1
 	cp (ix-4)
-	jp nc, __LABEL467
+	jp nc, __LABEL470
 	xor a
 	push af
 	ld a, 20
@@ -4647,19 +4669,19 @@ __LABEL1263:
 	ld (ix-19), 50
 	ld (ix-18), 0
 	ld (ix-13), 1
+__LABEL470:
+	jp __LABEL468
 __LABEL467:
-	jp __LABEL465
-__LABEL464:
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL468
+	jp z, __LABEL471
 	ld a, (ix-4)
 	cp 8
-	jp nc, __LABEL471
+	jp nc, __LABEL474
 	xor a
 	push af
 	ld a, 20
@@ -4708,30 +4730,30 @@ __LABEL464:
 	ld (ix-19), 50
 	ld (ix-18), 0
 	ld (ix-13), 1
+__LABEL474:
+	jp __LABEL472
 __LABEL471:
-	jp __LABEL469
-__LABEL468:
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL406
+	ld de, __LABEL409
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL473
+	jp z, __LABEL476
 	xor a
 	jp _RunArkanoid__leave
-__LABEL473:
-__LABEL469:
-__LABEL465:
-__LABEL463:
-	jp __LABEL458
-__LABEL459:
-__LABEL474:
-	ld (ix-14), 1
 __LABEL476:
+__LABEL472:
+__LABEL468:
+__LABEL466:
+	jp __LABEL461
+__LABEL462:
+__LABEL477:
+	ld (ix-14), 1
+__LABEL479:
 	ld a, (ix-14)
 	or a
-	jp z, __LABEL477
+	jp z, __LABEL480
 	ld (ix-14), 0
 	push ix
 	pop hl
@@ -4817,47 +4839,12 @@ __LABEL476:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1264
-	ld a, h
-__LABEL1264:
-	push af
-	ld h, (ix-5)
-	ld a, 1
-	call __LTI8
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL1265
-	ld a, h
-__LABEL1265:
-	push af
-	ld h, (ix-6)
-	ld a, 1
-	call __LTI8
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL1266
-	ld a, h
-__LABEL1266:
-	push af
-	ld a, (ix-8)
-	ld h, a
-	xor a
-	call __LTI8
-	push af
-	ld a, (ix-9)
-	ld h, 0
-	call __LTI8
-	ld h, a
-	pop af
-	or a
 	jr z, __LABEL1267
 	ld a, h
 __LABEL1267:
 	push af
-	ld a, (ix-5)
-	ld h, 10
+	ld h, (ix-5)
+	ld a, 1
 	call __LTI8
 	ld h, a
 	pop af
@@ -4875,6 +4862,41 @@ __LABEL1268:
 	jr z, __LABEL1269
 	ld a, h
 __LABEL1269:
+	push af
+	ld a, (ix-8)
+	ld h, a
+	xor a
+	call __LTI8
+	push af
+	ld a, (ix-9)
+	ld h, 0
+	call __LTI8
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1270
+	ld a, h
+__LABEL1270:
+	push af
+	ld a, (ix-5)
+	ld h, 10
+	call __LTI8
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1271
+	ld a, h
+__LABEL1271:
+	push af
+	ld h, (ix-6)
+	ld a, 1
+	call __LTI8
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1272
+	ld a, h
+__LABEL1272:
 	pop de
 	or d
 	push af
@@ -4889,50 +4911,12 @@ __LABEL1269:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1270
-	ld a, h
-__LABEL1270:
-	push af
-	ld h, (ix-5)
-	ld a, 1
-	call __LTI8
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL1271
-	ld a, h
-__LABEL1271:
-	push af
-	ld a, (ix-6)
-	ld h, 12
-	call __LTI8
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL1272
-	ld a, h
-__LABEL1272:
-	pop de
-	or d
-	push af
-	ld a, (ix-8)
-	ld h, a
-	xor a
-	call __LTI8
-	push af
-	ld a, (ix-9)
-	ld h, a
-	xor a
-	call __LTI8
-	ld h, a
-	pop af
-	or a
 	jr z, __LABEL1273
 	ld a, h
 __LABEL1273:
 	push af
-	ld a, (ix-5)
-	ld h, 10
+	ld h, (ix-5)
+	ld a, 1
 	call __LTI8
 	ld h, a
 	pop af
@@ -4952,14 +4936,52 @@ __LABEL1274:
 __LABEL1275:
 	pop de
 	or d
+	push af
+	ld a, (ix-8)
+	ld h, a
+	xor a
+	call __LTI8
+	push af
+	ld a, (ix-9)
+	ld h, a
+	xor a
+	call __LTI8
 	ld h, a
 	pop af
 	or a
 	jr z, __LABEL1276
 	ld a, h
 __LABEL1276:
+	push af
+	ld a, (ix-5)
+	ld h, 10
+	call __LTI8
+	ld h, a
+	pop af
 	or a
-	jp z, __LABEL478
+	jr z, __LABEL1277
+	ld a, h
+__LABEL1277:
+	push af
+	ld a, (ix-6)
+	ld h, 12
+	call __LTI8
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1278
+	ld a, h
+__LABEL1278:
+	pop de
+	or d
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1279
+	ld a, h
+__LABEL1279:
+	or a
+	jp z, __LABEL481
 	ld a, (ix-6)
 	add a, (ix-9)
 	ld l, a
@@ -4979,7 +5001,7 @@ __LABEL1276:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL481
+	jp z, __LABEL484
 	xor a
 	push af
 	ld a, (ix-6)
@@ -5008,7 +5030,7 @@ __LABEL1276:
 	ld hl, -41
 	call __PSTOREF
 	ld (ix-14), 1
-__LABEL481:
+__LABEL484:
 	ld a, (ix-6)
 	ld l, a
 	add a, a
@@ -5028,7 +5050,7 @@ __LABEL481:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL483
+	jp z, __LABEL486
 	xor a
 	push af
 	ld a, (ix-6)
@@ -5057,10 +5079,10 @@ __LABEL481:
 	ld hl, -36
 	call __PSTOREF
 	ld (ix-14), 1
-__LABEL483:
+__LABEL486:
 	ld a, (ix-14)
 	or a
-	jp nz, __LABEL485
+	jp nz, __LABEL488
 	call RND
 	push bc
 	push de
@@ -5073,7 +5095,7 @@ __LABEL483:
 	ld a, l
 	ld (ix-15), a
 	cp 10
-	jp nc, __LABEL486
+	jp nc, __LABEL489
 	push ix
 	pop hl
 	ld de, -41
@@ -5082,11 +5104,11 @@ __LABEL483:
 	call __NEGF
 	ld hl, -41
 	call __PSTOREF
-	jp __LABEL487
-__LABEL486:
+	jp __LABEL490
+__LABEL489:
 	ld a, (ix-15)
 	cp 20
-	jp nc, __LABEL488
+	jp nc, __LABEL491
 	push ix
 	pop hl
 	ld de, -36
@@ -5095,8 +5117,8 @@ __LABEL486:
 	call __NEGF
 	ld hl, -36
 	call __PSTOREF
-	jp __LABEL489
-__LABEL488:
+	jp __LABEL492
+__LABEL491:
 	push ix
 	pop hl
 	ld de, -41
@@ -5113,8 +5135,8 @@ __LABEL488:
 	call __NEGF
 	ld hl, -36
 	call __PSTOREF
-__LABEL489:
-__LABEL487:
+__LABEL492:
+__LABEL490:
 	xor a
 	push af
 	ld a, (ix-6)
@@ -5136,17 +5158,17 @@ __LABEL487:
 	call _SetScore
 	ld (ix-10), 1
 	ld (ix-14), 1
-__LABEL485:
-	jp __LABEL479
-__LABEL478:
+__LABEL488:
+	jp __LABEL482
+__LABEL481:
 	ld a, (ix-9)
 	ld h, 0
 	call __LTI8
 	or a
-	jp z, __LABEL490
+	jp z, __LABEL493
 	ld a, (ix-6)
 	dec a
-	jp nz, __LABEL492
+	jp nz, __LABEL495
 	push ix
 	pop hl
 	ld de, -41
@@ -5156,8 +5178,8 @@ __LABEL478:
 	ld hl, -41
 	call __PSTOREF
 	ld (ix-14), 1
-	jp __LABEL493
-__LABEL492:
+	jp __LABEL496
+__LABEL495:
 	ld a, (ix-6)
 	add a, (ix-9)
 	ld l, a
@@ -5177,7 +5199,7 @@ __LABEL492:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL495
+	jp z, __LABEL498
 	push ix
 	pop hl
 	ld de, -41
@@ -5206,19 +5228,19 @@ __LABEL492:
 	push hl
 	call _SetScore
 	ld (ix-10), 1
-__LABEL495:
+__LABEL498:
+__LABEL496:
+	jp __LABEL494
 __LABEL493:
-	jp __LABEL491
-__LABEL490:
 	ld a, (ix-9)
 	ld h, a
 	xor a
 	call __LTI8
 	or a
-	jp z, __LABEL497
+	jp z, __LABEL500
 	ld a, (ix-6)
 	sub 19
-	jp nz, __LABEL498
+	jp nz, __LABEL501
 	ld h, (ix-5)
 	ld a, (ix-4)
 	call __LEI8
@@ -5233,11 +5255,11 @@ __LABEL490:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1277
+	jr z, __LABEL1280
 	ld a, h
-__LABEL1277:
+__LABEL1280:
 	or a
-	jp z, __LABEL500
+	jp z, __LABEL503
 	ld a, (ix-5)
 	sub (ix-4)
 	push af
@@ -5277,11 +5299,11 @@ __LABEL1277:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1278
+	jr z, __LABEL1281
 	ld a, h
-__LABEL1278:
+__LABEL1281:
 	or a
-	jp z, __LABEL503
+	jp z, __LABEL506
 	push ix
 	pop hl
 	ld de, -41
@@ -5296,7 +5318,7 @@ __LABEL1278:
 	call __MULF
 	ld hl, -41
 	call __PSTOREF
-__LABEL503:
+__LABEL506:
 	ld a, (ix-5)
 	sub 10
 	sub 1
@@ -5317,11 +5339,11 @@ __LABEL503:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1279
+	jr z, __LABEL1282
 	ld a, h
-__LABEL1279:
+__LABEL1282:
 	or a
-	jp z, __LABEL505
+	jp z, __LABEL508
 	push ix
 	pop hl
 	ld de, -36
@@ -5330,7 +5352,7 @@ __LABEL1279:
 	call __NEGF
 	ld hl, -36
 	call __PSTOREF
-__LABEL505:
+__LABEL508:
 	ld a, (ix-5)
 	dec a
 	sub 1
@@ -5351,11 +5373,11 @@ __LABEL505:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1280
+	jr z, __LABEL1283
 	ld a, h
-__LABEL1280:
+__LABEL1283:
 	or a
-	jp z, __LABEL507
+	jp z, __LABEL510
 	push ix
 	pop hl
 	ld de, -36
@@ -5364,14 +5386,14 @@ __LABEL1280:
 	call __NEGF
 	ld hl, -36
 	call __PSTOREF
-__LABEL507:
+__LABEL510:
 	ld (ix-11), 1
-	jp __LABEL501
-__LABEL500:
+	jp __LABEL504
+__LABEL503:
 	ld (ix-12), 1
+__LABEL504:
+	jp __LABEL502
 __LABEL501:
-	jp __LABEL499
-__LABEL498:
 	ld a, (ix-6)
 	add a, (ix-9)
 	ld l, a
@@ -5391,7 +5413,7 @@ __LABEL498:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL509
+	jp z, __LABEL512
 	push ix
 	pop hl
 	ld de, -41
@@ -5420,18 +5442,18 @@ __LABEL498:
 	push hl
 	call _SetScore
 	ld (ix-10), 1
-__LABEL509:
-__LABEL499:
-__LABEL497:
-__LABEL491:
+__LABEL512:
+__LABEL502:
+__LABEL500:
+__LABEL494:
 	ld a, (ix-8)
 	ld h, 0
 	call __LTI8
 	or a
-	jp z, __LABEL510
+	jp z, __LABEL513
 	ld a, (ix-5)
 	dec a
-	jp nz, __LABEL512
+	jp nz, __LABEL515
 	push ix
 	pop hl
 	ld de, -36
@@ -5441,8 +5463,8 @@ __LABEL491:
 	ld hl, -36
 	call __PSTOREF
 	ld (ix-14), 1
-	jp __LABEL513
-__LABEL512:
+	jp __LABEL516
+__LABEL515:
 	ld a, (ix-6)
 	ld l, a
 	add a, a
@@ -5462,7 +5484,7 @@ __LABEL512:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL515
+	jp z, __LABEL518
 	push ix
 	pop hl
 	ld de, -36
@@ -5491,19 +5513,19 @@ __LABEL512:
 	push hl
 	call _SetScore
 	ld (ix-10), 1
-__LABEL515:
+__LABEL518:
+__LABEL516:
+	jp __LABEL514
 __LABEL513:
-	jp __LABEL511
-__LABEL510:
 	ld a, (ix-8)
 	ld h, a
 	xor a
 	call __LTI8
 	or a
-	jp z, __LABEL517
+	jp z, __LABEL520
 	ld a, (ix-5)
 	sub 10
-	jp nz, __LABEL518
+	jp nz, __LABEL521
 	push ix
 	pop hl
 	ld de, -36
@@ -5513,8 +5535,8 @@ __LABEL510:
 	ld hl, -36
 	call __PSTOREF
 	ld (ix-14), 1
-	jp __LABEL519
-__LABEL518:
+	jp __LABEL522
+__LABEL521:
 	ld a, (ix-6)
 	ld l, a
 	add a, a
@@ -5534,7 +5556,7 @@ __LABEL518:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL521
+	jp z, __LABEL524
 	push ix
 	pop hl
 	ld de, -36
@@ -5563,26 +5585,26 @@ __LABEL518:
 	push hl
 	call _SetScore
 	ld (ix-10), 1
-__LABEL521:
-__LABEL519:
-__LABEL517:
-__LABEL511:
-__LABEL479:
+__LABEL524:
+__LABEL522:
+__LABEL520:
+__LABEL514:
+__LABEL482:
 	ld a, (ix-14)
 	or a
-	jp z, __LABEL523
+	jp z, __LABEL526
 	call _UpdateScreen
-__LABEL523:
-	jp __LABEL476
-__LABEL477:
+__LABEL526:
+	jp __LABEL479
+__LABEL480:
 	ld a, (ix-7)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL524
+	jp nc, __LABEL527
 	ld a, (ix-12)
 	or a
-	jp z, __LABEL526
+	jp z, __LABEL529
 	ld (ix-12), 0
 	xor a
 	push af
@@ -5608,7 +5630,7 @@ __LABEL477:
 	dec (ix-3)
 	ld a, (ix-3)
 	or a
-	jp z, __LABEL475
+	jp z, __LABEL478
 	ld a, (ix-3)
 	push af
 	call _SetLifes
@@ -5632,30 +5654,30 @@ __LABEL477:
 	push af
 	call _FillRect
 	call _UpdateScreen
-	jp __LABEL475
-__LABEL526:
+	jp __LABEL478
+__LABEL529:
 	ld a, (ix-11)
 	or a
-	jp z, __LABEL530
+	jp z, __LABEL533
 	ld (ix-11), 0
 	ld (ix-10), 0
 	ld hl, 3314
 	push hl
 	ld hl, 0
 	call __BEEPER
-	jp __LABEL531
-__LABEL530:
+	jp __LABEL534
+__LABEL533:
 	ld a, (ix-10)
 	or a
-	jp z, __LABEL533
+	jp z, __LABEL536
 	ld (ix-11), 0
 	ld (ix-10), 0
 	ld hl, 806
 	push hl
 	ld hl, 4
 	call __BEEPER
-__LABEL533:
-__LABEL531:
+__LABEL536:
+__LABEL534:
 	xor a
 	push af
 	ld a, (ix-6)
@@ -5721,7 +5743,7 @@ __LABEL531:
 	call _UpdateScreen
 	call _ResetFrameCounter
 	ld (ix-13), 0
-__LABEL534:
+__LABEL537:
 	ld a, (ix-2)
 	ld l, a
 	ld h, 0
@@ -5730,7 +5752,7 @@ __LABEL534:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL535
+	jp nc, __LABEL538
 	call INKEY
 	ld d, h
 	ld e, l
@@ -5743,14 +5765,14 @@ __LABEL534:
 	ld (ix-18), h
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	ld h, (ix-13)
 	or a
-	jr z, __LABEL1281
+	jr z, __LABEL1284
 	ld a, h
-__LABEL1281:
+__LABEL1284:
 	push af
 	ld l, (ix-19)
 	ld h, (ix-18)
@@ -5762,29 +5784,29 @@ __LABEL1281:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1282
+	jr z, __LABEL1285
 	ld a, h
-__LABEL1282:
+__LABEL1285:
 	or a
-	jp nz, __LABEL534
+	jp nz, __LABEL537
 	ld (ix-13), 0
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL539
+	jp z, __LABEL542
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL540
+	jp z, __LABEL543
 	ld a, 1
 	cp (ix-4)
-	jp nc, __LABEL543
+	jp nc, __LABEL546
 	xor a
 	push af
 	ld a, 20
@@ -5814,19 +5836,19 @@ __LABEL1282:
 	ld (ix-19), 50
 	ld (ix-18), 0
 	ld (ix-13), 1
+__LABEL546:
+	jp __LABEL544
 __LABEL543:
-	jp __LABEL541
-__LABEL540:
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL544
+	jp z, __LABEL547
 	ld a, (ix-4)
 	cp 8
-	jp nc, __LABEL547
+	jp nc, __LABEL550
 	xor a
 	push af
 	ld a, 20
@@ -5856,45 +5878,45 @@ __LABEL540:
 	ld (ix-19), 50
 	ld (ix-18), 0
 	ld (ix-13), 1
+__LABEL550:
+	jp __LABEL548
 __LABEL547:
-	jp __LABEL545
-__LABEL544:
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL399
+	ld de, __LABEL402
 	xor a
 	call __STREQ
 	or a
-	jp nz, __LABEL535
+	jp nz, __LABEL538
 	ld l, (ix-21)
 	ld h, (ix-20)
-	ld de, __LABEL406
+	ld de, __LABEL409
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL551
+	jp z, __LABEL554
 	xor a
 	jp _RunArkanoid__leave
-__LABEL551:
-__LABEL545:
-__LABEL541:
-__LABEL539:
-	jp __LABEL534
-__LABEL535:
-	jp __LABEL525
-__LABEL524:
-	jp __LABEL475
-__LABEL525:
-	jp __LABEL474
-__LABEL475:
-	jp __LABEL456
-__LABEL457:
+__LABEL554:
+__LABEL548:
+__LABEL544:
+__LABEL542:
+	jp __LABEL537
+__LABEL538:
+	jp __LABEL528
+__LABEL527:
+	jp __LABEL478
+__LABEL528:
+	jp __LABEL477
+__LABEL478:
+	jp __LABEL459
+__LABEL460:
 	ld a, (ix-3)
 	or a
-	jp nz, __LABEL552
+	jp nz, __LABEL555
 	ld (ix-1), 1
-	jp __LABEL553
-__LABEL552:
+	jp __LABEL556
+__LABEL555:
 	ld l, (ix-17)
 	ld h, (ix-16)
 	ld de, 50
@@ -5908,14 +5930,14 @@ __LABEL552:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL555
+	jp nc, __LABEL558
 	ld a, 1
 	jp _RunArkanoid__leave
-__LABEL555:
+__LABEL558:
 	call _ShowCurtain
-__LABEL553:
-	jp __LABEL450
-__LABEL451:
+__LABEL556:
+	jp __LABEL453
+__LABEL454:
 	xor a
 _RunArkanoid__leave:
 	ex af, af'
@@ -5950,7 +5972,7 @@ _RunRacing:
 	ld bc, -1
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1283
+	ld hl, __LABEL1286
 	ld bc, 1
 	ldir
 	push ix
@@ -5958,7 +5980,7 @@ _RunRacing:
 	ld bc, -9
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1284
+	ld hl, __LABEL1287
 	ld bc, 1
 	ldir
 	push ix
@@ -5966,7 +5988,7 @@ _RunRacing:
 	ld bc, -10
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1285
+	ld hl, __LABEL1288
 	ld bc, 1
 	ldir
 	push ix
@@ -5974,12 +5996,12 @@ _RunRacing:
 	ld bc, -12
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1286
+	ld hl, __LABEL1289
 	ld bc, 1
 	ldir
 	ld a, (_playedRacingMusic)
 	or a
-	jp nz, __LABEL557
+	jp nz, __LABEL560
 	ld a, 1
 	ld (_playedRacingMusic), a
 	ld hl, 42
@@ -5987,18 +6009,18 @@ _RunRacing:
 	ld hl, _raceIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL557:
+__LABEL560:
 	call _HideNextTitle
 	ld l, (ix-19)
 	ld h, (ix-18)
 	push hl
 	call _SetScore
-__LABEL558:
+__LABEL561:
 	ld a, (ix-12)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL559
+	jp nc, __LABEL562
 	ld (ix-3), 0
 	ld (ix-6), 0
 	ld (ix-9), 20
@@ -6115,10 +6137,10 @@ __LABEL558:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL560:
+__LABEL563:
 	ld a, (ix-11)
 	or a
-	jp nz, __LABEL561
+	jp nz, __LABEL564
 	xor a
 	push af
 	ld a, (ix-1)
@@ -6151,7 +6173,7 @@ __LABEL560:
 	call _SetCell
 	ld a, (ix-1)
 	dec a
-	jp nz, __LABEL562
+	jp nz, __LABEL565
 	ld a, 1
 	push af
 	ld a, 20
@@ -6166,8 +6188,8 @@ __LABEL560:
 	ld a, 10
 	push af
 	call _SetCell
-	jp __LABEL563
-__LABEL562:
+	jp __LABEL566
+__LABEL565:
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -6184,7 +6206,7 @@ __LABEL562:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL563:
+__LABEL566:
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -6203,12 +6225,12 @@ __LABEL563:
 	call _SetCell
 	ld a, (ix-1)
 	sub 10
-	jp nz, __LABEL564
+	jp nz, __LABEL567
 	ld (ix-1), 1
-	jp __LABEL565
-__LABEL564:
+	jp __LABEL568
+__LABEL567:
 	inc (ix-1)
-__LABEL565:
+__LABEL568:
 	ld a, (ix-3)
 	sub 1
 	sbc a, a
@@ -6219,9 +6241,9 @@ __LABEL565:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1287
+	jr z, __LABEL1290
 	ld a, h
-__LABEL1287:
+__LABEL1290:
 	push af
 	call RND
 	push bc
@@ -6244,11 +6266,11 @@ __LABEL1287:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1288
+	jr z, __LABEL1291
 	ld a, h
-__LABEL1288:
+__LABEL1291:
 	or a
-	jp z, __LABEL566
+	jp z, __LABEL569
 	ld (ix-5), 254
 	call RND
 	push bc
@@ -6282,11 +6304,11 @@ __LABEL1288:
 	push af
 	call _PlaceCar
 	ld (ix-3), 1
-	jp __LABEL567
-__LABEL566:
+	jp __LABEL570
+__LABEL569:
 	ld a, (ix-3)
 	or a
-	jp z, __LABEL569
+	jp z, __LABEL572
 	ld a, (ix-5)
 	push af
 	ld a, (ix-4)
@@ -6299,7 +6321,7 @@ __LABEL566:
 	ld a, 20
 	call __LTI8
 	or a
-	jp z, __LABEL571
+	jp z, __LABEL574
 	ld (ix-3), 0
 	dec (ix-15)
 	ld l, (ix-19)
@@ -6313,8 +6335,8 @@ __LABEL566:
 	call _SetScore
 	ld a, (ix-15)
 	or a
-	jp z, __LABEL561
-__LABEL571:
+	jp z, __LABEL564
+__LABEL574:
 	ld a, (ix-3)
 	push af
 	ld h, (ix-5)
@@ -6323,9 +6345,9 @@ __LABEL571:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1289
+	jr z, __LABEL1292
 	ld a, h
-__LABEL1289:
+__LABEL1292:
 	push af
 	ld a, (ix-5)
 	ld h, 12
@@ -6333,9 +6355,9 @@ __LABEL1289:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1290
+	jr z, __LABEL1293
 	ld a, h
-__LABEL1290:
+__LABEL1293:
 	push af
 	call RND
 	push bc
@@ -6358,19 +6380,19 @@ __LABEL1290:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1291
+	jr z, __LABEL1294
 	ld a, h
-__LABEL1291:
+__LABEL1294:
 	or a
-	jp z, __LABEL575
+	jp z, __LABEL578
 	ld a, (ix-4)
 	sub 3
-	jp nz, __LABEL576
+	jp nz, __LABEL579
 	ld (ix-2), 3
-	jp __LABEL577
-__LABEL576:
+	jp __LABEL580
+__LABEL579:
 	ld (ix-2), 253
-__LABEL577:
+__LABEL580:
 	call _UpdateScreen
 	xor a
 	push af
@@ -6390,9 +6412,9 @@ __LABEL577:
 	ld a, (ix-4)
 	add a, (ix-2)
 	ld (ix-4), a
-__LABEL575:
-__LABEL569:
-__LABEL567:
+__LABEL578:
+__LABEL572:
+__LABEL570:
 	ld a, (ix-6)
 	sub 1
 	sbc a, a
@@ -6403,9 +6425,9 @@ __LABEL567:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1292
+	jr z, __LABEL1295
 	ld a, h
-__LABEL1292:
+__LABEL1295:
 	push af
 	call RND
 	push bc
@@ -6428,11 +6450,11 @@ __LABEL1292:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1293
+	jr z, __LABEL1296
 	ld a, h
-__LABEL1293:
+__LABEL1296:
 	or a
-	jp z, __LABEL578
+	jp z, __LABEL581
 	call RND
 	push bc
 	push de
@@ -6466,11 +6488,11 @@ __LABEL1293:
 	push af
 	call _PlaceCar
 	ld (ix-6), 1
-	jp __LABEL579
-__LABEL578:
+	jp __LABEL582
+__LABEL581:
 	ld a, (ix-6)
 	or a
-	jp z, __LABEL581
+	jp z, __LABEL584
 	ld a, (ix-8)
 	push af
 	ld a, (ix-7)
@@ -6485,15 +6507,15 @@ __LABEL578:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL583
+	jp z, __LABEL586
 	ld a, (ix-8)
 	ld (ix-9), a
-__LABEL583:
+__LABEL586:
 	ld h, (ix-8)
 	ld a, 20
 	call __LTI8
 	or a
-	jp z, __LABEL585
+	jp z, __LABEL588
 	ld (ix-6), 0
 	dec (ix-15)
 	ld l, (ix-19)
@@ -6507,8 +6529,8 @@ __LABEL583:
 	call _SetScore
 	ld a, (ix-15)
 	or a
-	jp z, __LABEL561
-__LABEL585:
+	jp z, __LABEL564
+__LABEL588:
 	ld a, (ix-6)
 	push af
 	ld h, (ix-8)
@@ -6517,9 +6539,9 @@ __LABEL585:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1294
+	jr z, __LABEL1297
 	ld a, h
-__LABEL1294:
+__LABEL1297:
 	push af
 	ld a, (ix-8)
 	ld h, 12
@@ -6527,9 +6549,9 @@ __LABEL1294:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1295
+	jr z, __LABEL1298
 	ld a, h
-__LABEL1295:
+__LABEL1298:
 	push af
 	call RND
 	push bc
@@ -6552,19 +6574,19 @@ __LABEL1295:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1296
+	jr z, __LABEL1299
 	ld a, h
-__LABEL1296:
+__LABEL1299:
 	or a
-	jp z, __LABEL589
+	jp z, __LABEL592
 	ld a, (ix-7)
 	sub 3
-	jp nz, __LABEL590
+	jp nz, __LABEL593
 	ld (ix-2), 3
-	jp __LABEL591
-__LABEL590:
+	jp __LABEL594
+__LABEL593:
 	ld (ix-2), 253
-__LABEL591:
+__LABEL594:
 	call _UpdateScreen
 	xor a
 	push af
@@ -6584,9 +6606,9 @@ __LABEL591:
 	ld a, (ix-7)
 	add a, (ix-2)
 	ld (ix-7), a
-__LABEL589:
-__LABEL581:
-__LABEL579:
+__LABEL592:
+__LABEL584:
+__LABEL582:
 	ld a, (ix-3)
 	push af
 	ld h, (ix-5)
@@ -6595,9 +6617,9 @@ __LABEL579:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1297
+	jr z, __LABEL1300
 	ld a, h
-__LABEL1297:
+__LABEL1300:
 	push af
 	ld a, (ix-4)
 	sub (ix-10)
@@ -6606,9 +6628,9 @@ __LABEL1297:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1298
+	jr z, __LABEL1301
 	ld a, h
-__LABEL1298:
+__LABEL1301:
 	push af
 	ld a, (ix-6)
 	push af
@@ -6618,9 +6640,9 @@ __LABEL1298:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1299
+	jr z, __LABEL1302
 	ld a, h
-__LABEL1299:
+__LABEL1302:
 	push af
 	ld a, (ix-7)
 	sub (ix-10)
@@ -6629,18 +6651,18 @@ __LABEL1299:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1300
+	jr z, __LABEL1303
 	ld a, h
-__LABEL1300:
+__LABEL1303:
 	pop de
 	or d
-	jp z, __LABEL593
+	jp z, __LABEL596
 	ld (ix-11), 1
-	jp __LABEL561
-__LABEL593:
+	jp __LABEL564
+__LABEL596:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL594:
+__LABEL597:
 	ld a, (ix-14)
 	ld l, a
 	ld h, 0
@@ -6649,7 +6671,7 @@ __LABEL594:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL595
+	jp nc, __LABEL598
 	call INKEY
 	ld d, h
 	ld e, l
@@ -6657,14 +6679,14 @@ __LABEL594:
 	call __PSTORE_STR2
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL596
+	jp z, __LABEL599
 	ld a, (ix-10)
 	sub 6
-	jp nz, __LABEL599
+	jp nz, __LABEL602
 	xor a
 	push af
 	ld a, 253
@@ -6688,9 +6710,9 @@ __LABEL594:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1301
+	jr z, __LABEL1304
 	ld a, h
-__LABEL1301:
+__LABEL1304:
 	push af
 	ld a, (ix-4)
 	sub (ix-10)
@@ -6699,9 +6721,9 @@ __LABEL1301:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1302
+	jr z, __LABEL1305
 	ld a, h
-__LABEL1302:
+__LABEL1305:
 	push af
 	ld a, (ix-6)
 	push af
@@ -6711,9 +6733,9 @@ __LABEL1302:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1303
+	jr z, __LABEL1306
 	ld a, h
-__LABEL1303:
+__LABEL1306:
 	push af
 	ld a, (ix-7)
 	sub (ix-10)
@@ -6722,28 +6744,28 @@ __LABEL1303:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1304
+	jr z, __LABEL1307
 	ld a, h
-__LABEL1304:
+__LABEL1307:
 	pop de
 	or d
-	jp z, __LABEL601
+	jp z, __LABEL604
 	ld (ix-11), 1
-	jp __LABEL595
-__LABEL601:
+	jp __LABEL598
+__LABEL604:
+__LABEL602:
+	jp __LABEL600
 __LABEL599:
-	jp __LABEL597
-__LABEL596:
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL602
+	jp z, __LABEL605
 	ld a, (ix-10)
 	sub 3
-	jp nz, __LABEL605
+	jp nz, __LABEL608
 	xor a
 	push af
 	ld a, 3
@@ -6767,9 +6789,9 @@ __LABEL596:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1305
+	jr z, __LABEL1308
 	ld a, h
-__LABEL1305:
+__LABEL1308:
 	push af
 	ld a, (ix-4)
 	sub (ix-10)
@@ -6778,9 +6800,9 @@ __LABEL1305:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1306
+	jr z, __LABEL1309
 	ld a, h
-__LABEL1306:
+__LABEL1309:
 	push af
 	ld a, (ix-6)
 	push af
@@ -6790,9 +6812,9 @@ __LABEL1306:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1307
+	jr z, __LABEL1310
 	ld a, h
-__LABEL1307:
+__LABEL1310:
 	push af
 	ld a, (ix-7)
 	sub (ix-10)
@@ -6801,44 +6823,44 @@ __LABEL1307:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1308
+	jr z, __LABEL1311
 	ld a, h
-__LABEL1308:
+__LABEL1311:
 	pop de
 	or d
-	jp z, __LABEL607
+	jp z, __LABEL610
 	ld (ix-11), 1
-	jp __LABEL595
-__LABEL607:
+	jp __LABEL598
+__LABEL610:
+__LABEL608:
+	jp __LABEL606
 __LABEL605:
-	jp __LABEL603
-__LABEL602:
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL608
+	ld de, __LABEL611
 	xor a
 	call __STREQ
 	or a
-	jp nz, __LABEL595
+	jp nz, __LABEL598
 	ld l, (ix-17)
 	ld h, (ix-16)
-	ld de, __LABEL406
+	ld de, __LABEL409
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL612
+	jp z, __LABEL615
 	xor a
 	jp _RunRacing__leave
-__LABEL612:
-__LABEL603:
-__LABEL597:
-	jp __LABEL594
-__LABEL595:
-	jp __LABEL560
-__LABEL561:
+__LABEL615:
+__LABEL606:
+__LABEL600:
+	jp __LABEL597
+__LABEL598:
+	jp __LABEL563
+__LABEL564:
 	ld a, (ix-11)
 	or a
-	jp z, __LABEL613
+	jp z, __LABEL616
 	dec (ix-12)
 	xor a
 	push af
@@ -6850,26 +6872,26 @@ __LABEL561:
 	call _Explode
 	call _ShowCurtain
 	ld (ix-11), 0
-	jp __LABEL614
-__LABEL613:
+	jp __LABEL617
+__LABEL616:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL616
+	jp nc, __LABEL619
 	ld a, 1
 	jp _RunRacing__leave
-__LABEL616:
+__LABEL619:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL618
+	jp nz, __LABEL621
 	ld hl, 14
 	push hl
 	ld hl, _raceLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL618:
+__LABEL621:
 	ld l, (ix-19)
 	ld h, (ix-18)
 	ld de, 10
@@ -6881,9 +6903,9 @@ __LABEL618:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL614:
-	jp __LABEL558
-__LABEL559:
+__LABEL617:
+	jp __LABEL561
+__LABEL562:
 	xor a
 _RunRacing__leave:
 	ex af, af'
@@ -6908,7 +6930,7 @@ _PlaceCar:
 	ld h, 1
 	call __LTI8
 	or a
-	jp z, __LABEL619
+	jp z, __LABEL622
 	xor a
 	push af
 	ld a, (ix+7)
@@ -6935,7 +6957,7 @@ _PlaceCar:
 	ld a, 253
 	call __LTI8
 	or a
-	jp z, __LABEL622
+	jp z, __LABEL625
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -6962,12 +6984,12 @@ _PlaceCar:
 	add a, 2
 	push af
 	call _SetCell
-__LABEL622:
+__LABEL625:
 	ld h, (ix+7)
 	ld a, 254
 	call __LTI8
 	or a
-	jp z, __LABEL624
+	jp z, __LABEL627
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -6977,10 +6999,10 @@ __LABEL622:
 	inc a
 	push af
 	call _SetCell
-__LABEL624:
+__LABEL627:
 	ld a, (ix+7)
 	or a
-	jp nz, __LABEL626
+	jp nz, __LABEL629
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -6998,17 +7020,17 @@ __LABEL624:
 	add a, 2
 	push af
 	call _SetCell
-__LABEL626:
-	jp __LABEL620
-__LABEL619:
+__LABEL629:
+	jp __LABEL623
+__LABEL622:
 	ld h, (ix+7)
 	ld a, 16
 	call __LTI8
 	or a
-	jp z, __LABEL627
+	jp z, __LABEL630
 	ld a, (ix+7)
 	sub 20
-	jp nz, __LABEL629
+	jp nz, __LABEL632
 	xor a
 	push af
 	ld a, 20
@@ -7021,8 +7043,8 @@ __LABEL619:
 	ld a, (ix+5)
 	push af
 	call _FillRect
-	jp __LABEL630
-__LABEL629:
+	jp __LABEL633
+__LABEL632:
 	ld a, 1
 	push af
 	xor a
@@ -7037,9 +7059,9 @@ __LABEL629:
 	ld a, (ix+5)
 	push af
 	call _MoveRect
+__LABEL633:
+	jp __LABEL631
 __LABEL630:
-	jp __LABEL628
-__LABEL627:
 	ld a, 1
 	push af
 	xor a
@@ -7055,8 +7077,8 @@ __LABEL627:
 	ld a, (ix+5)
 	push af
 	call _MoveRect
-__LABEL628:
-__LABEL620:
+__LABEL631:
+__LABEL623:
 _PlaceCar__leave:
 	ld sp, ix
 	pop ix
@@ -7086,8 +7108,8 @@ _LoadSnakeScreen:
 	push af
 	call _FillRect
 	ld (ix-1), 1
-	jp __LABEL631
-__LABEL634:
+	jp __LABEL634
+__LABEL637:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -7112,7 +7134,7 @@ __LABEL634:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL637
+	jp z, __LABEL640
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7120,14 +7142,14 @@ __LABEL634:
 	ld a, 1
 	push af
 	call _SetCell
-__LABEL637:
+__LABEL640:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL639
+	jp z, __LABEL642
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7135,14 +7157,14 @@ __LABEL637:
 	ld a, 2
 	push af
 	call _SetCell
-__LABEL639:
+__LABEL642:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL641
+	jp z, __LABEL644
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7150,14 +7172,14 @@ __LABEL639:
 	ld a, 3
 	push af
 	call _SetCell
-__LABEL641:
+__LABEL644:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL643
+	jp z, __LABEL646
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7165,14 +7187,14 @@ __LABEL641:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL643:
+__LABEL646:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL645
+	jp z, __LABEL648
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7180,14 +7202,14 @@ __LABEL643:
 	ld a, 5
 	push af
 	call _SetCell
-__LABEL645:
+__LABEL648:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL647
+	jp z, __LABEL650
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7195,14 +7217,14 @@ __LABEL645:
 	ld a, 6
 	push af
 	call _SetCell
-__LABEL647:
+__LABEL650:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL649
+	jp z, __LABEL652
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7210,14 +7232,14 @@ __LABEL647:
 	ld a, 7
 	push af
 	call _SetCell
-__LABEL649:
+__LABEL652:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL651
+	jp z, __LABEL654
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7225,14 +7247,14 @@ __LABEL649:
 	ld a, 8
 	push af
 	call _SetCell
-__LABEL651:
+__LABEL654:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL653
+	jp z, __LABEL656
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7240,14 +7262,14 @@ __LABEL651:
 	ld a, 9
 	push af
 	call _SetCell
-__LABEL653:
+__LABEL656:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL655
+	jp z, __LABEL658
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -7255,12 +7277,12 @@ __LABEL653:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL655:
+__LABEL658:
 	inc (ix-1)
-__LABEL631:
+__LABEL634:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL634
+	jp nc, __LABEL637
 _LoadSnakeScreen__leave:
 	ld sp, ix
 	pop ix
@@ -7287,11 +7309,11 @@ _RunSnake:
 	ld bc, -3
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1309
+	ld hl, __LABEL1312
 	ld bc, 1
 	ldir
 	ld hl, -22
-	ld de, __LABEL1310
+	ld de, __LABEL1313
 	ld bc, 40
 	call __ALLOC_LOCAL_ARRAY
 	push ix
@@ -7299,12 +7321,12 @@ _RunSnake:
 	ld bc, -9
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1311
+	ld hl, __LABEL1314
 	ld bc, 1
 	ldir
 	ld a, (_playedSnakeMusic)
 	or a
-	jp nz, __LABEL657
+	jp nz, __LABEL660
 	ld a, 1
 	ld (_playedSnakeMusic), a
 	ld hl, 40
@@ -7312,18 +7334,18 @@ _RunSnake:
 	ld hl, _snakeIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL657:
+__LABEL660:
 	call _HideNextTitle
 	ld l, (ix-18)
 	ld h, (ix-17)
 	push hl
 	call _SetScore
-__LABEL658:
+__LABEL661:
 	ld a, (ix-3)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL659
+	jp nc, __LABEL662
 	xor a
 	push af
 	ld a, 20
@@ -7431,11 +7453,11 @@ __LABEL658:
 	call __SUB32
 	ld a, l
 	ld (ix-4), a
-	ld (ix-14), 10
-__LABEL660:
+	ld (ix-14), 50
+__LABEL663:
 	ld a, (ix-2)
 	or a
-	jp nz, __LABEL661
+	jp nz, __LABEL664
 	ld hl, 0
 	push hl
 	ld a, (ix-5)
@@ -7466,11 +7488,11 @@ __LABEL660:
 	ld (ix-8), a
 	ld a, (ix-5)
 	ld (ix-1), a
-	jp __LABEL662
-__LABEL665:
+	jp __LABEL665
+__LABEL668:
 	ld a, (ix-1)
 	sub (ix-5)
-	jp nz, __LABEL667
+	jp nz, __LABEL670
 	ld hl, 0
 	push hl
 	ld a, (ix-1)
@@ -7578,7 +7600,7 @@ __LABEL665:
 	ld (hl), a
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL670
+	jp z, __LABEL673
 	ld a, 1
 	push af
 	ld hl, 1
@@ -7614,15 +7636,15 @@ __LABEL665:
 	ld a, (hl)
 	push af
 	call _SetCell
+__LABEL673:
+	jp __LABEL671
 __LABEL670:
-	jp __LABEL668
-__LABEL667:
 	ld a, (ix-1)
 	dec a
-	jp nz, __LABEL671
+	jp nz, __LABEL674
 	ld a, (ix-6)
 	or a
-	jp nz, __LABEL673
+	jp nz, __LABEL676
 	ld hl, 1
 	push hl
 	ld a, (ix-1)
@@ -7656,11 +7678,11 @@ __LABEL667:
 	call __ARRAY
 	pop af
 	ld (hl), a
-	jp __LABEL674
-__LABEL673:
+	jp __LABEL677
+__LABEL676:
 	ld a, (ix-6)
 	dec a
-	jp nz, __LABEL675
+	jp nz, __LABEL678
 	ld hl, 1
 	push hl
 	ld a, (ix-1)
@@ -7694,48 +7716,10 @@ __LABEL673:
 	call __ARRAY
 	pop af
 	ld (hl), a
-	jp __LABEL676
-__LABEL675:
+	jp __LABEL679
+__LABEL678:
 	ld a, (ix-6)
 	sub 2
-	jp nz, __LABEL677
-	ld hl, 0
-	push hl
-	ld a, (ix-1)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	push ix
-	pop hl
-	ld de, -22
-	add hl, de
-	call __ARRAY
-	ld a, (hl)
-	dec a
-	push af
-	ld hl, 0
-	push hl
-	ld a, (ix-1)
-	ld l, a
-	add a, a
-	sbc a, a
-	ld h, a
-	dec hl
-	push hl
-	push ix
-	pop hl
-	ld de, -22
-	add hl, de
-	call __ARRAY
-	pop af
-	ld (hl), a
-	jp __LABEL678
-__LABEL677:
-	ld a, (ix-6)
-	sub 3
 	jp nz, __LABEL680
 	ld hl, 0
 	push hl
@@ -7752,6 +7736,44 @@ __LABEL677:
 	add hl, de
 	call __ARRAY
 	ld a, (hl)
+	dec a
+	push af
+	ld hl, 0
+	push hl
+	ld a, (ix-1)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	push ix
+	pop hl
+	ld de, -22
+	add hl, de
+	call __ARRAY
+	pop af
+	ld (hl), a
+	jp __LABEL681
+__LABEL680:
+	ld a, (ix-6)
+	sub 3
+	jp nz, __LABEL683
+	ld hl, 0
+	push hl
+	ld a, (ix-1)
+	ld l, a
+	add a, a
+	sbc a, a
+	ld h, a
+	dec hl
+	push hl
+	push ix
+	pop hl
+	ld de, -22
+	add hl, de
+	call __ARRAY
+	ld a, (hl)
 	inc a
 	push af
 	ld hl, 0
@@ -7770,10 +7792,10 @@ __LABEL677:
 	call __ARRAY
 	pop af
 	ld (hl), a
-__LABEL680:
-__LABEL678:
-__LABEL676:
-__LABEL674:
+__LABEL683:
+__LABEL681:
+__LABEL679:
+__LABEL677:
 	ld hl, 0
 	push hl
 	ld a, (ix-1)
@@ -7851,10 +7873,10 @@ __LABEL674:
 	cp 1
 	sbc a, a
 	or d
-	jp z, __LABEL682
+	jp z, __LABEL685
 	ld (ix-2), 1
-	jp __LABEL661
-__LABEL682:
+	jp __LABEL664
+__LABEL685:
 	ld hl, 1
 	push hl
 	ld a, (ix-1)
@@ -7897,7 +7919,7 @@ __LABEL682:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL684
+	jp z, __LABEL687
 	ld a, (ix-12)
 	push af
 	ld hl, 0
@@ -7921,9 +7943,9 @@ __LABEL682:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1312
+	jr z, __LABEL1315
 	ld a, h
-__LABEL1312:
+__LABEL1315:
 	push af
 	ld hl, 1
 	push hl
@@ -7946,11 +7968,11 @@ __LABEL1312:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1313
+	jr z, __LABEL1316
 	ld a, h
-__LABEL1313:
+__LABEL1316:
 	or a
-	jp z, __LABEL685
+	jp z, __LABEL688
 	ld hl, 388
 	push hl
 	ld hl, 25
@@ -7963,7 +7985,7 @@ __LABEL1313:
 	dec (ix-13)
 	ld a, (ix-13)
 	or a
-	jp z, __LABEL661
+	jp z, __LABEL664
 	inc (ix-5)
 	ld a, (ix-7)
 	push af
@@ -8009,12 +8031,12 @@ __LABEL1313:
 	push af
 	call _SetCell
 	ld (ix-12), 0
-	jp __LABEL686
-__LABEL685:
+	jp __LABEL689
+__LABEL688:
 	ld (ix-2), 1
-	jp __LABEL661
-__LABEL686:
-__LABEL684:
+	jp __LABEL664
+__LABEL689:
+__LABEL687:
 	ld a, 1
 	push af
 	ld hl, 1
@@ -8050,8 +8072,8 @@ __LABEL684:
 	ld a, (hl)
 	push af
 	call _SetCell
-	jp __LABEL672
-__LABEL671:
+	jp __LABEL675
+__LABEL674:
 	ld hl, 0
 	push hl
 	ld a, (ix-1)
@@ -8120,7 +8142,7 @@ __LABEL671:
 	ld (hl), a
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL690
+	jp z, __LABEL693
 	ld a, 1
 	push af
 	ld hl, 1
@@ -8156,28 +8178,28 @@ __LABEL671:
 	ld a, (hl)
 	push af
 	call _SetCell
-__LABEL690:
-__LABEL672:
-__LABEL668:
+__LABEL693:
+__LABEL675:
+__LABEL671:
 	dec (ix-1)
-__LABEL662:
+__LABEL665:
 	ld a, (ix-1)
 	ld h, 1
 	call __LTI8
 	or a
-	jp z, __LABEL665
+	jp z, __LABEL668
 	call _UpdateScreen
 	ld a, (ix-12)
 	or a
-	jp nz, __LABEL692
+	jp nz, __LABEL695
 	ld a, (ix-14)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL693
+	jp nc, __LABEL696
 	dec (ix-14)
-	jp __LABEL694
-__LABEL693:
+	jp __LABEL697
+__LABEL696:
 	call RND
 	push bc
 	push de
@@ -8203,8 +8225,8 @@ __LABEL693:
 	call __MUL32
 	call __LEI32
 	or a
-	jp nz, __LABEL696
-__LABEL697:
+	jp nz, __LABEL699
+__LABEL700:
 	call RND
 	push bc
 	push de
@@ -8260,7 +8282,7 @@ __LABEL697:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp nz, __LABEL697
+	jp nz, __LABEL700
 	ld (ix-12), 1
 	ld a, 1
 	push af
@@ -8270,11 +8292,11 @@ __LABEL697:
 	push af
 	call _SetCell
 	call _UpdateScreen
-__LABEL696:
-__LABEL694:
-__LABEL692:
+__LABEL699:
+__LABEL697:
+__LABEL695:
 	call _ResetFrameCounter
-__LABEL700:
+__LABEL703:
 	ld a, (ix-4)
 	ld l, a
 	ld h, 0
@@ -8283,7 +8305,7 @@ __LABEL700:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL701
+	jp nc, __LABEL704
 	call INKEY
 	ld d, h
 	ld e, l
@@ -8291,65 +8313,65 @@ __LABEL700:
 	call __PSTORE_STR2
 	ld l, (ix-16)
 	ld h, (ix-15)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL702
+	jp z, __LABEL705
 	ld (ix-6), 2
-	jp __LABEL703
-__LABEL702:
+	jp __LABEL706
+__LABEL705:
 	ld l, (ix-16)
 	ld h, (ix-15)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL704
+	jp z, __LABEL707
 	ld (ix-6), 3
-	jp __LABEL705
-__LABEL704:
+	jp __LABEL708
+__LABEL707:
 	ld l, (ix-16)
 	ld h, (ix-15)
-	ld de, __LABEL608
+	ld de, __LABEL611
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL706
+	jp z, __LABEL709
 	ld (ix-6), 0
-	jp __LABEL707
-__LABEL706:
+	jp __LABEL710
+__LABEL709:
 	ld l, (ix-16)
 	ld h, (ix-15)
-	ld de, __LABEL396
-	xor a
-	call __STREQ
-	or a
-	jp z, __LABEL708
-	ld (ix-6), 1
-	jp __LABEL709
-__LABEL708:
-	ld l, (ix-16)
-	ld h, (ix-15)
-	ld de, __LABEL406
+	ld de, __LABEL399
 	xor a
 	call __STREQ
 	or a
 	jp z, __LABEL711
+	ld (ix-6), 1
+	jp __LABEL712
+__LABEL711:
+	ld l, (ix-16)
+	ld h, (ix-15)
+	ld de, __LABEL409
+	xor a
+	call __STREQ
+	or a
+	jp z, __LABEL714
 	xor a
 	jp _RunSnake__leave
-__LABEL711:
-__LABEL709:
-__LABEL707:
-__LABEL705:
-__LABEL703:
-	jp __LABEL700
-__LABEL701:
-	jp __LABEL660
-__LABEL661:
+__LABEL714:
+__LABEL712:
+__LABEL710:
+__LABEL708:
+__LABEL706:
+	jp __LABEL703
+__LABEL704:
+	jp __LABEL663
+__LABEL664:
 	ld a, (ix-2)
 	or a
-	jp z, __LABEL712
+	jp z, __LABEL715
 	dec (ix-3)
 	xor a
 	push af
@@ -8365,26 +8387,26 @@ __LABEL661:
 	call _Explode
 	call _ShowCurtain
 	ld (ix-2), 0
-	jp __LABEL713
-__LABEL712:
+	jp __LABEL716
+__LABEL715:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL715
+	jp nc, __LABEL718
 	ld a, 1
 	jp _RunSnake__leave
-__LABEL715:
+__LABEL718:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL717
+	jp nz, __LABEL720
 	ld hl, 14
 	push hl
 	ld hl, _snakeLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL717:
+__LABEL720:
 	ld l, (ix-18)
 	ld h, (ix-17)
 	ld de, 10
@@ -8396,9 +8418,9 @@ __LABEL717:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL713:
-	jp __LABEL658
-__LABEL659:
+__LABEL716:
+	jp __LABEL661
+__LABEL662:
 	xor a
 _RunSnake__leave:
 	ex af, af'
@@ -8427,11 +8449,11 @@ _FindBottom:
 	push hl
 	inc sp
 	ld (ix-1), 1
-	jp __LABEL718
-__LABEL721:
+	jp __LABEL721
+__LABEL724:
 	ld (ix-2), 1
-	jp __LABEL723
-__LABEL726:
+	jp __LABEL726
+__LABEL729:
 	ld a, (ix-1)
 	ld l, a
 	add a, a
@@ -8450,26 +8472,26 @@ __LABEL726:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL729
+	jp z, __LABEL732
 	ld a, (ix-1)
 	ld (ix-3), a
-	jp __LABEL725
-__LABEL729:
+	jp __LABEL728
+__LABEL732:
 	inc (ix-2)
-__LABEL723:
+__LABEL726:
 	ld h, (ix-2)
 	ld a, 10
 	call __LTI8
 	or a
-	jp z, __LABEL726
-__LABEL725:
+	jp z, __LABEL729
+__LABEL728:
 	inc (ix-1)
-__LABEL718:
+__LABEL721:
 	ld h, (ix-1)
 	ld a, 17
 	call __LTI8
 	or a
-	jp z, __LABEL721
+	jp z, __LABEL724
 	ld a, (ix-3)
 _FindBottom__leave:
 	ld sp, ix
@@ -8493,12 +8515,12 @@ _RunDestroyer:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1314
+	ld hl, __LABEL1317
 	ld bc, 1
 	ldir
 	ld a, (_playedDestroyerMusic)
 	or a
-	jp nz, __LABEL731
+	jp nz, __LABEL734
 	ld a, 1
 	ld (_playedDestroyerMusic), a
 	ld hl, 68
@@ -8506,18 +8528,18 @@ _RunDestroyer:
 	ld hl, _destroyerIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL731:
+__LABEL734:
 	call _HideNextTitle
 	ld l, (ix-14)
 	ld h, (ix-13)
 	push hl
 	call _SetScore
-__LABEL732:
+__LABEL735:
 	ld a, (ix-4)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL733
+	jp nc, __LABEL736
 	xor a
 	push af
 	ld a, 20
@@ -8610,7 +8632,7 @@ __LABEL732:
 	call __SUB32
 	ld a, l
 	ld (ix-5), a
-__LABEL734:
+__LABEL737:
 	ld a, (ix-3)
 	sub 1
 	sbc a, a
@@ -8623,14 +8645,14 @@ __LABEL734:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1315
+	jr z, __LABEL1318
 	ld a, h
-__LABEL1315:
+__LABEL1318:
 	or a
-	jp z, __LABEL735
+	jp z, __LABEL738
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL737
+	jp z, __LABEL740
 	xor a
 	push af
 	ld a, (ix-8)
@@ -8639,17 +8661,17 @@ __LABEL1315:
 	push af
 	call _SetCell
 	call _UpdateScreen
-__LABEL737:
+__LABEL740:
 	call _FindBottom
 	ld (ix-2), a
 	ld h, a
 	ld a, 16
 	call __LTI8
 	or a
-	jp z, __LABEL738
+	jp z, __LABEL741
 	ld (ix-3), 1
-	jp __LABEL735
-__LABEL738:
+	jp __LABEL738
+__LABEL741:
 	ld a, 1
 	push af
 	xor a
@@ -8664,8 +8686,8 @@ __LABEL738:
 	push af
 	call _MoveRect
 	ld (ix-1), 1
-	jp __LABEL740
-__LABEL743:
+	jp __LABEL743
+__LABEL746:
 	ld a, 1
 	push af
 	ld a, 1
@@ -8693,7 +8715,7 @@ __LABEL743:
 	push af
 	call _SetCell
 	inc (ix-1)
-__LABEL740:
+__LABEL743:
 	ld a, (ix-1)
 	push af
 	ld a, (ix+5)
@@ -8715,10 +8737,10 @@ __LABEL740:
 	pop hl
 	call __LTI8
 	or a
-	jp z, __LABEL743
+	jp z, __LABEL746
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL746
+	jp z, __LABEL749
 	ld a, 1
 	push af
 	ld a, (ix-8)
@@ -8726,12 +8748,12 @@ __LABEL740:
 	ld a, (ix-7)
 	push af
 	call _SetCell
-__LABEL746:
+__LABEL749:
 	ld (ix-16), 0
 	ld (ix-15), 0
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL747:
+__LABEL750:
 	ld a, (ix-5)
 	ld l, a
 	ld h, 0
@@ -8740,10 +8762,10 @@ __LABEL747:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL748
+	jp nc, __LABEL751
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL750
+	jp z, __LABEL753
 	ld a, 1
 	cp (ix-8)
 	sbc a, a
@@ -8764,11 +8786,11 @@ __LABEL747:
 	pop af
 	ld h, (hl)
 	or a
-	jr z, __LABEL1316
+	jr z, __LABEL1319
 	ld a, h
-__LABEL1316:
+__LABEL1319:
 	or a
-	jp z, __LABEL751
+	jp z, __LABEL754
 	ld hl, 5279
 	push hl
 	ld hl, 1
@@ -8801,12 +8823,12 @@ __LABEL1316:
 	dec (ix-10)
 	ld a, (ix-10)
 	or a
-	jp z, __LABEL748
-	jp __LABEL752
-__LABEL751:
+	jp z, __LABEL751
+	jp __LABEL755
+__LABEL754:
 	ld a, (ix-8)
 	dec a
-	jp nz, __LABEL755
+	jp nz, __LABEL758
 	ld (ix-9), 0
 	xor a
 	push af
@@ -8815,8 +8837,8 @@ __LABEL751:
 	ld a, (ix-7)
 	push af
 	call _SetCell
-	jp __LABEL756
-__LABEL755:
+	jp __LABEL759
+__LABEL758:
 	xor a
 	push af
 	ld a, (ix-8)
@@ -8832,10 +8854,10 @@ __LABEL755:
 	ld a, (ix-7)
 	push af
 	call _SetCell
-__LABEL756:
-__LABEL752:
+__LABEL759:
+__LABEL755:
 	call _UpdateScreen
-__LABEL750:
+__LABEL753:
 	ld l, (ix-16)
 	ld h, (ix-15)
 	ld de, 0
@@ -8852,14 +8874,14 @@ __LABEL750:
 	pop de
 	sbc a, a
 	or d
-	jp z, __LABEL758
+	jp z, __LABEL761
 	ld hl, 57090
 	call _MultiKeys
 	or a
-	jp z, __LABEL759
+	jp z, __LABEL762
 	ld a, (ix-6)
 	sub 2
-	jp nz, __LABEL761
+	jp nz, __LABEL764
 	xor a
 	push af
 	ld a, 20
@@ -8897,11 +8919,11 @@ __LABEL750:
 	push af
 	call _SetCell
 	ld (ix-11), 1
-	jp __LABEL762
-__LABEL761:
+	jp __LABEL765
+__LABEL764:
 	ld a, (ix-6)
 	sub 10
-	jp nz, __LABEL763
+	jp nz, __LABEL766
 	xor a
 	push af
 	ld a, 255
@@ -8925,11 +8947,11 @@ __LABEL761:
 	call _SetCell
 	dec (ix-6)
 	ld (ix-11), 1
-	jp __LABEL764
-__LABEL763:
+	jp __LABEL767
+__LABEL766:
 	ld a, 2
 	cp (ix-6)
-	jp nc, __LABEL766
+	jp nc, __LABEL769
 	xor a
 	push af
 	ld a, 255
@@ -8947,18 +8969,18 @@ __LABEL763:
 	call _MoveRect
 	dec (ix-6)
 	ld (ix-11), 1
-__LABEL766:
-__LABEL764:
+__LABEL769:
+__LABEL767:
+__LABEL765:
+	jp __LABEL763
 __LABEL762:
-	jp __LABEL760
-__LABEL759:
 	ld hl, 57089
 	call _MultiKeys
 	or a
-	jp z, __LABEL767
+	jp z, __LABEL770
 	ld a, (ix-6)
 	sub 9
-	jp nz, __LABEL769
+	jp nz, __LABEL772
 	xor a
 	push af
 	ld a, 20
@@ -8996,11 +9018,11 @@ __LABEL759:
 	push af
 	call _SetCell
 	ld (ix-11), 1
-	jp __LABEL770
-__LABEL769:
+	jp __LABEL773
+__LABEL772:
 	ld a, (ix-6)
 	dec a
-	jp nz, __LABEL771
+	jp nz, __LABEL774
 	xor a
 	push af
 	ld a, 1
@@ -9024,11 +9046,11 @@ __LABEL769:
 	call _SetCell
 	inc (ix-6)
 	ld (ix-11), 1
-	jp __LABEL772
-__LABEL771:
+	jp __LABEL775
+__LABEL774:
 	ld a, (ix-6)
 	cp 9
-	jp nc, __LABEL774
+	jp nc, __LABEL777
 	xor a
 	push af
 	ld a, 1
@@ -9046,24 +9068,24 @@ __LABEL771:
 	call _MoveRect
 	inc (ix-6)
 	ld (ix-11), 1
-__LABEL774:
-__LABEL772:
+__LABEL777:
+__LABEL775:
+__LABEL773:
+	jp __LABEL771
 __LABEL770:
-	jp __LABEL768
-__LABEL767:
 	ld hl, 48912
 	call _MultiKeys
 	or a
-	jp z, __LABEL776
+	jp z, __LABEL779
 	xor a
 	jp _RunDestroyer__leave
-__LABEL776:
-__LABEL768:
-__LABEL760:
+__LABEL779:
+__LABEL771:
+__LABEL763:
 	ld hl, 32513
 	call _MultiKeys
 	or a
-	jp z, __LABEL777
+	jp z, __LABEL780
 	ld a, (ix-9)
 	sub 1
 	sbc a, a
@@ -9074,11 +9096,11 @@ __LABEL760:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1317
+	jr z, __LABEL1320
 	ld a, h
-__LABEL1317:
+__LABEL1320:
 	or a
-	jp z, __LABEL780
+	jp z, __LABEL783
 	ld (ix-9), 1
 	ld (ix-12), 1
 	ld a, (ix-6)
@@ -9092,18 +9114,18 @@ __LABEL1317:
 	push af
 	call _SetCell
 	call _UpdateScreen
+__LABEL783:
+	jp __LABEL781
 __LABEL780:
-	jp __LABEL778
-__LABEL777:
 	ld a, (ix-12)
 	or a
-	jp z, __LABEL782
+	jp z, __LABEL785
 	ld (ix-12), 0
-__LABEL782:
-__LABEL778:
+__LABEL785:
+__LABEL781:
 	ld a, (ix-11)
 	or a
-	jp z, __LABEL784
+	jp z, __LABEL787
 	ld (ix-11), 0
 	call _Frames
 	ld de, 4
@@ -9111,15 +9133,15 @@ __LABEL778:
 	ld (ix-16), l
 	ld (ix-15), h
 	call _UpdateScreen
-__LABEL784:
-__LABEL758:
-	jp __LABEL747
-__LABEL748:
-	jp __LABEL734
-__LABEL735:
+__LABEL787:
+__LABEL761:
+	jp __LABEL750
+__LABEL751:
+	jp __LABEL737
+__LABEL738:
 	ld a, (ix-3)
 	or a
-	jp z, __LABEL785
+	jp z, __LABEL788
 	dec (ix-4)
 	xor a
 	push af
@@ -9130,26 +9152,26 @@ __LABEL735:
 	call _Explode
 	call _ShowCurtain
 	ld (ix-3), 0
-	jp __LABEL786
-__LABEL785:
+	jp __LABEL789
+__LABEL788:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL788
+	jp nc, __LABEL791
 	ld a, 1
 	jp _RunDestroyer__leave
-__LABEL788:
+__LABEL791:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL790
+	jp nz, __LABEL793
 	ld hl, 54
 	push hl
 	ld hl, _destroyerLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL790:
+__LABEL793:
 	ld l, (ix-14)
 	ld h, (ix-13)
 	ld de, 10
@@ -9161,9 +9183,9 @@ __LABEL790:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL786:
-	jp __LABEL732
-__LABEL733:
+__LABEL789:
+	jp __LABEL735
+__LABEL736:
 	xor a
 _RunDestroyer__leave:
 	ld sp, ix
@@ -9191,12 +9213,12 @@ _RunGhostHunter:
 	ld bc, -2
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1318
+	ld hl, __LABEL1321
 	ld bc, 1
 	ldir
 	ld a, (_playedGhostMusic)
 	or a
-	jp nz, __LABEL792
+	jp nz, __LABEL795
 	ld a, 1
 	ld (_playedGhostMusic), a
 	ld hl, 60
@@ -9204,18 +9226,18 @@ _RunGhostHunter:
 	ld hl, _ghostIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL792:
+__LABEL795:
 	call _HideNextTitle
 	ld l, (ix-10)
 	ld h, (ix-9)
 	push hl
 	call _SetScore
-__LABEL793:
+__LABEL796:
 	ld a, (ix-2)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL794
+	jp nc, __LABEL797
 	xor a
 	push af
 	ld a, 20
@@ -9263,7 +9285,7 @@ __LABEL793:
 	push af
 	call _SetLifes
 	call _UpdateScreen
-__LABEL795:
+__LABEL798:
 	ld a, (ix-1)
 	sub 1
 	sbc a, a
@@ -9276,33 +9298,33 @@ __LABEL795:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1319
+	jr z, __LABEL1322
 	ld a, h
-__LABEL1319:
+__LABEL1322:
 	or a
-	jp z, __LABEL796
-__LABEL797:
+	jp z, __LABEL799
+__LABEL800:
 	ld a, (ix-4)
 	or a
-	jp nz, __LABEL798
+	jp nz, __LABEL801
 	call INKEY
-	ld de, __LABEL355
+	ld de, __LABEL358
 	ld a, 1
 	call __STRNE
 	or a
-	jp z, __LABEL800
+	jp z, __LABEL803
 	call INKEY
-	ld de, __LABEL406
+	ld de, __LABEL409
 	ld a, 1
 	call __STREQ
 	or a
-	jp z, __LABEL802
+	jp z, __LABEL805
 	xor a
 	jp _RunGhostHunter__leave
-__LABEL802:
+__LABEL805:
 	ld (ix-1), 1
-	jp __LABEL798
-__LABEL800:
+	jp __LABEL801
+__LABEL803:
 	call RND
 	push bc
 	push de
@@ -9337,7 +9359,7 @@ __LABEL800:
 	call __MUL32
 	call __LTI32
 	or a
-	jp z, __LABEL804
+	jp z, __LABEL807
 	call RND
 	push bc
 	push de
@@ -9380,12 +9402,12 @@ __LABEL800:
 	push af
 	call _DrawGhost
 	ld (ix-4), 1
-__LABEL804:
-	jp __LABEL797
-__LABEL798:
+__LABEL807:
+	jp __LABEL800
+__LABEL801:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL805:
+__LABEL808:
 	ld a, (ix-4)
 	push af
 	ld a, (ix-5)
@@ -9400,9 +9422,9 @@ __LABEL805:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1320
+	jr z, __LABEL1323
 	ld a, h
-__LABEL1320:
+__LABEL1323:
 	push af
 	ld a, (ix-1)
 	sub 1
@@ -9410,11 +9432,11 @@ __LABEL1320:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1321
+	jr z, __LABEL1324
 	ld a, h
-__LABEL1321:
+__LABEL1324:
 	or a
-	jp z, __LABEL806
+	jp z, __LABEL809
 	call INKEY
 	ld d, h
 	ld e, l
@@ -9422,7 +9444,7 @@ __LABEL1321:
 	call __PSTORE_STR2
 	ld l, (ix-8)
 	ld h, (ix-7)
-	ld de, __LABEL386
+	ld de, __LABEL389
 	xor a
 	call __STREQ
 	push af
@@ -9432,13 +9454,13 @@ __LABEL1321:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1322
+	jr z, __LABEL1325
 	ld a, h
-__LABEL1322:
+__LABEL1325:
 	push af
 	ld l, (ix-8)
 	ld h, (ix-7)
-	ld de, __LABEL391
+	ld de, __LABEL394
 	xor a
 	call __STREQ
 	push af
@@ -9449,15 +9471,15 @@ __LABEL1322:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1323
+	jr z, __LABEL1326
 	ld a, h
-__LABEL1323:
+__LABEL1326:
 	pop de
 	or d
 	push af
 	ld l, (ix-8)
 	ld h, (ix-7)
-	ld de, __LABEL608
+	ld de, __LABEL611
 	xor a
 	call __STREQ
 	push af
@@ -9468,28 +9490,9 @@ __LABEL1323:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1324
+	jr z, __LABEL1327
 	ld a, h
-__LABEL1324:
-	pop de
-	or d
-	push af
-	ld l, (ix-8)
-	ld h, (ix-7)
-	ld de, __LABEL396
-	xor a
-	call __STREQ
-	push af
-	ld a, (ix-3)
-	sub 3
-	sub 1
-	sbc a, a
-	ld h, a
-	pop af
-	or a
-	jr z, __LABEL1325
-	ld a, h
-__LABEL1325:
+__LABEL1327:
 	pop de
 	or d
 	push af
@@ -9500,18 +9503,37 @@ __LABEL1325:
 	call __STREQ
 	push af
 	ld a, (ix-3)
+	sub 3
+	sub 1
+	sbc a, a
+	ld h, a
+	pop af
+	or a
+	jr z, __LABEL1328
+	ld a, h
+__LABEL1328:
+	pop de
+	or d
+	push af
+	ld l, (ix-8)
+	ld h, (ix-7)
+	ld de, __LABEL402
+	xor a
+	call __STREQ
+	push af
+	ld a, (ix-3)
 	sub 4
 	sub 1
 	sbc a, a
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1326
+	jr z, __LABEL1329
 	ld a, h
-__LABEL1326:
+__LABEL1329:
 	pop de
 	or d
-	jp z, __LABEL807
+	jp z, __LABEL810
 	ld (ix-4), 0
 	dec (ix-6)
 	ld l, (ix-10)
@@ -9527,73 +9549,73 @@ __LABEL1326:
 	push hl
 	call _SetScore
 	call _UpdateScreen
-__LABEL809:
+__LABEL812:
 	call INKEY
-	ld de, __LABEL355
+	ld de, __LABEL358
 	ld a, 1
 	call __STRNE
 	or a
-	jp nz, __LABEL809
-	jp __LABEL808
-__LABEL807:
+	jp nz, __LABEL812
+	jp __LABEL811
+__LABEL810:
 	ld l, (ix-8)
 	ld h, (ix-7)
-	ld de, __LABEL406
+	ld de, __LABEL409
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL811
+	jp z, __LABEL814
 	xor a
 	jp _RunGhostHunter__leave
-__LABEL811:
+__LABEL814:
 	ld l, (ix-8)
 	ld h, (ix-7)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL814
+	jp z, __LABEL817
 	ld (ix-1), 1
 	ld (ix-4), 0
-__LABEL814:
-__LABEL808:
-	jp __LABEL805
-__LABEL806:
+__LABEL817:
+__LABEL811:
+	jp __LABEL808
+__LABEL809:
 	ld a, (ix-4)
 	or a
-	jp z, __LABEL816
+	jp z, __LABEL819
 	ld (ix-1), 1
-__LABEL816:
+__LABEL819:
 	ld (ix-4), 0
-	jp __LABEL795
-__LABEL796:
+	jp __LABEL798
+__LABEL799:
 	ld a, (ix-1)
 	or a
-	jp z, __LABEL817
+	jp z, __LABEL820
 	dec (ix-2)
 	call _ShowBigGhost
 	call _ShowCurtain
 	ld (ix-1), 0
-	jp __LABEL818
-__LABEL817:
+	jp __LABEL821
+__LABEL820:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL820
+	jp nc, __LABEL823
 	ld a, 1
 	jp _RunGhostHunter__leave
-__LABEL820:
+__LABEL823:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL822
+	jp nz, __LABEL825
 	ld hl, 18
 	push hl
 	ld hl, _ghostLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL822:
+__LABEL825:
 	ld l, (ix-10)
 	ld h, (ix-9)
 	ld de, 10
@@ -9605,9 +9627,9 @@ __LABEL822:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL818:
-	jp __LABEL793
-__LABEL794:
+__LABEL821:
+	jp __LABEL796
+__LABEL797:
 	xor a
 _RunGhostHunter__leave:
 	ex af, af'
@@ -9644,8 +9666,8 @@ _ShowBigGhost:
 	push af
 	call _FillRect
 	ld (ix-1), 1
-	jp __LABEL823
-__LABEL826:
+	jp __LABEL826
+__LABEL829:
 	ld a, (ix-1)
 	ld l, a
 	ld h, 0
@@ -9665,7 +9687,7 @@ __LABEL826:
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL829
+	jp z, __LABEL832
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9673,14 +9695,14 @@ __LABEL826:
 	ld a, 1
 	push af
 	call _SetCell
-__LABEL829:
+__LABEL832:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 256
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL831
+	jp z, __LABEL834
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9688,14 +9710,14 @@ __LABEL829:
 	ld a, 2
 	push af
 	call _SetCell
-__LABEL831:
+__LABEL834:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 128
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL833
+	jp z, __LABEL836
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9703,14 +9725,14 @@ __LABEL831:
 	ld a, 3
 	push af
 	call _SetCell
-__LABEL833:
+__LABEL836:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 64
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL835
+	jp z, __LABEL838
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9718,14 +9740,14 @@ __LABEL833:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL835:
+__LABEL838:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 32
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL837
+	jp z, __LABEL840
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9733,14 +9755,14 @@ __LABEL835:
 	ld a, 5
 	push af
 	call _SetCell
-__LABEL837:
+__LABEL840:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 16
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL839
+	jp z, __LABEL842
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9748,14 +9770,14 @@ __LABEL837:
 	ld a, 6
 	push af
 	call _SetCell
-__LABEL839:
+__LABEL842:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 8
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL841
+	jp z, __LABEL844
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9763,14 +9785,14 @@ __LABEL839:
 	ld a, 7
 	push af
 	call _SetCell
-__LABEL841:
+__LABEL844:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 4
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL843
+	jp z, __LABEL846
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9778,14 +9800,14 @@ __LABEL841:
 	ld a, 8
 	push af
 	call _SetCell
-__LABEL843:
+__LABEL846:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 2
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL845
+	jp z, __LABEL848
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9793,14 +9815,14 @@ __LABEL843:
 	ld a, 9
 	push af
 	call _SetCell
-__LABEL845:
+__LABEL848:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, 1
 	call __BAND16
 	ld a, h
 	or l
-	jp z, __LABEL847
+	jp z, __LABEL850
 	ld a, 1
 	push af
 	ld a, (ix-1)
@@ -9808,12 +9830,12 @@ __LABEL845:
 	ld a, 10
 	push af
 	call _SetCell
-__LABEL847:
+__LABEL850:
 	inc (ix-1)
-__LABEL823:
+__LABEL826:
 	ld a, 20
 	cp (ix-1)
-	jp nc, __LABEL826
+	jp nc, __LABEL829
 	call _UpdateScreen
 	ld hl, 1
 	call __PAUSE
@@ -9827,13 +9849,13 @@ __LABEL823:
 	ld hl, _ghostScarySound
 	push hl
 	call _PlayMusic
-__LABEL848:
+__LABEL851:
 	call INKEY
-	ld de, __LABEL355
+	ld de, __LABEL358
 	ld a, 1
 	call __STRNE
 	or a
-	jp nz, __LABEL848
+	jp nz, __LABEL851
 	ld hl, 80
 	call __PAUSE
 _ShowBigGhost__leave:
@@ -9848,38 +9870,38 @@ _DrawGhost:
 	push hl
 	ld a, (ix+5)
 	or a
-	jp nz, __LABEL850
+	jp nz, __LABEL853
 	ld (ix-1), 1
 	ld (ix-2), 7
-	jp __LABEL851
-__LABEL850:
+	jp __LABEL854
+__LABEL853:
 	ld a, (ix+5)
 	dec a
-	jp nz, __LABEL852
+	jp nz, __LABEL855
 	ld (ix-1), 6
 	ld (ix-2), 7
-	jp __LABEL853
-__LABEL852:
+	jp __LABEL856
+__LABEL855:
 	ld a, (ix+5)
 	sub 2
-	jp nz, __LABEL854
+	jp nz, __LABEL857
 	ld (ix-1), 3
 	ld (ix-2), 1
-	jp __LABEL855
-__LABEL854:
+	jp __LABEL858
+__LABEL857:
 	ld a, (ix+5)
 	sub 3
-	jp nz, __LABEL856
+	jp nz, __LABEL859
 	ld (ix-1), 4
 	ld (ix-2), 15
-	jp __LABEL857
-__LABEL856:
+	jp __LABEL860
+__LABEL859:
 	ld (ix-1), 4
 	ld (ix-2), 7
-__LABEL857:
-__LABEL855:
-__LABEL853:
-__LABEL851:
+__LABEL860:
+__LABEL858:
+__LABEL856:
+__LABEL854:
 	ld a, 1
 	push af
 	ld a, (ix-2)
@@ -9977,41 +9999,41 @@ _KillGhost:
 	inc sp
 	ld a, (ix+5)
 	or a
-	jp nz, __LABEL858
+	jp nz, __LABEL861
 	ld (ix-1), 1
 	ld (ix-2), 7
-	jp __LABEL859
-__LABEL858:
+	jp __LABEL862
+__LABEL861:
 	ld a, (ix+5)
 	dec a
-	jp nz, __LABEL860
+	jp nz, __LABEL863
 	ld (ix-1), 6
 	ld (ix-2), 7
-	jp __LABEL861
-__LABEL860:
+	jp __LABEL864
+__LABEL863:
 	ld a, (ix+5)
 	sub 2
-	jp nz, __LABEL862
+	jp nz, __LABEL865
 	ld (ix-1), 3
 	ld (ix-2), 1
-	jp __LABEL863
-__LABEL862:
+	jp __LABEL866
+__LABEL865:
 	ld a, (ix+5)
 	sub 3
-	jp nz, __LABEL864
+	jp nz, __LABEL867
 	ld (ix-1), 4
 	ld (ix-2), 15
-	jp __LABEL865
-__LABEL864:
+	jp __LABEL868
+__LABEL867:
 	ld (ix-1), 4
 	ld (ix-2), 7
-__LABEL865:
-__LABEL863:
-__LABEL861:
-__LABEL859:
+__LABEL868:
+__LABEL866:
+__LABEL864:
+__LABEL862:
 	ld (ix-3), 0
-	jp __LABEL866
-__LABEL869:
+	jp __LABEL869
+__LABEL872:
 	xor a
 	push af
 	ld a, (ix-2)
@@ -10032,10 +10054,10 @@ __LABEL869:
 	ld hl, 7
 	call __BEEPER
 	inc (ix-3)
-__LABEL866:
+__LABEL869:
 	ld a, 5
 	cp (ix-3)
-	jp nc, __LABEL869
+	jp nc, __LABEL872
 _KillGhost__leave:
 	ld sp, ix
 	pop ix
@@ -10054,11 +10076,11 @@ _FindConstructorBottom:
 	inc sp
 	ld a, (ix+5)
 	ld (ix-1), a
-	jp __LABEL871
-__LABEL874:
+	jp __LABEL874
+__LABEL877:
 	ld (ix-2), 1
-	jp __LABEL876
-__LABEL879:
+	jp __LABEL879
+__LABEL882:
 	ld a, (ix-1)
 	ld l, a
 	add a, a
@@ -10077,26 +10099,26 @@ __LABEL879:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp z, __LABEL882
+	jp z, __LABEL885
 	ld a, (ix-1)
 	ld (ix-3), a
-	jp __LABEL878
-__LABEL882:
+	jp __LABEL881
+__LABEL885:
 	inc (ix-2)
-__LABEL876:
+__LABEL879:
 	ld h, (ix-2)
 	ld a, 10
 	call __LTI8
 	or a
-	jp z, __LABEL879
-__LABEL878:
+	jp z, __LABEL882
+__LABEL881:
 	inc (ix-1)
-__LABEL871:
+__LABEL874:
 	ld h, (ix-1)
 	ld a, 18
 	call __LTI8
 	or a
-	jp z, __LABEL874
+	jp z, __LABEL877
 	ld a, (ix-3)
 _FindConstructorBottom__leave:
 	ld sp, ix
@@ -10114,8 +10136,8 @@ _CheckLine:
 	push hl
 	inc sp
 	ld (ix-1), 1
-	jp __LABEL883
-__LABEL886:
+	jp __LABEL886
+__LABEL889:
 	ld a, (ix+5)
 	ld l, a
 	ld h, 0
@@ -10130,15 +10152,15 @@ __LABEL886:
 	call __ARRAY
 	ld a, (hl)
 	or a
-	jp nz, __LABEL889
+	jp nz, __LABEL892
 	xor a
 	jp _CheckLine__leave
-__LABEL889:
+__LABEL892:
 	inc (ix-1)
-__LABEL883:
+__LABEL886:
 	ld a, 10
 	cp (ix-1)
-	jp nc, __LABEL886
+	jp nc, __LABEL889
 	xor a
 	push af
 	ld a, (ix+5)
@@ -10158,7 +10180,7 @@ __LABEL883:
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL891
+	jp nc, __LABEL894
 	ld a, 255
 	push af
 	xor a
@@ -10181,7 +10203,7 @@ __LABEL883:
 	push hl
 	ld hl, 41
 	call __BEEPER
-__LABEL891:
+__LABEL894:
 	ld a, 1
 _CheckLine__leave:
 	ld sp, ix
@@ -10209,12 +10231,12 @@ _RunConstructor:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1327
+	ld hl, __LABEL1330
 	ld bc, 1
 	ldir
 	ld a, (_playedConstructorMusic)
 	or a
-	jp nz, __LABEL893
+	jp nz, __LABEL896
 	ld a, 1
 	ld (_playedConstructorMusic), a
 	ld hl, 88
@@ -10222,18 +10244,18 @@ _RunConstructor:
 	ld hl, _constructorIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL893:
+__LABEL896:
 	call _HideNextTitle
 	ld l, (ix-14)
 	ld h, (ix-13)
 	push hl
 	call _SetScore
-__LABEL894:
+__LABEL897:
 	ld a, (ix-4)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL895
+	jp nc, __LABEL898
 	xor a
 	push af
 	ld a, 20
@@ -10312,7 +10334,7 @@ __LABEL894:
 	call __SUB32
 	ld a, l
 	ld (ix-5), a
-__LABEL896:
+__LABEL899:
 	ld a, (ix-3)
 	sub 1
 	sbc a, a
@@ -10325,14 +10347,14 @@ __LABEL896:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1328
+	jr z, __LABEL1331
 	ld a, h
-__LABEL1328:
+__LABEL1331:
 	or a
-	jp z, __LABEL897
+	jp z, __LABEL900
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL899
+	jp z, __LABEL902
 	xor a
 	push af
 	ld a, (ix-8)
@@ -10341,7 +10363,7 @@ __LABEL1328:
 	push af
 	call _SetCell
 	call _UpdateScreen
-__LABEL899:
+__LABEL902:
 	ld a, 1
 	push af
 	call _FindConstructorBottom
@@ -10350,10 +10372,10 @@ __LABEL899:
 	ld a, 16
 	call __LTI8
 	or a
-	jp z, __LABEL900
+	jp z, __LABEL903
 	ld (ix-3), 1
-	jp __LABEL897
-__LABEL900:
+	jp __LABEL900
+__LABEL903:
 	ld a, 1
 	push af
 	xor a
@@ -10368,8 +10390,8 @@ __LABEL900:
 	push af
 	call _MoveRect
 	ld (ix-1), 1
-	jp __LABEL902
-__LABEL905:
+	jp __LABEL905
+__LABEL908:
 	ld a, 1
 	push af
 	ld a, 1
@@ -10397,7 +10419,7 @@ __LABEL905:
 	push af
 	call _SetCell
 	inc (ix-1)
-__LABEL902:
+__LABEL905:
 	ld a, (ix-1)
 	push af
 	ld a, (ix+5)
@@ -10416,10 +10438,10 @@ __LABEL902:
 	pop hl
 	call __LTI8
 	or a
-	jp z, __LABEL905
+	jp z, __LABEL908
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL908
+	jp z, __LABEL911
 	ld a, 1
 	push af
 	ld a, (ix-8)
@@ -10427,12 +10449,12 @@ __LABEL902:
 	ld a, (ix-7)
 	push af
 	call _SetCell
-__LABEL908:
+__LABEL911:
 	ld (ix-16), 0
 	ld (ix-15), 0
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL909:
+__LABEL912:
 	ld a, (ix-5)
 	ld l, a
 	ld h, 0
@@ -10441,10 +10463,10 @@ __LABEL909:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL910
+	jp nc, __LABEL913
 	ld a, (ix-9)
 	or a
-	jp z, __LABEL912
+	jp z, __LABEL915
 	ld a, (ix-8)
 	dec a
 	sub 1
@@ -10465,13 +10487,13 @@ __LABEL909:
 	call __ARRAY
 	pop af
 	or (hl)
-	jp z, __LABEL913
+	jp z, __LABEL916
 	ld (ix-9), 0
 	ld a, (ix-8)
 	push af
 	call _CheckLine
 	or a
-	jp z, __LABEL916
+	jp z, __LABEL919
 	ld l, (ix-14)
 	ld h, (ix-13)
 	inc hl
@@ -10484,10 +10506,10 @@ __LABEL909:
 	dec (ix-11)
 	ld a, (ix-11)
 	or a
-	jp z, __LABEL910
+	jp z, __LABEL913
+__LABEL919:
+	jp __LABEL917
 __LABEL916:
-	jp __LABEL914
-__LABEL913:
 	xor a
 	push af
 	ld a, (ix-8)
@@ -10503,9 +10525,9 @@ __LABEL913:
 	ld a, (ix-7)
 	push af
 	call _SetCell
-__LABEL914:
+__LABEL917:
 	call _UpdateScreen
-__LABEL912:
+__LABEL915:
 	ld l, (ix-16)
 	ld h, (ix-15)
 	ld de, 0
@@ -10522,14 +10544,14 @@ __LABEL912:
 	pop de
 	sbc a, a
 	or d
-	jp z, __LABEL920
+	jp z, __LABEL923
 	ld hl, 57090
 	call _MultiKeys
 	or a
-	jp z, __LABEL921
+	jp z, __LABEL924
 	ld a, (ix-6)
 	sub 2
-	jp nz, __LABEL923
+	jp nz, __LABEL926
 	xor a
 	push af
 	ld a, 20
@@ -10567,11 +10589,11 @@ __LABEL912:
 	push af
 	call _SetCell
 	ld (ix-12), 1
-	jp __LABEL924
-__LABEL923:
+	jp __LABEL927
+__LABEL926:
 	ld a, (ix-6)
 	sub 10
-	jp nz, __LABEL925
+	jp nz, __LABEL928
 	xor a
 	push af
 	ld a, 255
@@ -10595,11 +10617,11 @@ __LABEL923:
 	call _SetCell
 	dec (ix-6)
 	ld (ix-12), 1
-	jp __LABEL926
-__LABEL925:
+	jp __LABEL929
+__LABEL928:
 	ld a, 2
 	cp (ix-6)
-	jp nc, __LABEL928
+	jp nc, __LABEL931
 	xor a
 	push af
 	ld a, 255
@@ -10617,18 +10639,18 @@ __LABEL925:
 	call _MoveRect
 	dec (ix-6)
 	ld (ix-12), 1
-__LABEL928:
-__LABEL926:
+__LABEL931:
+__LABEL929:
+__LABEL927:
+	jp __LABEL925
 __LABEL924:
-	jp __LABEL922
-__LABEL921:
 	ld hl, 57089
 	call _MultiKeys
 	or a
-	jp z, __LABEL929
+	jp z, __LABEL932
 	ld a, (ix-6)
 	sub 9
-	jp nz, __LABEL931
+	jp nz, __LABEL934
 	xor a
 	push af
 	ld a, 20
@@ -10666,11 +10688,11 @@ __LABEL921:
 	push af
 	call _SetCell
 	ld (ix-12), 1
-	jp __LABEL932
-__LABEL931:
+	jp __LABEL935
+__LABEL934:
 	ld a, (ix-6)
 	dec a
-	jp nz, __LABEL933
+	jp nz, __LABEL936
 	xor a
 	push af
 	ld a, 1
@@ -10694,11 +10716,11 @@ __LABEL931:
 	call _SetCell
 	inc (ix-6)
 	ld (ix-12), 1
-	jp __LABEL934
-__LABEL933:
+	jp __LABEL937
+__LABEL936:
 	ld a, (ix-6)
 	cp 9
-	jp nc, __LABEL936
+	jp nc, __LABEL939
 	xor a
 	push af
 	ld a, 1
@@ -10716,24 +10738,24 @@ __LABEL933:
 	call _MoveRect
 	inc (ix-6)
 	ld (ix-12), 1
-__LABEL936:
-__LABEL934:
+__LABEL939:
+__LABEL937:
+__LABEL935:
+	jp __LABEL933
 __LABEL932:
-	jp __LABEL930
-__LABEL929:
 	ld hl, 48912
 	call _MultiKeys
 	or a
-	jp z, __LABEL938
+	jp z, __LABEL941
 	xor a
 	jp _RunConstructor__leave
-__LABEL938:
-__LABEL930:
-__LABEL922:
+__LABEL941:
+__LABEL933:
+__LABEL925:
 	ld hl, 32513
 	call _MultiKeys
 	or a
-	jp z, __LABEL939
+	jp z, __LABEL942
 	ld a, (ix-9)
 	sub 1
 	sbc a, a
@@ -10744,11 +10766,11 @@ __LABEL922:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1329
+	jr z, __LABEL1332
 	ld a, h
-__LABEL1329:
+__LABEL1332:
 	or a
-	jp z, __LABEL942
+	jp z, __LABEL945
 	ld (ix-9), 1
 	ld (ix-10), 1
 	ld a, (ix-6)
@@ -10762,18 +10784,18 @@ __LABEL1329:
 	push af
 	call _SetCell
 	call _UpdateScreen
+__LABEL945:
+	jp __LABEL943
 __LABEL942:
-	jp __LABEL940
-__LABEL939:
 	ld a, (ix-10)
 	or a
-	jp z, __LABEL944
+	jp z, __LABEL947
 	ld (ix-10), 0
-__LABEL944:
-__LABEL940:
+__LABEL947:
+__LABEL943:
 	ld a, (ix-12)
 	or a
-	jp z, __LABEL946
+	jp z, __LABEL949
 	ld (ix-12), 0
 	call _Frames
 	ld de, 4
@@ -10781,15 +10803,15 @@ __LABEL940:
 	ld (ix-16), l
 	ld (ix-15), h
 	call _UpdateScreen
-__LABEL946:
-__LABEL920:
-	jp __LABEL909
-__LABEL910:
-	jp __LABEL896
-__LABEL897:
+__LABEL949:
+__LABEL923:
+	jp __LABEL912
+__LABEL913:
+	jp __LABEL899
+__LABEL900:
 	ld a, (ix-3)
 	or a
-	jp z, __LABEL947
+	jp z, __LABEL950
 	dec (ix-4)
 	xor a
 	push af
@@ -10800,26 +10822,26 @@ __LABEL897:
 	call _Explode
 	call _ShowCurtain
 	ld (ix-3), 0
-	jp __LABEL948
-__LABEL947:
+	jp __LABEL951
+__LABEL950:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL950
+	jp nc, __LABEL953
 	ld a, 1
 	jp _RunConstructor__leave
-__LABEL950:
+__LABEL953:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL952
+	jp nz, __LABEL955
 	ld hl, 86
 	push hl
 	ld hl, _constructorLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL952:
+__LABEL955:
 	ld l, (ix-14)
 	ld h, (ix-13)
 	ld de, 10
@@ -10831,9 +10853,9 @@ __LABEL952:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL948:
-	jp __LABEL894
-__LABEL895:
+__LABEL951:
+	jp __LABEL897
+__LABEL898:
 	xor a
 _RunConstructor__leave:
 	ld sp, ix
@@ -10849,7 +10871,7 @@ _ShowFigure:
 	add ix, sp
 	ld a, (ix+9)
 	and 1
-	jp z, __LABEL953
+	jp z, __LABEL956
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -10857,8 +10879,8 @@ _ShowFigure:
 	ld a, (ix+5)
 	push af
 	call _SetCell
-	jp __LABEL954
-__LABEL953:
+	jp __LABEL957
+__LABEL956:
 	xor a
 	push af
 	ld a, (ix+7)
@@ -10866,10 +10888,10 @@ __LABEL953:
 	ld a, (ix+5)
 	push af
 	call _SetCell
-__LABEL954:
+__LABEL957:
 	ld a, (ix+9)
 	and 2
-	jp z, __LABEL955
+	jp z, __LABEL958
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -10878,8 +10900,8 @@ __LABEL954:
 	inc a
 	push af
 	call _SetCell
-	jp __LABEL956
-__LABEL955:
+	jp __LABEL959
+__LABEL958:
 	xor a
 	push af
 	ld a, (ix+7)
@@ -10888,10 +10910,10 @@ __LABEL955:
 	inc a
 	push af
 	call _SetCell
-__LABEL956:
+__LABEL959:
 	ld a, (ix+9)
 	and 4
-	jp z, __LABEL957
+	jp z, __LABEL960
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -10900,8 +10922,8 @@ __LABEL956:
 	ld a, (ix+5)
 	push af
 	call _SetCell
-	jp __LABEL958
-__LABEL957:
+	jp __LABEL961
+__LABEL960:
 	xor a
 	push af
 	ld a, (ix+7)
@@ -10910,10 +10932,10 @@ __LABEL957:
 	ld a, (ix+5)
 	push af
 	call _SetCell
-__LABEL958:
+__LABEL961:
 	ld a, (ix+9)
 	and 8
-	jp z, __LABEL959
+	jp z, __LABEL962
 	ld a, 1
 	push af
 	ld a, (ix+7)
@@ -10923,8 +10945,8 @@ __LABEL958:
 	inc a
 	push af
 	call _SetCell
-	jp __LABEL960
-__LABEL959:
+	jp __LABEL963
+__LABEL962:
 	xor a
 	push af
 	ld a, (ix+7)
@@ -10934,7 +10956,7 @@ __LABEL959:
 	inc a
 	push af
 	call _SetCell
-__LABEL960:
+__LABEL963:
 _ShowFigure__leave:
 	ld sp, ix
 	pop ix
@@ -10963,11 +10985,11 @@ _RunMatch:
 	ld bc, -3
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1330
+	ld hl, __LABEL1333
 	ld bc, 1
 	ldir
 	ld hl, -19
-	ld de, __LABEL1331
+	ld de, __LABEL1334
 	ld bc, 3
 	call __ALLOC_LOCAL_ARRAY
 	push ix
@@ -10975,12 +10997,12 @@ _RunMatch:
 	ld bc, -10
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1332
+	ld hl, __LABEL1335
 	ld bc, 1
 	ldir
 	ld a, (_playedMatchMusic)
 	or a
-	jp nz, __LABEL962
+	jp nz, __LABEL965
 	ld a, 1
 	ld (_playedMatchMusic), a
 	ld hl, 122
@@ -10988,18 +11010,18 @@ _RunMatch:
 	ld hl, _matchIntroMusic
 	push hl
 	call _PlayMusic
-__LABEL962:
+__LABEL965:
 	call _HideNextTitle
 	ld l, (ix-15)
 	ld h, (ix-14)
 	push hl
 	call _SetScore
-__LABEL963:
+__LABEL966:
 	ld a, (ix-3)
 	ld h, a
 	xor a
 	cp h
-	jp nc, __LABEL964
+	jp nc, __LABEL967
 	xor a
 	push af
 	ld a, 20
@@ -11185,7 +11207,7 @@ __LABEL963:
 	push af
 	call _FillRect
 	ld (ix-8), 0
-__LABEL965:
+__LABEL968:
 	ld a, (ix-2)
 	sub 1
 	sbc a, a
@@ -11198,14 +11220,14 @@ __LABEL965:
 	ld h, a
 	pop af
 	or a
-	jr z, __LABEL1333
+	jr z, __LABEL1336
 	ld a, h
-__LABEL1333:
+__LABEL1336:
 	or a
-	jp z, __LABEL966
+	jp z, __LABEL969
 	ld a, (ix-8)
 	sub 10
-	jp nz, __LABEL967
+	jp nz, __LABEL970
 	ld l, (ix-17)
 	ld h, (ix-16)
 	ld a, (hl)
@@ -11225,10 +11247,10 @@ __LABEL1333:
 	ld a, (hl)
 	sub (ix-7)
 	or d
-	jp z, __LABEL969
+	jp z, __LABEL972
 	ld (ix-2), 1
-	jp __LABEL966
-__LABEL969:
+	jp __LABEL969
+__LABEL972:
 	ld hl, 321
 	push hl
 	ld hl, 5
@@ -11265,7 +11287,7 @@ __LABEL969:
 	dec (ix-11)
 	ld a, (ix-11)
 	cp 1
-	jp c, __LABEL966
+	jp c, __LABEL969
 	xor a
 	push af
 	ld a, (ix-8)
@@ -11339,11 +11361,11 @@ __LABEL969:
 	ex de, hl
 	ld a, l
 	ld (ix-7), a
-	jp __LABEL968
-__LABEL967:
+	jp __LABEL971
+__LABEL970:
 	ld a, (ix-8)
 	or a
-	jp z, __LABEL974
+	jp z, __LABEL977
 	xor a
 	push af
 	ld a, (ix-8)
@@ -11356,8 +11378,8 @@ __LABEL967:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL974:
-__LABEL968:
+__LABEL977:
+__LABEL971:
 	inc (ix-8)
 	ld a, (ix-5)
 	push af
@@ -11383,7 +11405,7 @@ __LABEL968:
 	ld (ix-13), 0
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL975:
+__LABEL978:
 	ld a, (ix-4)
 	ld l, a
 	ld h, 0
@@ -11392,7 +11414,7 @@ __LABEL975:
 	pop de
 	or a
 	sbc hl, de
-	jp nc, __LABEL976
+	jp nc, __LABEL979
 	ld a, (ix-13)
 	sub 1
 	sbc a, a
@@ -11409,11 +11431,11 @@ __LABEL975:
 	pop de
 	sbc a, a
 	or d
-	jp z, __LABEL978
+	jp z, __LABEL981
 	ld hl, 64257
 	call _MultiKeys
 	or a
-	jp z, __LABEL979
+	jp z, __LABEL982
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11469,7 +11491,7 @@ __LABEL975:
 	call __ARRAY
 	ld a, (ix-9)
 	cp (hl)
-	jp nc, __LABEL982
+	jp nc, __LABEL985
 	ld a, (ix-10)
 	ld l, a
 	ld h, 0
@@ -11481,7 +11503,7 @@ __LABEL975:
 	add hl, de
 	call __ARRAY
 	ld (hl), 1
-__LABEL982:
+__LABEL985:
 	ld a, (ix-10)
 	ld l, a
 	ld h, 0
@@ -11500,12 +11522,12 @@ __LABEL982:
 	push af
 	call _ShowFigure
 	ld (ix-12), 1
-	jp __LABEL980
-__LABEL979:
+	jp __LABEL983
+__LABEL982:
 	ld hl, 64769
 	call _MultiKeys
 	or a
-	jp z, __LABEL983
+	jp z, __LABEL986
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11561,7 +11583,7 @@ __LABEL979:
 	call __ARRAY
 	ld a, (hl)
 	cp 1
-	jp nc, __LABEL986
+	jp nc, __LABEL989
 	ld a, (ix-9)
 	push af
 	ld a, (ix-10)
@@ -11576,7 +11598,7 @@ __LABEL979:
 	call __ARRAY
 	pop af
 	ld (hl), a
-__LABEL986:
+__LABEL989:
 	ld a, (ix-10)
 	ld l, a
 	ld h, 0
@@ -11595,12 +11617,12 @@ __LABEL986:
 	push af
 	call _ShowFigure
 	ld (ix-12), 1
-	jp __LABEL984
-__LABEL983:
+	jp __LABEL987
+__LABEL986:
 	ld hl, 57090
 	call _MultiKeys
 	or a
-	jp z, __LABEL987
+	jp z, __LABEL990
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11622,9 +11644,9 @@ __LABEL983:
 	dec (ix-10)
 	ld a, (ix-10)
 	cp 1
-	jp nc, __LABEL990
+	jp nc, __LABEL993
 	ld (ix-10), 3
-__LABEL990:
+__LABEL993:
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11644,12 +11666,12 @@ __LABEL990:
 	push af
 	call _FillRect
 	ld (ix-12), 1
-	jp __LABEL988
-__LABEL987:
+	jp __LABEL991
+__LABEL990:
 	ld hl, 57089
 	call _MultiKeys
 	or a
-	jp z, __LABEL991
+	jp z, __LABEL994
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11671,9 +11693,9 @@ __LABEL987:
 	inc (ix-10)
 	ld a, 3
 	cp (ix-10)
-	jp nc, __LABEL994
+	jp nc, __LABEL997
 	ld (ix-10), 1
-__LABEL994:
+__LABEL997:
 	ld a, (ix-10)
 	dec a
 	ld h, 3
@@ -11693,22 +11715,22 @@ __LABEL994:
 	push af
 	call _FillRect
 	ld (ix-12), 1
-	jp __LABEL992
-__LABEL991:
+	jp __LABEL995
+__LABEL994:
 	ld hl, 48912
 	call _MultiKeys
 	or a
-	jp z, __LABEL996
+	jp z, __LABEL999
 	xor a
 	jp _RunMatch__leave
-__LABEL996:
-__LABEL992:
-__LABEL988:
-__LABEL984:
-__LABEL980:
+__LABEL999:
+__LABEL995:
+__LABEL991:
+__LABEL987:
+__LABEL983:
 	ld a, (ix-12)
 	or a
-	jp z, __LABEL998
+	jp z, __LABEL1001
 	ld (ix-12), 0
 	call _Frames
 	ld de, 10
@@ -11716,18 +11738,18 @@ __LABEL980:
 	ld a, l
 	ld (ix-13), a
 	call _UpdateScreen
-__LABEL998:
-__LABEL978:
+__LABEL1001:
+__LABEL981:
 	ld hl, 32513
 	call _MultiKeys
 	or a
-	jp z, __LABEL975
-__LABEL976:
-	jp __LABEL965
-__LABEL966:
+	jp z, __LABEL978
+__LABEL979:
+	jp __LABEL968
+__LABEL969:
 	ld a, (ix-2)
 	or a
-	jp z, __LABEL1001
+	jp z, __LABEL1004
 	dec (ix-3)
 	ld a, 1
 	push af
@@ -11752,26 +11774,26 @@ __LABEL966:
 	call _Explode
 	call _ShowCurtain
 	ld (ix-2), 0
-	jp __LABEL1002
-__LABEL1001:
+	jp __LABEL1005
+__LABEL1004:
 	inc (ix+5)
 	ld a, 99
 	cp (ix+5)
-	jp nc, __LABEL1004
+	jp nc, __LABEL1007
 	ld a, 1
 	jp _RunMatch__leave
-__LABEL1004:
+__LABEL1007:
 	ld a, (ix+5)
 	ld h, 10
 	call __MODU8_FAST
 	or a
-	jp nz, __LABEL1006
+	jp nz, __LABEL1009
 	ld hl, 86
 	push hl
 	ld hl, _matchLevelMusic
 	push hl
 	call _PlayMusic
-__LABEL1006:
+__LABEL1009:
 	ld l, (ix-15)
 	ld h, (ix-14)
 	ld de, 10
@@ -11783,9 +11805,9 @@ __LABEL1006:
 	push hl
 	call _SetScore
 	call _ShowCurtain
-__LABEL1002:
-	jp __LABEL963
-__LABEL964:
+__LABEL1005:
+	jp __LABEL966
+__LABEL967:
 	xor a
 _RunMatch__leave:
 	ex af, af'
@@ -11853,7 +11875,7 @@ _ShowChar:
 	call _FillRect
 	ld a, (ix+7)
 	cp 5
-	jp nc, __LABEL1007
+	jp nc, __LABEL1010
 	ld a, (ix+7)
 	add a, a
 	ld h, a
@@ -11863,8 +11885,8 @@ _ShowChar:
 	ld a, (ix+7)
 	ld (ix-2), a
 	ld (ix-5), 1
-	jp __LABEL1009
-__LABEL1012:
+	jp __LABEL1012
+__LABEL1015:
 	ld l, (ix-8)
 	ld h, (ix-7)
 	push hl
@@ -11879,23 +11901,23 @@ __LABEL1012:
 	ld (ix-6), a
 	ld a, (ix-2)
 	ld (ix-4), a
-	jp __LABEL1014
-__LABEL1017:
+	jp __LABEL1017
+__LABEL1020:
 	ld a, 8
 	sub (ix-4)
 	ld h, 1
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL1335
-__LABEL1334:
+	jr z, __LABEL1338
+__LABEL1337:
 	add a, a
-	djnz __LABEL1334
-__LABEL1335:
+	djnz __LABEL1337
+__LABEL1338:
 	ld (ix-3), a
 	ld a, (ix-6)
 	and (ix-3)
-	jp z, __LABEL1020
+	jp z, __LABEL1023
 	ld a, 1
 	push af
 	ld a, (ix-5)
@@ -11904,25 +11926,25 @@ __LABEL1335:
 	inc a
 	push af
 	call _SetCell
-__LABEL1020:
+__LABEL1023:
 	inc (ix-4)
-__LABEL1014:
+__LABEL1017:
 	ld h, (ix-4)
 	ld a, (ix-2)
 	add a, (ix-1)
 	dec a
 	cp h
-	jp nc, __LABEL1017
+	jp nc, __LABEL1020
 	inc (ix-5)
-__LABEL1009:
+__LABEL1012:
 	ld a, 8
 	cp (ix-5)
-	jp nc, __LABEL1012
-	jp __LABEL1008
-__LABEL1007:
+	jp nc, __LABEL1015
+	jp __LABEL1011
+__LABEL1010:
 	ld a, 5
 	cp (ix+7)
-	jp nc, __LABEL1022
+	jp nc, __LABEL1025
 	ld a, 10
 	sub (ix+7)
 	ld (ix+7), a
@@ -11934,8 +11956,8 @@ __LABEL1007:
 	ld a, (ix+7)
 	ld (ix-2), a
 	ld (ix-5), 1
-	jp __LABEL1023
-__LABEL1026:
+	jp __LABEL1026
+__LABEL1029:
 	ld l, (ix-8)
 	ld h, (ix-7)
 	push hl
@@ -11952,23 +11974,23 @@ __LABEL1026:
 	add a, (ix-1)
 	dec a
 	ld (ix-4), a
-	jp __LABEL1028
-__LABEL1031:
+	jp __LABEL1031
+__LABEL1034:
 	ld a, (ix-4)
 	dec a
 	ld h, 1
 	or a
 	ld b, a
 	ld a, h
-	jr z, __LABEL1337
-__LABEL1336:
+	jr z, __LABEL1340
+__LABEL1339:
 	add a, a
-	djnz __LABEL1336
-__LABEL1337:
+	djnz __LABEL1339
+__LABEL1340:
 	ld (ix-3), a
 	ld a, (ix-6)
 	and (ix-3)
-	jp z, __LABEL1034
+	jp z, __LABEL1037
 	ld a, 1
 	push af
 	ld a, (ix-5)
@@ -11977,19 +11999,19 @@ __LABEL1337:
 	inc a
 	push af
 	call _SetCell
-__LABEL1034:
+__LABEL1037:
 	dec (ix-4)
-__LABEL1028:
+__LABEL1031:
 	ld a, (ix-4)
 	cp (ix-2)
-	jp nc, __LABEL1031
+	jp nc, __LABEL1034
 	inc (ix-5)
-__LABEL1023:
+__LABEL1026:
 	ld a, 8
 	cp (ix-5)
-	jp nc, __LABEL1026
-__LABEL1022:
-__LABEL1008:
+	jp nc, __LABEL1029
+__LABEL1025:
+__LABEL1011:
 	ld hl, 2
 	call __PAUSE
 _ShowChar__leave:
@@ -12023,91 +12045,91 @@ _ScanKeyb:
 	call __PSTORE_STR2
 	ld l, (ix-3)
 	ld h, (ix-2)
-	ld de, __LABEL355
+	ld de, __LABEL358
 	xor a
 	call __STRNE
 	or a
-	jp z, __LABEL1036
+	jp z, __LABEL1039
 	ld l, (ix-3)
 	ld h, (ix-2)
-	ld de, __LABEL608
+	ld de, __LABEL611
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL1037
+	jp z, __LABEL1040
 	ld hl, _level
 	inc (hl)
 	ld a, 99
 	ld hl, (_level - 1)
 	call __LTI8
 	or a
-	jp z, __LABEL1040
+	jp z, __LABEL1043
 	xor a
 	ld (_level), a
+__LABEL1043:
+	ld a, (_level)
+	push af
+	call _SetLevel
+	call _UpdateScreen
+	jp __LABEL1041
 __LABEL1040:
-	ld a, (_level)
-	push af
-	call _SetLevel
-	call _UpdateScreen
-	jp __LABEL1038
-__LABEL1037:
-	ld l, (ix-3)
-	ld h, (ix-2)
-	ld de, __LABEL396
-	xor a
-	call __STREQ
-	or a
-	jp z, __LABEL1041
-	ld hl, _level
-	dec (hl)
-	ld h, 0
-	ld a, (_level)
-	call __LTI8
-	or a
-	jp z, __LABEL1044
-	ld a, 99
-	ld (_level), a
-__LABEL1044:
-	ld a, (_level)
-	push af
-	call _SetLevel
-	call _UpdateScreen
-	jp __LABEL1042
-__LABEL1041:
-	ld l, (ix-3)
-	ld h, (ix-2)
-	ld de, __LABEL386
-	xor a
-	call __STREQ
-	or a
-	jp z, __LABEL1045
-	ld (ix-1), 2
-	jp __LABEL1046
-__LABEL1045:
-	ld l, (ix-3)
-	ld h, (ix-2)
-	ld de, __LABEL391
-	xor a
-	call __STREQ
-	or a
-	jp z, __LABEL1047
-	ld (ix-1), 1
-	jp __LABEL1048
-__LABEL1047:
 	ld l, (ix-3)
 	ld h, (ix-2)
 	ld de, __LABEL399
 	xor a
 	call __STREQ
 	or a
-	jp z, __LABEL1050
-	ld (ix-1), 3
-__LABEL1050:
+	jp z, __LABEL1044
+	ld hl, _level
+	dec (hl)
+	ld h, 0
+	ld a, (_level)
+	call __LTI8
+	or a
+	jp z, __LABEL1047
+	ld a, 99
+	ld (_level), a
+__LABEL1047:
+	ld a, (_level)
+	push af
+	call _SetLevel
+	call _UpdateScreen
+	jp __LABEL1045
+__LABEL1044:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	ld de, __LABEL389
+	xor a
+	call __STREQ
+	or a
+	jp z, __LABEL1048
+	ld (ix-1), 2
+	jp __LABEL1049
 __LABEL1048:
-__LABEL1046:
-__LABEL1042:
-__LABEL1038:
-__LABEL1036:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	ld de, __LABEL394
+	xor a
+	call __STREQ
+	or a
+	jp z, __LABEL1050
+	ld (ix-1), 1
+	jp __LABEL1051
+__LABEL1050:
+	ld l, (ix-3)
+	ld h, (ix-2)
+	ld de, __LABEL402
+	xor a
+	call __STREQ
+	or a
+	jp z, __LABEL1053
+	ld (ix-1), 3
+__LABEL1053:
+__LABEL1051:
+__LABEL1049:
+__LABEL1045:
+__LABEL1041:
+__LABEL1039:
 	ld a, (ix-1)
 _ScanKeyb__leave:
 	ex af, af'
@@ -12134,7 +12156,7 @@ _ShowTetris:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1338
+	ld hl, __LABEL1341
 	ld bc, 1
 	ldir
 	push ix
@@ -12142,7 +12164,7 @@ _ShowTetris:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1339
+	ld hl, __LABEL1342
 	ld bc, 1
 	ldir
 	xor a
@@ -12189,10 +12211,10 @@ _ShowTetris:
 	ld a, 6
 	push af
 	call _FillRect
-__LABEL1051:
+__LABEL1054:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1052
+	jp nz, __LABEL1055
 	ld a, 1
 	push af
 	ld a, 9
@@ -12223,7 +12245,7 @@ __LABEL1051:
 	call _SetCell
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1053
+	ld hl, __LABEL1056
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12239,15 +12261,15 @@ __LABEL1051:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1055
+	jp z, __LABEL1058
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1055:
+__LABEL1058:
 	call _UpdateScreen
 	ld (ix-2), 9
-	jp __LABEL1056
-__LABEL1059:
+	jp __LABEL1059
+__LABEL1062:
 	ld a, 1
 	push af
 	xor a
@@ -12264,7 +12286,7 @@ __LABEL1059:
 	call _MoveRect
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1053
+	ld hl, __LABEL1056
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12280,22 +12302,22 @@ __LABEL1059:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1062
+	jp z, __LABEL1065
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1062:
+__LABEL1065:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1063:
+__LABEL1066:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1064
+	jp nc, __LABEL1067
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1053
+	ld hl, __LABEL1056
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12311,26 +12333,26 @@ __LABEL1063:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1066
+	jp z, __LABEL1069
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1066:
+__LABEL1069:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1068
+	jp z, __LABEL1071
 	ld a, (ix-3)
 	jp _ShowTetris__leave
-__LABEL1068:
-	jp __LABEL1063
-__LABEL1064:
+__LABEL1071:
+	jp __LABEL1066
+__LABEL1067:
 	inc (ix-2)
-__LABEL1056:
+__LABEL1059:
 	ld a, 16
 	cp (ix-2)
-	jp nc, __LABEL1059
+	jp nc, __LABEL1062
 	xor a
 	push af
 	ld a, 18
@@ -12342,8 +12364,8 @@ __LABEL1056:
 	ld a, 4
 	push af
 	call _FillRect
-	jp __LABEL1051
-__LABEL1052:
+	jp __LABEL1054
+__LABEL1055:
 _ShowTetris__leave:
 	ld sp, ix
 	pop ix
@@ -12366,7 +12388,7 @@ _ShowArkanoid:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1340
+	ld hl, __LABEL1343
 	ld bc, 1
 	ldir
 	push ix
@@ -12374,7 +12396,7 @@ _ShowArkanoid:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1341
+	ld hl, __LABEL1344
 	ld bc, 1
 	ldir
 	xor a
@@ -12399,10 +12421,10 @@ _ShowArkanoid:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1069:
+__LABEL1072:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1070
+	jp nz, __LABEL1073
 	ld (ix-6), 2
 	ld (ix-7), 19
 	ld a, 1
@@ -12427,7 +12449,7 @@ __LABEL1069:
 	call _FillRect
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1071
+	ld hl, __LABEL1074
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12443,22 +12465,22 @@ __LABEL1069:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1073
+	jp z, __LABEL1076
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1073:
+__LABEL1076:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1074:
+__LABEL1077:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp c, __LABEL1074
+	jp c, __LABEL1077
 	ld (ix-2), 9
-	jp __LABEL1076
-__LABEL1079:
+	jp __LABEL1079
+__LABEL1082:
 	xor a
 	push af
 	ld a, (ix-7)
@@ -12503,7 +12525,7 @@ __LABEL1079:
 	call _FillRect
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1071
+	ld hl, __LABEL1074
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12519,22 +12541,22 @@ __LABEL1079:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1082
+	jp z, __LABEL1085
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1082:
+__LABEL1085:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1083:
+__LABEL1086:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1084
+	jp nc, __LABEL1087
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1071
+	ld hl, __LABEL1074
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12550,26 +12572,26 @@ __LABEL1083:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1086
+	jp z, __LABEL1089
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1086:
+__LABEL1089:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1088
+	jp z, __LABEL1091
 	ld a, (ix-3)
 	jp _ShowArkanoid__leave
-__LABEL1088:
-	jp __LABEL1083
-__LABEL1084:
+__LABEL1091:
+	jp __LABEL1086
+__LABEL1087:
 	inc (ix-2)
-__LABEL1076:
+__LABEL1079:
 	ld a, 15
 	cp (ix-2)
-	jp nc, __LABEL1079
+	jp nc, __LABEL1082
 	xor a
 	push af
 	ld a, (ix-7)
@@ -12590,8 +12612,8 @@ __LABEL1076:
 	dec a
 	push af
 	call _FillRect
-	jp __LABEL1069
-__LABEL1070:
+	jp __LABEL1072
+__LABEL1073:
 _ShowArkanoid__leave:
 	ld sp, ix
 	pop ix
@@ -12610,7 +12632,7 @@ _ShowRacing:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1342
+	ld hl, __LABEL1345
 	ld bc, 1
 	ldir
 	push ix
@@ -12618,7 +12640,7 @@ _ShowRacing:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1343
+	ld hl, __LABEL1346
 	ld bc, 1
 	ldir
 	xor a
@@ -12632,16 +12654,16 @@ _ShowRacing:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1089:
+__LABEL1092:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1090
+	jp nz, __LABEL1093
 	ld (ix-2), 1
-	jp __LABEL1091
-__LABEL1094:
+	jp __LABEL1094
+__LABEL1097:
 	ld a, (ix-2)
 	dec a
-	jp nz, __LABEL1096
+	jp nz, __LABEL1099
 	xor a
 	push af
 	ld a, 20
@@ -12753,8 +12775,8 @@ __LABEL1094:
 	ld a, 10
 	push af
 	call _FillRect
-	jp __LABEL1097
-__LABEL1096:
+	jp __LABEL1100
+__LABEL1099:
 	ld a, (ix-2)
 	cp 4
 	sbc a, a
@@ -12763,7 +12785,7 @@ __LABEL1096:
 	cp (ix-2)
 	sbc a, a
 	or d
-	jp z, __LABEL1098
+	jp z, __LABEL1101
 	ld a, 1
 	push af
 	xor a
@@ -12779,11 +12801,11 @@ __LABEL1096:
 	ld a, 3
 	push af
 	call _MoveRect
-	jp __LABEL1099
-__LABEL1098:
+	jp __LABEL1102
+__LABEL1101:
 	ld a, (ix-2)
 	sub 4
-	jp nz, __LABEL1101
+	jp nz, __LABEL1104
 	ld a, 1
 	push af
 	xor a
@@ -12812,12 +12834,12 @@ __LABEL1098:
 	ld a, 3
 	push af
 	call _MoveRect
-__LABEL1101:
-__LABEL1099:
-__LABEL1097:
+__LABEL1104:
+__LABEL1102:
+__LABEL1100:
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1102
+	ld hl, __LABEL1105
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12833,22 +12855,22 @@ __LABEL1097:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1104
+	jp z, __LABEL1107
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1104:
+__LABEL1107:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1105:
+__LABEL1108:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1106
+	jp nc, __LABEL1109
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1102
+	ld hl, __LABEL1105
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -12864,26 +12886,26 @@ __LABEL1105:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1108
+	jp z, __LABEL1111
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1108:
+__LABEL1111:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1110
+	jp z, __LABEL1113
 	ld a, (ix-3)
 	jp _ShowRacing__leave
-__LABEL1110:
-	jp __LABEL1105
-__LABEL1106:
+__LABEL1113:
+	jp __LABEL1108
+__LABEL1109:
 	inc (ix-2)
-__LABEL1091:
+__LABEL1094:
 	ld a, 8
 	cp (ix-2)
-	jp nc, __LABEL1094
+	jp nc, __LABEL1097
 	xor a
 	push af
 	ld a, 18
@@ -12895,8 +12917,8 @@ __LABEL1091:
 	ld a, 4
 	push af
 	call _FillRect
-	jp __LABEL1089
-__LABEL1090:
+	jp __LABEL1092
+__LABEL1093:
 _ShowRacing__leave:
 	ld sp, ix
 	pop ix
@@ -12915,7 +12937,7 @@ _ShowSnake:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1344
+	ld hl, __LABEL1347
 	ld bc, 1
 	ldir
 	push ix
@@ -12923,7 +12945,7 @@ _ShowSnake:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1345
+	ld hl, __LABEL1348
 	ld bc, 1
 	ldir
 	xor a
@@ -12937,16 +12959,16 @@ _ShowSnake:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1111:
+__LABEL1114:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1112
+	jp nz, __LABEL1115
 	ld (ix-2), 0
-	jp __LABEL1113
-__LABEL1116:
+	jp __LABEL1116
+__LABEL1119:
 	ld a, (ix-2)
 	or a
-	jp nz, __LABEL1118
+	jp nz, __LABEL1121
 	xor a
 	push af
 	ld a, 20
@@ -13009,8 +13031,8 @@ __LABEL1116:
 	ld a, 9
 	push af
 	call _SetCell
-	jp __LABEL1119
-__LABEL1118:
+	jp __LABEL1122
+__LABEL1121:
 	xor a
 	push af
 	ld a, 1
@@ -13028,10 +13050,10 @@ __LABEL1118:
 	dec a
 	push af
 	call _MoveRect
-__LABEL1119:
+__LABEL1122:
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1120
+	ld hl, __LABEL1123
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13047,22 +13069,22 @@ __LABEL1119:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1122
+	jp z, __LABEL1125
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1122:
+__LABEL1125:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1123:
+__LABEL1126:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1124
+	jp nc, __LABEL1127
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1120
+	ld hl, __LABEL1123
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13078,28 +13100,28 @@ __LABEL1123:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1126
+	jp z, __LABEL1129
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1126:
+__LABEL1129:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1128
+	jp z, __LABEL1131
 	ld a, (ix-3)
 	jp _ShowSnake__leave
-__LABEL1128:
-	jp __LABEL1123
-__LABEL1124:
+__LABEL1131:
+	jp __LABEL1126
+__LABEL1127:
 	inc (ix-2)
-__LABEL1113:
+__LABEL1116:
 	ld a, 3
 	cp (ix-2)
-	jp nc, __LABEL1116
-	jp __LABEL1111
-__LABEL1112:
+	jp nc, __LABEL1119
+	jp __LABEL1114
+__LABEL1115:
 _ShowSnake__leave:
 	ld sp, ix
 	pop ix
@@ -13118,7 +13140,7 @@ _ShowDestroyer:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1346
+	ld hl, __LABEL1349
 	ld bc, 1
 	ldir
 	push ix
@@ -13126,7 +13148,7 @@ _ShowDestroyer:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1347
+	ld hl, __LABEL1350
 	ld bc, 1
 	ldir
 	xor a
@@ -13140,16 +13162,16 @@ _ShowDestroyer:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1129:
+__LABEL1132:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1130
+	jp nz, __LABEL1133
 	ld (ix-2), 0
-	jp __LABEL1131
-__LABEL1134:
+	jp __LABEL1134
+__LABEL1137:
 	ld a, (ix-2)
 	or a
-	jp nz, __LABEL1136
+	jp nz, __LABEL1139
 	xor a
 	push af
 	ld a, 20
@@ -13197,8 +13219,8 @@ __LABEL1134:
 	ld a, 4
 	push af
 	call _SetCell
-	jp __LABEL1137
-__LABEL1136:
+	jp __LABEL1140
+__LABEL1139:
 	xor a
 	push af
 	ld a, 18
@@ -13216,10 +13238,10 @@ __LABEL1136:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL1137:
+__LABEL1140:
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1138
+	ld hl, __LABEL1141
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13235,22 +13257,22 @@ __LABEL1137:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1140
+	jp z, __LABEL1143
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1140:
+__LABEL1143:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1141:
+__LABEL1144:
 	call _Frames
 	ld de, 20
 	or a
 	sbc hl, de
-	jp nc, __LABEL1142
+	jp nc, __LABEL1145
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1138
+	ld hl, __LABEL1141
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13266,28 +13288,28 @@ __LABEL1141:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1144
+	jp z, __LABEL1147
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1144:
+__LABEL1147:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1146
+	jp z, __LABEL1149
 	ld a, (ix-3)
 	jp _ShowDestroyer__leave
-__LABEL1146:
-	jp __LABEL1141
-__LABEL1142:
+__LABEL1149:
+	jp __LABEL1144
+__LABEL1145:
 	inc (ix-2)
-__LABEL1131:
+__LABEL1134:
 	ld a, 8
 	cp (ix-2)
-	jp nc, __LABEL1134
-	jp __LABEL1129
-__LABEL1130:
+	jp nc, __LABEL1137
+	jp __LABEL1132
+__LABEL1133:
 _ShowDestroyer__leave:
 	ld sp, ix
 	pop ix
@@ -13306,7 +13328,7 @@ _ShowConstructor:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1348
+	ld hl, __LABEL1351
 	ld bc, 1
 	ldir
 	push ix
@@ -13314,7 +13336,7 @@ _ShowConstructor:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1349
+	ld hl, __LABEL1352
 	ld bc, 1
 	ldir
 	xor a
@@ -13328,16 +13350,16 @@ _ShowConstructor:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1147:
+__LABEL1150:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1148
+	jp nz, __LABEL1151
 	ld (ix-2), 0
-	jp __LABEL1149
-__LABEL1152:
+	jp __LABEL1152
+__LABEL1155:
 	ld a, (ix-2)
 	or a
-	jp nz, __LABEL1154
+	jp nz, __LABEL1157
 	xor a
 	push af
 	ld a, 20
@@ -13392,11 +13414,11 @@ __LABEL1152:
 	ld a, 4
 	push af
 	call _SetCell
-	jp __LABEL1155
-__LABEL1154:
+	jp __LABEL1158
+__LABEL1157:
 	ld a, (ix-2)
 	sub 8
-	jp nz, __LABEL1156
+	jp nz, __LABEL1159
 	xor a
 	push af
 	ld a, 11
@@ -13408,8 +13430,8 @@ __LABEL1154:
 	ld a, 1
 	push af
 	call _FillRect
-	jp __LABEL1157
-__LABEL1156:
+	jp __LABEL1160
+__LABEL1159:
 	xor a
 	push af
 	ld a, 18
@@ -13427,11 +13449,11 @@ __LABEL1156:
 	ld a, 4
 	push af
 	call _SetCell
-__LABEL1157:
-__LABEL1155:
+__LABEL1160:
+__LABEL1158:
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1158
+	ld hl, __LABEL1161
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13447,22 +13469,22 @@ __LABEL1155:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1160
+	jp z, __LABEL1163
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1160:
+__LABEL1163:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1161:
+__LABEL1164:
 	call _Frames
 	ld de, 20
 	or a
 	sbc hl, de
-	jp nc, __LABEL1162
+	jp nc, __LABEL1165
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1158
+	ld hl, __LABEL1161
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13478,28 +13500,28 @@ __LABEL1161:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1164
+	jp z, __LABEL1167
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1164:
+__LABEL1167:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1166
+	jp z, __LABEL1169
 	ld a, (ix-3)
 	jp _ShowConstructor__leave
-__LABEL1166:
-	jp __LABEL1161
-__LABEL1162:
+__LABEL1169:
+	jp __LABEL1164
+__LABEL1165:
 	inc (ix-2)
-__LABEL1149:
+__LABEL1152:
 	ld a, 8
 	cp (ix-2)
-	jp nc, __LABEL1152
-	jp __LABEL1147
-__LABEL1148:
+	jp nc, __LABEL1155
+	jp __LABEL1150
+__LABEL1151:
 _ShowConstructor__leave:
 	ld sp, ix
 	pop ix
@@ -13518,7 +13540,7 @@ _ShowGhost:
 	ld bc, -4
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1350
+	ld hl, __LABEL1353
 	ld bc, 1
 	ldir
 	push ix
@@ -13526,7 +13548,7 @@ _ShowGhost:
 	ld bc, -5
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1351
+	ld hl, __LABEL1354
 	ld bc, 1
 	ldir
 	xor a
@@ -13562,13 +13584,13 @@ _ShowGhost:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1167:
+__LABEL1170:
 	ld a, (ix-1)
 	or a
-	jp nz, __LABEL1168
+	jp nz, __LABEL1171
 	ld (ix-2), 1
-	jp __LABEL1169
-__LABEL1172:
+	jp __LABEL1172
+__LABEL1175:
 	ld a, (ix-2)
 	dec a
 	sub 1
@@ -13579,7 +13601,7 @@ __LABEL1172:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1174
+	jp z, __LABEL1177
 	xor a
 	push af
 	ld a, 18
@@ -13591,79 +13613,10 @@ __LABEL1172:
 	ld a, 1
 	push af
 	call _FillRect
-	jp __LABEL1175
-__LABEL1174:
+	jp __LABEL1178
+__LABEL1177:
 	ld a, (ix-2)
 	sub 2
-	jp nz, __LABEL1176
-	ld a, 1
-	push af
-	ld a, 17
-	push af
-	ld a, 12
-	push af
-	ld a, 5
-	push af
-	ld a, 1
-	push af
-	call _FillRect
-	xor a
-	push af
-	ld a, 12
-	push af
-	ld a, 1
-	push af
-	call _SetCell
-	xor a
-	push af
-	ld a, 12
-	push af
-	ld a, 5
-	push af
-	call _SetCell
-	xor a
-	push af
-	ld a, 13
-	push af
-	ld a, 2
-	push af
-	call _SetCell
-	xor a
-	push af
-	ld a, 13
-	push af
-	ld a, 4
-	push af
-	call _SetCell
-	xor a
-	push af
-	ld a, 15
-	push af
-	ld a, 15
-	push af
-	ld a, 4
-	push af
-	ld a, 2
-	push af
-	call _FillRect
-	xor a
-	push af
-	ld a, 17
-	push af
-	ld a, 2
-	push af
-	call _SetCell
-	xor a
-	push af
-	ld a, 17
-	push af
-	ld a, 4
-	push af
-	call _SetCell
-	jp __LABEL1177
-__LABEL1176:
-	ld a, (ix-2)
-	sub 4
 	jp nz, __LABEL1179
 	ld a, 1
 	push af
@@ -13671,37 +13624,37 @@ __LABEL1176:
 	push af
 	ld a, 12
 	push af
-	ld a, 10
+	ld a, 5
 	push af
-	ld a, 6
+	ld a, 1
 	push af
 	call _FillRect
 	xor a
 	push af
 	ld a, 12
 	push af
-	ld a, 6
+	ld a, 1
 	push af
 	call _SetCell
 	xor a
 	push af
 	ld a, 12
 	push af
-	ld a, 10
+	ld a, 5
 	push af
 	call _SetCell
 	xor a
 	push af
 	ld a, 13
 	push af
-	ld a, 7
+	ld a, 2
 	push af
 	call _SetCell
 	xor a
 	push af
 	ld a, 13
 	push af
-	ld a, 9
+	ld a, 4
 	push af
 	call _SetCell
 	xor a
@@ -13710,31 +13663,100 @@ __LABEL1176:
 	push af
 	ld a, 15
 	push af
-	ld a, 9
+	ld a, 4
 	push af
-	ld a, 7
+	ld a, 2
 	push af
 	call _FillRect
 	xor a
 	push af
 	ld a, 17
 	push af
-	ld a, 7
+	ld a, 2
 	push af
 	call _SetCell
 	xor a
 	push af
 	ld a, 17
 	push af
-	ld a, 9
+	ld a, 4
 	push af
 	call _SetCell
+	jp __LABEL1180
 __LABEL1179:
-__LABEL1177:
-__LABEL1175:
+	ld a, (ix-2)
+	sub 4
+	jp nz, __LABEL1182
+	ld a, 1
+	push af
+	ld a, 17
+	push af
+	ld a, 12
+	push af
+	ld a, 10
+	push af
+	ld a, 6
+	push af
+	call _FillRect
+	xor a
+	push af
+	ld a, 12
+	push af
+	ld a, 6
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 12
+	push af
+	ld a, 10
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 13
+	push af
+	ld a, 7
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 13
+	push af
+	ld a, 9
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 15
+	push af
+	ld a, 15
+	push af
+	ld a, 9
+	push af
+	ld a, 7
+	push af
+	call _FillRect
+	xor a
+	push af
+	ld a, 17
+	push af
+	ld a, 7
+	push af
+	call _SetCell
+	xor a
+	push af
+	ld a, 17
+	push af
+	ld a, 9
+	push af
+	call _SetCell
+__LABEL1182:
+__LABEL1180:
+__LABEL1178:
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1180
+	ld hl, __LABEL1183
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13750,22 +13772,22 @@ __LABEL1175:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1182
+	jp z, __LABEL1185
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1182:
+__LABEL1185:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1183:
+__LABEL1186:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1184
+	jp nc, __LABEL1187
 	ld a, (ix-5)
 	push af
-	ld hl, __LABEL1180
+	ld hl, __LABEL1183
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13781,28 +13803,28 @@ __LABEL1183:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1186
+	jp z, __LABEL1189
 	ld a, (ix-4)
 	neg
 	ld (ix-4), a
-__LABEL1186:
+__LABEL1189:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-3), a
 	or a
-	jp z, __LABEL1188
+	jp z, __LABEL1191
 	ld a, (ix-3)
 	jp _ShowGhost__leave
-__LABEL1188:
-	jp __LABEL1183
-__LABEL1184:
+__LABEL1191:
+	jp __LABEL1186
+__LABEL1187:
 	inc (ix-2)
-__LABEL1169:
+__LABEL1172:
 	ld a, 4
 	cp (ix-2)
-	jp nc, __LABEL1172
-	jp __LABEL1167
-__LABEL1168:
+	jp nc, __LABEL1175
+	jp __LABEL1170
+__LABEL1171:
 _ShowGhost__leave:
 	ld sp, ix
 	pop ix
@@ -13825,7 +13847,7 @@ _ShowMatch:
 	ld bc, -7
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1352
+	ld hl, __LABEL1355
 	ld bc, 1
 	ldir
 	push ix
@@ -13833,7 +13855,7 @@ _ShowMatch:
 	ld bc, -8
 	add hl, bc
 	ex de, hl
-	ld hl, __LABEL1353
+	ld hl, __LABEL1356
 	ld bc, 1
 	ldir
 	xor a
@@ -13858,16 +13880,16 @@ _ShowMatch:
 	ld a, 1
 	push af
 	call _FillRect
-__LABEL1189:
+__LABEL1192:
 	ld a, (ix-4)
 	or a
-	jp nz, __LABEL1190
+	jp nz, __LABEL1193
 	ld (ix-1), 6
 	ld (ix-2), 2
 	ld (ix-3), 8
 	ld (ix-5), 1
-	jp __LABEL1191
-__LABEL1194:
+	jp __LABEL1194
+__LABEL1197:
 	ld a, (ix-1)
 	push af
 	ld a, 17
@@ -13894,7 +13916,7 @@ __LABEL1194:
 	inc (ix-3)
 	ld a, (ix-8)
 	push af
-	ld hl, __LABEL1196
+	ld hl, __LABEL1199
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13910,22 +13932,22 @@ __LABEL1194:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1198
+	jp z, __LABEL1201
 	ld a, (ix-7)
 	neg
 	ld (ix-7), a
-__LABEL1198:
+__LABEL1201:
 	call _UpdateScreen
 	call _ResetFrameCounter
-__LABEL1199:
+__LABEL1202:
 	call _Frames
 	ld de, 30
 	or a
 	sbc hl, de
-	jp nc, __LABEL1200
+	jp nc, __LABEL1203
 	ld a, (ix-8)
 	push af
-	ld hl, __LABEL1196
+	ld hl, __LABEL1199
 	call __LOADSTR
 	push hl
 	call _ShowChar
@@ -13941,28 +13963,28 @@ __LABEL1199:
 	sub 1
 	sbc a, a
 	or d
-	jp z, __LABEL1202
+	jp z, __LABEL1205
 	ld a, (ix-7)
 	neg
 	ld (ix-7), a
-__LABEL1202:
+__LABEL1205:
 	call _UpdateScreen
 	call _ScanKeyb
 	ld (ix-6), a
 	or a
-	jp z, __LABEL1204
+	jp z, __LABEL1207
 	ld a, (ix-6)
 	jp _ShowMatch__leave
-__LABEL1204:
-	jp __LABEL1199
-__LABEL1200:
+__LABEL1207:
+	jp __LABEL1202
+__LABEL1203:
 	inc (ix-5)
-__LABEL1191:
+__LABEL1194:
 	ld a, 4
 	cp (ix-5)
-	jp nc, __LABEL1194
-	jp __LABEL1189
-__LABEL1190:
+	jp nc, __LABEL1197
+	jp __LABEL1192
+__LABEL1193:
 _ShowMatch__leave:
 	ld sp, ix
 	pop ix
@@ -13984,103 +14006,103 @@ _SelectGame:
 	push af
 	call _SetLevel
 	call _UpdateScreen
-__LABEL1205:
-	ld a, (ix-1)
-	sub 3
-	jp z, __LABEL1206
-	ld a, (_game)
-	or a
-	jp nz, __LABEL1207
-	call _ShowTetris
-	ld (ix-1), a
-	jp __LABEL1208
-__LABEL1207:
-	ld a, (_game)
-	dec a
-	jp nz, __LABEL1209
-	call _ShowArkanoid
-	ld (ix-1), a
-	jp __LABEL1210
-__LABEL1209:
-	ld a, (_game)
-	sub 2
-	jp nz, __LABEL1211
-	call _ShowRacing
-	ld (ix-1), a
-	jp __LABEL1212
-__LABEL1211:
-	ld a, (_game)
-	sub 3
-	jp nz, __LABEL1213
-	call _ShowSnake
-	ld (ix-1), a
-	jp __LABEL1214
-__LABEL1213:
-	ld a, (_game)
-	sub 4
-	jp nz, __LABEL1215
-	call _ShowDestroyer
-	ld (ix-1), a
-	jp __LABEL1216
-__LABEL1215:
-	ld a, (_game)
-	sub 5
-	jp nz, __LABEL1217
-	call _ShowGhost
-	ld (ix-1), a
-	jp __LABEL1218
-__LABEL1217:
-	ld a, (_game)
-	sub 6
-	jp nz, __LABEL1219
-	call _ShowConstructor
-	ld (ix-1), a
-	jp __LABEL1220
-__LABEL1219:
-	ld a, (_game)
-	sub 7
-	jp nz, __LABEL1222
-	call _ShowMatch
-	ld (ix-1), a
-__LABEL1222:
-__LABEL1220:
-__LABEL1218:
-__LABEL1216:
-__LABEL1214:
-__LABEL1212:
-__LABEL1210:
 __LABEL1208:
 	ld a, (ix-1)
+	sub 3
+	jp z, __LABEL1209
+	ld a, (_game)
+	or a
+	jp nz, __LABEL1210
+	call _ShowTetris
+	ld (ix-1), a
+	jp __LABEL1211
+__LABEL1210:
+	ld a, (_game)
 	dec a
-	jp nz, __LABEL1223
+	jp nz, __LABEL1212
+	call _ShowArkanoid
+	ld (ix-1), a
+	jp __LABEL1213
+__LABEL1212:
+	ld a, (_game)
+	sub 2
+	jp nz, __LABEL1214
+	call _ShowRacing
+	ld (ix-1), a
+	jp __LABEL1215
+__LABEL1214:
+	ld a, (_game)
+	sub 3
+	jp nz, __LABEL1216
+	call _ShowSnake
+	ld (ix-1), a
+	jp __LABEL1217
+__LABEL1216:
+	ld a, (_game)
+	sub 4
+	jp nz, __LABEL1218
+	call _ShowDestroyer
+	ld (ix-1), a
+	jp __LABEL1219
+__LABEL1218:
+	ld a, (_game)
+	sub 5
+	jp nz, __LABEL1220
+	call _ShowGhost
+	ld (ix-1), a
+	jp __LABEL1221
+__LABEL1220:
+	ld a, (_game)
+	sub 6
+	jp nz, __LABEL1222
+	call _ShowConstructor
+	ld (ix-1), a
+	jp __LABEL1223
+__LABEL1222:
+	ld a, (_game)
+	sub 7
+	jp nz, __LABEL1225
+	call _ShowMatch
+	ld (ix-1), a
+__LABEL1225:
+__LABEL1223:
+__LABEL1221:
+__LABEL1219:
+__LABEL1217:
+__LABEL1215:
+__LABEL1213:
+__LABEL1211:
+	ld a, (ix-1)
+	dec a
+	jp nz, __LABEL1226
 	ld hl, _game
 	inc (hl)
 	ld a, 7
 	ld hl, (_game - 1)
 	cp h
-	jp nc, __LABEL1226
+	jp nc, __LABEL1229
 	xor a
 	ld (_game), a
+__LABEL1229:
+	jp __LABEL1227
 __LABEL1226:
-	jp __LABEL1224
-__LABEL1223:
 	ld a, (ix-1)
 	sub 2
-	jp nz, __LABEL1227
+	jp nz, __LABEL1230
 	ld hl, _game
 	dec (hl)
 	ld a, 7
 	ld hl, (_game - 1)
 	cp h
-	jp nc, __LABEL1230
+	jp nc, __LABEL1233
 	ld a, 7
 	ld (_game), a
+__LABEL1233:
+	jp __LABEL1231
 __LABEL1230:
-	jp __LABEL1228
-__LABEL1227:
 	ld a, (ix-1)
 	sub 3
-	jp nz, __LABEL1232
+	jp nz, __LABEL1235
 	xor a
 	push af
 	ld a, 20
@@ -14095,73 +14117,73 @@ __LABEL1227:
 	call _UpdateScreen
 	ld a, (_game)
 	or a
-	jp nz, __LABEL1233
+	jp nz, __LABEL1236
 	ld a, (_level)
 	push af
 	call _RunTetris
 	jp _SelectGame__leave
-__LABEL1233:
+__LABEL1236:
 	ld a, (_game)
 	dec a
-	jp nz, __LABEL1235
+	jp nz, __LABEL1238
 	ld a, (_level)
 	push af
 	call _RunArkanoid
 	jp _SelectGame__leave
-__LABEL1235:
+__LABEL1238:
 	ld a, (_game)
 	sub 2
-	jp nz, __LABEL1237
+	jp nz, __LABEL1240
 	ld a, (_level)
 	push af
 	call _RunRacing
 	jp _SelectGame__leave
-__LABEL1237:
+__LABEL1240:
 	ld a, (_game)
 	sub 3
-	jp nz, __LABEL1239
+	jp nz, __LABEL1242
 	ld a, (_level)
 	push af
 	call _RunSnake
 	jp _SelectGame__leave
-__LABEL1239:
+__LABEL1242:
 	ld a, (_game)
 	sub 4
-	jp nz, __LABEL1241
+	jp nz, __LABEL1244
 	ld a, (_level)
 	push af
 	call _RunDestroyer
 	jp _SelectGame__leave
-__LABEL1241:
+__LABEL1244:
 	ld a, (_game)
 	sub 5
-	jp nz, __LABEL1243
+	jp nz, __LABEL1246
 	ld a, (_level)
 	push af
 	call _RunGhostHunter
 	jp _SelectGame__leave
-__LABEL1243:
+__LABEL1246:
 	ld a, (_game)
 	sub 6
-	jp nz, __LABEL1245
+	jp nz, __LABEL1248
 	ld a, (_level)
 	push af
 	call _RunConstructor
 	jp _SelectGame__leave
-__LABEL1245:
+__LABEL1248:
 	ld a, (_game)
 	sub 7
-	jp nz, __LABEL1248
+	jp nz, __LABEL1251
 	ld a, (_level)
 	push af
 	call _RunMatch
 	jp _SelectGame__leave
-__LABEL1248:
-__LABEL1232:
-__LABEL1228:
-__LABEL1224:
-	jp __LABEL1205
-__LABEL1206:
+__LABEL1251:
+__LABEL1235:
+__LABEL1231:
+__LABEL1227:
+	jp __LABEL1208
+__LABEL1209:
 _SelectGame__leave:
 	ld sp, ix
 	pop ix
@@ -14190,16 +14212,16 @@ __LABEL21:
 	DEFB 0A4h
 __LABEL22:
 	DEFW 000Fh
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
-	DEFB 20h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
+	DEFB 91h
 	DEFB 20h
 	DEFB 20h
 	DEFB 20h
@@ -14248,68 +14270,85 @@ __LABEL26:
 	DEFB 20h
 	DEFB 20h
 __LABEL27:
+	DEFW 000Fh
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+	DEFB 20h
+__LABEL28:
 	DEFW 0003h
 	DEFB 95h
 	DEFB 96h
 	DEFB 97h
-__LABEL28:
+__LABEL29:
 	DEFW 0002h
 	DEFB 9Eh
 	DEFB 9Fh
-__LABEL29:
+__LABEL30:
 	DEFW 0003h
 	DEFB 9Bh
 	DEFB 9Ch
 	DEFB 9Dh
-__LABEL100:
+__LABEL101:
 	DEFW 0002h
 	DEFB 20h
 	DEFB 20h
-__LABEL124:
+__LABEL127:
 	DEFW 0001h
 	DEFB 30h
-__LABEL355:
+__LABEL358:
 	DEFW 0000h
-__LABEL386:
+__LABEL389:
 	DEFW 0001h
 	DEFB 6Fh
-__LABEL391:
+__LABEL394:
 	DEFW 0001h
 	DEFB 70h
-__LABEL396:
-	DEFW 0001h
-	DEFB 61h
 __LABEL399:
 	DEFW 0001h
+	DEFB 61h
+__LABEL402:
+	DEFW 0001h
 	DEFB 20h
-__LABEL406:
+__LABEL409:
 	DEFW 0001h
 	DEFB 68h
-__LABEL608:
+__LABEL611:
 	DEFW 0001h
 	DEFB 71h
-__LABEL1053:
+__LABEL1056:
 	DEFW 0001h
 	DEFB 41h
-__LABEL1071:
+__LABEL1074:
 	DEFW 0001h
 	DEFB 42h
-__LABEL1102:
+__LABEL1105:
 	DEFW 0001h
 	DEFB 43h
-__LABEL1120:
+__LABEL1123:
 	DEFW 0001h
 	DEFB 44h
-__LABEL1138:
+__LABEL1141:
 	DEFW 0001h
 	DEFB 45h
-__LABEL1158:
+__LABEL1161:
 	DEFW 0001h
 	DEFB 47h
-__LABEL1180:
+__LABEL1183:
 	DEFW 0001h
 	DEFB 46h
-__LABEL1196:
+__LABEL1199:
 	DEFW 0001h
 	DEFB 48h
 #line 1 "addf.asm"
@@ -14382,7 +14421,7 @@ __ADDF:	; Addition
 
 		jp __FPSTACK_POP
 
-#line 14299 "Program.zxbas"
+#line 14338 "Program.zxbas"
 #line 1 "array.asm"
 
 ; vim: ts=4:et:sw=4:
@@ -14552,7 +14591,7 @@ TMP_ARR_PTR:
 
 		ENDP
 
-#line 14300 "Program.zxbas"
+#line 14339 "Program.zxbas"
 #line 1 "arrayalloc.asm"
 
 
@@ -15028,7 +15067,7 @@ __ALLOC_INITIALIZED_LOCAL_ARRAY:
 
 
 #line 137 "C:/zxbasic/library-asm/arrayalloc.asm"
-#line 14301 "Program.zxbas"
+#line 14340 "Program.zxbas"
 #line 1 "asc.asm"
 
 	; Returns the ascii code for the given str
@@ -15257,7 +15296,7 @@ __ASC_END:
 
 		ret
 		ENDP
-#line 14302 "Program.zxbas"
+#line 14341 "Program.zxbas"
 #line 1 "band16.asm"
 
 ; vim:ts=4:et:
@@ -15279,7 +15318,7 @@ __BAND16:
 
 	    ret
 
-#line 14303 "Program.zxbas"
+#line 14342 "Program.zxbas"
 #line 1 "beeper.asm"
 
 ; vim:ts=4:et:sw=4:
@@ -15300,7 +15339,7 @@ __BEEPER:
 	    ret
 
 
-#line 14304 "Program.zxbas"
+#line 14343 "Program.zxbas"
 #line 1 "border.asm"
 
 	; __FASTCALL__ Routine to change de border
@@ -15310,7 +15349,7 @@ __BEEPER:
 
 	; Nothing to do! (Directly from the ZX Spectrum ROM)
 
-#line 14305 "Program.zxbas"
+#line 14344 "Program.zxbas"
 #line 1 "bright.asm"
 
 	; Sets bright flag in ATTR_P permanently
@@ -15367,7 +15406,7 @@ BRIGHT_TMP:
 		ld hl, ATTR_T
 		jr __SET_BRIGHT
 	    ENDP
-#line 14306 "Program.zxbas"
+#line 14345 "Program.zxbas"
 #line 1 "chr.asm"
 
 	; CHR$(x, y, x) returns the string CHR$(x) + CHR$(y) + CHR$(z)
@@ -15445,7 +15484,7 @@ __CHR_END:
 
 			ENDP
 
-#line 14307 "Program.zxbas"
+#line 14346 "Program.zxbas"
 #line 1 "copy_attr.asm"
 
 
@@ -16551,7 +16590,7 @@ __REFRESH_TMP:
 
 		ENDP
 
-#line 14308 "Program.zxbas"
+#line 14347 "Program.zxbas"
 #line 1 "div32.asm"
 
 #line 1 "neg32.asm"
@@ -16727,7 +16766,7 @@ __MODI32:	; 32bits signed division modulus
 			call __DIVI32START
 			jp __MODU32START
 
-#line 14309 "Program.zxbas"
+#line 14348 "Program.zxbas"
 #line 1 "div8.asm"
 
 				; --------------------------------
@@ -16817,7 +16856,7 @@ __MODI8_FAST:	; __FASTCALL__ entry
 
 		ret		; a = Modulus
 
-#line 14310 "Program.zxbas"
+#line 14349 "Program.zxbas"
 #line 1 "eq16.asm"
 
 __EQ16:	; Test if 16bit values HL == DE
@@ -16828,7 +16867,7 @@ __EQ16:	; Test if 16bit values HL == DE
 			inc a
 			ret
 
-#line 14311 "Program.zxbas"
+#line 14350 "Program.zxbas"
 
 #line 1 "ftou32reg.asm"
 
@@ -16925,7 +16964,7 @@ __FTOU8:	; Converts float in C ED LH to Unsigned byte in A
 		ld a, l
 		ret
 
-#line 14313 "Program.zxbas"
+#line 14352 "Program.zxbas"
 #line 1 "gtf.asm"
 
 #line 1 "u32tofreg.asm"
@@ -17045,7 +17084,7 @@ __GTF:	; A > B
 		call __FPSTACK_POP
 		jp __FTOU8; Convert to 8 bits
 
-#line 14314 "Program.zxbas"
+#line 14353 "Program.zxbas"
 
 #line 1 "inkey.asm"
 
@@ -17109,7 +17148,7 @@ __EMPTY_INKEY:
 
 		ENDP
 
-#line 14316 "Program.zxbas"
+#line 14355 "Program.zxbas"
 
 #line 1 "lei32.asm"
 
@@ -17176,7 +17215,7 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14318 "Program.zxbas"
+#line 14357 "Program.zxbas"
 #line 1 "lei8.asm"
 
 __LEI8: ; Signed <= comparison for 8bit int
@@ -17200,7 +17239,7 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14319 "Program.zxbas"
+#line 14358 "Program.zxbas"
 #line 1 "loadstr.asm"
 
 
@@ -17246,7 +17285,7 @@ __LOADSTR:		; __FASTCALL__ entry
 			ldir	; Copies string (length number included)
 			pop hl	; Recovers destiny in hl as result
 			ret
-#line 14320 "Program.zxbas"
+#line 14359 "Program.zxbas"
 #line 1 "ltf.asm"
 
 
@@ -17275,7 +17314,7 @@ __LTF:	; A < B
 		call __FPSTACK_POP
 		jp __FTOU8 ; Convert to 8 bits
 
-#line 14321 "Program.zxbas"
+#line 14360 "Program.zxbas"
 #line 1 "lti32.asm"
 
 
@@ -17303,11 +17342,11 @@ checkParity:
 	    inc a       ; True
 	    ret
 	    ENDP
-#line 14322 "Program.zxbas"
+#line 14361 "Program.zxbas"
 #line 1 "lti8.asm"
 
 
-#line 14323 "Program.zxbas"
+#line 14362 "Program.zxbas"
 #line 1 "mul32.asm"
 
 #line 1 "_mul32.asm"
@@ -17400,7 +17439,7 @@ __TO32BIT:  ; Converts H'L'HLB'C'AC to DEHL (Discards H'L'HL)
 			ret
 
 
-#line 14324 "Program.zxbas"
+#line 14363 "Program.zxbas"
 #line 1 "mul8.asm"
 
 __MUL8:		; Performs 8bit x 8bit multiplication
@@ -17454,7 +17493,7 @@ __MUL8B:
 		ret		; result = HL
 		ENDP
 
-#line 14325 "Program.zxbas"
+#line 14364 "Program.zxbas"
 #line 1 "mulf.asm"
 
 
@@ -17478,7 +17517,7 @@ __MULF:	; Multiplication
 
 		jp __FPSTACK_POP
 
-#line 14326 "Program.zxbas"
+#line 14365 "Program.zxbas"
 #line 1 "negf.asm"
 
 
@@ -17506,7 +17545,7 @@ __NEGF:	; A = -A
 		jp __FPSTACK_POP
 
 
-#line 14327 "Program.zxbas"
+#line 14366 "Program.zxbas"
 
 #line 1 "pause.asm"
 
@@ -17516,7 +17555,7 @@ __PAUSE:
 		ld b, h
 	    ld c, l
 	    jp 1F3Dh  ; PAUSE_1
-#line 14329 "Program.zxbas"
+#line 14368 "Program.zxbas"
 #line 1 "ploadf.asm"
 
 	; Parameter / Local var load
@@ -17562,7 +17601,7 @@ __PLOADF:
 	    add hl, de
 	    jp __LOADF
 
-#line 14330 "Program.zxbas"
+#line 14369 "Program.zxbas"
 
 #line 1 "print_eol_attr.asm"
 
@@ -17575,7 +17614,7 @@ __PLOADF:
 PRINT_EOL_ATTR:
 		call PRINT_EOL
 		jp COPY_ATTR
-#line 14332 "Program.zxbas"
+#line 14371 "Program.zxbas"
 #line 1 "printstr.asm"
 
 
@@ -17634,7 +17673,7 @@ __PRINT_STR:
 
 			ENDP
 
-#line 14333 "Program.zxbas"
+#line 14372 "Program.zxbas"
 #line 1 "pstoref.asm"
 
 	; Stores FP number in A ED CB at location HL+IX
@@ -17684,7 +17723,7 @@ __PSTOREF:
 		pop de
 	    jp __STOREF
 
-#line 14334 "Program.zxbas"
+#line 14373 "Program.zxbas"
 #line 1 "pstorestr.asm"
 
 ; vim:ts=4:et:sw=4
@@ -18005,7 +18044,7 @@ __PSTORE_STR:
 	    add hl, bc
 	    jp __STORE_STR
 
-#line 14335 "Program.zxbas"
+#line 14374 "Program.zxbas"
 #line 1 "pstorestr2.asm"
 
 ; vim:ts=4:et:sw=4
@@ -18064,7 +18103,7 @@ __PSTORE_STR2:
 	    add hl, bc
 	    jp __STORE_STR2
 
-#line 14336 "Program.zxbas"
+#line 14375 "Program.zxbas"
 #line 1 "random.asm"
 
 	; RANDOM functions
@@ -18184,7 +18223,7 @@ RND_LOOP:
 
 	    ENDP
 
-#line 14337 "Program.zxbas"
+#line 14376 "Program.zxbas"
 #line 1 "str.asm"
 
 	; The STR$( ) BASIC function implementation
@@ -18264,7 +18303,7 @@ __STR_END:
 
 		ENDP
 
-#line 14338 "Program.zxbas"
+#line 14377 "Program.zxbas"
 #line 1 "strcat.asm"
 
 
@@ -18411,7 +18450,7 @@ __STRCATEND:
 
 			ENDP
 
-#line 14339 "Program.zxbas"
+#line 14378 "Program.zxbas"
 #line 1 "string.asm"
 
 	; String library
@@ -18640,7 +18679,7 @@ __FREE_END:
 
 			ENDP
 
-#line 14340 "Program.zxbas"
+#line 14379 "Program.zxbas"
 
 #line 1 "strslice.asm"
 
@@ -18750,7 +18789,7 @@ __FREE_ON_EXIT:
 
 		ENDP
 
-#line 14342 "Program.zxbas"
+#line 14381 "Program.zxbas"
 
 #line 1 "swap32.asm"
 
@@ -18770,7 +18809,7 @@ __SWAP32:
 	    push bc
 		ret
 
-#line 14344 "Program.zxbas"
+#line 14383 "Program.zxbas"
 
 
 ZXBASIC_USER_DATA:
@@ -18814,158 +18853,158 @@ _game:
 	_chars EQU 23606
 	_deathMusic.__DATA__ EQU 25576
 _deathMusic:
-	DEFW __LABEL1354
+	DEFW __LABEL1357
 _deathMusic.__DATA__.__PTR__:
 	DEFW 25576
-__LABEL1354:
+__LABEL1357:
 	DEFW 0000h
 	DEFB 02h
 	_winMusic.__DATA__ EQU 25668
 _winMusic:
-	DEFW __LABEL1355
+	DEFW __LABEL1358
 _winMusic.__DATA__.__PTR__:
 	DEFW 25668
-__LABEL1355:
+__LABEL1358:
 	DEFW 0000h
 	DEFB 02h
 	_tetrisIntroMusic.__DATA__ EQU 26108
 _tetrisIntroMusic:
-	DEFW __LABEL1356
+	DEFW __LABEL1359
 _tetrisIntroMusic.__DATA__.__PTR__:
 	DEFW 26108
-__LABEL1356:
+__LABEL1359:
 	DEFW 0000h
 	DEFB 02h
 	_tetrisLevelMusic.__DATA__ EQU 26308
 _tetrisLevelMusic:
-	DEFW __LABEL1357
+	DEFW __LABEL1360
 _tetrisLevelMusic.__DATA__.__PTR__:
 	DEFW 26308
-__LABEL1357:
+__LABEL1360:
 	DEFW 0000h
 	DEFB 02h
 	_arkaIntroMusic.__DATA__ EQU 26428
 _arkaIntroMusic:
-	DEFW __LABEL1358
+	DEFW __LABEL1361
 _arkaIntroMusic.__DATA__.__PTR__:
 	DEFW 26428
-__LABEL1358:
+__LABEL1361:
 	DEFW 0000h
 	DEFB 02h
 	_arkaDeathMusic.__DATA__ EQU 26620
 _arkaDeathMusic:
-	DEFW __LABEL1359
+	DEFW __LABEL1362
 _arkaDeathMusic.__DATA__.__PTR__:
 	DEFW 26620
-__LABEL1359:
+__LABEL1362:
 	DEFW 0000h
 	DEFB 02h
 	_raceIntroMusic.__DATA__ EQU 26668
 _raceIntroMusic:
-	DEFW __LABEL1360
+	DEFW __LABEL1363
 _raceIntroMusic.__DATA__.__PTR__:
 	DEFW 26668
-__LABEL1360:
+__LABEL1363:
 	DEFW 0000h
 	DEFB 02h
 	_raceLevelMusic.__DATA__ EQU 26752
 _raceLevelMusic:
-	DEFW __LABEL1361
+	DEFW __LABEL1364
 _raceLevelMusic.__DATA__.__PTR__:
 	DEFW 26752
-__LABEL1361:
+__LABEL1364:
 	DEFW 0000h
 	DEFB 02h
 	_snakeIntroMusic.__DATA__ EQU 26780
 _snakeIntroMusic:
-	DEFW __LABEL1362
+	DEFW __LABEL1365
 _snakeIntroMusic.__DATA__.__PTR__:
 	DEFW 26780
-__LABEL1362:
+__LABEL1365:
 	DEFW 0000h
 	DEFB 02h
 	_snakeLevelMusic.__DATA__ EQU 26860
 _snakeLevelMusic:
-	DEFW __LABEL1363
+	DEFW __LABEL1366
 _snakeLevelMusic.__DATA__.__PTR__:
 	DEFW 26860
-__LABEL1363:
+__LABEL1366:
 	DEFW 0000h
 	DEFB 02h
 	_destroyerIntroMusic.__DATA__ EQU 26888
 _destroyerIntroMusic:
-	DEFW __LABEL1364
+	DEFW __LABEL1367
 _destroyerIntroMusic.__DATA__.__PTR__:
 	DEFW 26888
-__LABEL1364:
+__LABEL1367:
 	DEFW 0000h
 	DEFB 02h
 	_destroyerLevelMusic.__DATA__ EQU 27024
 _destroyerLevelMusic:
-	DEFW __LABEL1365
+	DEFW __LABEL1368
 _destroyerLevelMusic.__DATA__.__PTR__:
 	DEFW 27024
-__LABEL1365:
+__LABEL1368:
 	DEFW 0000h
 	DEFB 02h
 	_ghostIntroMusic.__DATA__ EQU 27132
 _ghostIntroMusic:
-	DEFW __LABEL1366
+	DEFW __LABEL1369
 _ghostIntroMusic.__DATA__.__PTR__:
 	DEFW 27132
-__LABEL1366:
+__LABEL1369:
 	DEFW 0000h
 	DEFB 02h
 	_ghostScarySound.__DATA__ EQU 27252
 _ghostScarySound:
-	DEFW __LABEL1367
+	DEFW __LABEL1370
 _ghostScarySound.__DATA__.__PTR__:
 	DEFW 27252
-__LABEL1367:
+__LABEL1370:
 	DEFW 0000h
 	DEFB 02h
 	_ghostLevelMusic.__DATA__ EQU 27384
 _ghostLevelMusic:
-	DEFW __LABEL1368
+	DEFW __LABEL1371
 _ghostLevelMusic.__DATA__.__PTR__:
 	DEFW 27384
-__LABEL1368:
+__LABEL1371:
 	DEFW 0000h
 	DEFB 02h
 	_constructorIntroMusic.__DATA__ EQU 27420
 _constructorIntroMusic:
-	DEFW __LABEL1369
+	DEFW __LABEL1372
 _constructorIntroMusic.__DATA__.__PTR__:
 	DEFW 27420
-__LABEL1369:
+__LABEL1372:
 	DEFW 0000h
 	DEFB 02h
 	_constructorLevelMusic.__DATA__ EQU 27596
 _constructorLevelMusic:
-	DEFW __LABEL1370
+	DEFW __LABEL1373
 _constructorLevelMusic.__DATA__.__PTR__:
 	DEFW 27596
-__LABEL1370:
+__LABEL1373:
 	DEFW 0000h
 	DEFB 02h
 	_matchIntroMusic.__DATA__ EQU 27768
 _matchIntroMusic:
-	DEFW __LABEL1371
+	DEFW __LABEL1374
 _matchIntroMusic.__DATA__.__PTR__:
 	DEFW 27768
-__LABEL1371:
+__LABEL1374:
 	DEFW 0000h
 	DEFB 02h
 	_matchLevelMusic.__DATA__ EQU 28012
 _matchLevelMusic:
-	DEFW __LABEL1372
+	DEFW __LABEL1375
 _matchLevelMusic.__DATA__.__PTR__:
 	DEFW 28012
-__LABEL1372:
+__LABEL1375:
 	DEFW 0000h
 	DEFB 02h
 _screenCells:
-	DEFW __LABEL1373
+	DEFW __LABEL1376
 _screenCells.__DATA__.__PTR__:
 	DEFW _screenCells.__DATA__
 _screenCells.__DATA__:
@@ -19169,12 +19208,12 @@ _screenCells.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1373:
+__LABEL1376:
 	DEFW 0001h
 	DEFW 0014h
 	DEFB 01h
 _workingCells:
-	DEFW __LABEL1374
+	DEFW __LABEL1377
 _workingCells.__DATA__.__PTR__:
 	DEFW _workingCells.__DATA__
 _workingCells.__DATA__:
@@ -19378,12 +19417,21 @@ _workingCells.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1374:
+__LABEL1377:
 	DEFW 0001h
 	DEFW 0014h
 	DEFB 01h
+	_attribs.__DATA__ EQU 22528
+_attribs:
+	DEFW __LABEL1378
+_attribs.__DATA__.__PTR__:
+	DEFW 22528
+__LABEL1378:
+	DEFW 0001h
+	DEFW 0020h
+	DEFB 01h
 _ops:
-	DEFW __LABEL1375
+	DEFW __LABEL1379
 _ops.__DATA__.__PTR__:
 	DEFW _ops.__DATA__
 _ops.__DATA__:
@@ -19987,12 +20035,12 @@ _ops.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1375:
+__LABEL1379:
 	DEFW 0001h
 	DEFW 00C8h
 	DEFB 01h
 _screenSymbol:
-	DEFW __LABEL1376
+	DEFW __LABEL1380
 _screenSymbol.__DATA__.__PTR__:
 	DEFW _screenSymbol.__DATA__
 _screenSymbol.__DATA__:
@@ -20000,12 +20048,12 @@ _screenSymbol.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1376:
+__LABEL1380:
 	DEFW 0001h
 	DEFW 0002h
 	DEFB 01h
 _workingSymbol:
-	DEFW __LABEL1377
+	DEFW __LABEL1381
 _workingSymbol.__DATA__.__PTR__:
 	DEFW _workingSymbol.__DATA__
 _workingSymbol.__DATA__:
@@ -20013,12 +20061,12 @@ _workingSymbol.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1377:
+__LABEL1381:
 	DEFW 0001h
 	DEFW 0002h
 	DEFB 01h
 _sprites:
-	DEFW __LABEL1378
+	DEFW __LABEL1382
 _sprites.__DATA__.__PTR__:
 	DEFW _sprites.__DATA__
 _sprites.__DATA__:
@@ -20198,55 +20246,55 @@ _sprites.__DATA__:
 	DEFB 14h
 	DEFB 64h
 	DEFB 00h
-__LABEL1378:
+__LABEL1382:
 	DEFW 0001h
 	DEFW 0008h
 	DEFB 01h
 	_deadPic.__DATA__ EQU 24616
 _deadPic:
-	DEFW __LABEL1379
+	DEFW __LABEL1383
 _deadPic.__DATA__.__PTR__:
 	DEFW 24616
-__LABEL1379:
+__LABEL1383:
 	DEFW 0000h
 	DEFB 02h
 	_winPic.__DATA__ EQU 24656
 _winPic:
-	DEFW __LABEL1380
+	DEFW __LABEL1384
 _winPic.__DATA__.__PTR__:
 	DEFW 24656
-__LABEL1380:
+__LABEL1384:
 	DEFW 0000h
 	DEFB 02h
 	_introScreen.__DATA__ EQU 24576
 _introScreen:
-	DEFW __LABEL1381
+	DEFW __LABEL1385
 _introScreen.__DATA__.__PTR__:
 	DEFW 24576
-__LABEL1381:
+__LABEL1385:
 	DEFW 0000h
 	DEFB 02h
 	_tetrisPieces.__DATA__ EQU 28080
 _tetrisPieces:
-	DEFW __LABEL1382
+	DEFW __LABEL1386
 _tetrisPieces.__DATA__.__PTR__:
 	DEFW 28080
-__LABEL1382:
+__LABEL1386:
 	DEFW 0002h
 	DEFW 0002h
 	DEFW 0004h
 	DEFB 01h
 	_tetrisScreens.__DATA__ EQU 24696
 _tetrisScreens:
-	DEFW __LABEL1383
+	DEFW __LABEL1387
 _tetrisScreens.__DATA__.__PTR__:
 	DEFW 24696
-__LABEL1383:
+__LABEL1387:
 	DEFW 0001h
 	DEFW 000Ah
 	DEFB 02h
 _expandedPiece:
-	DEFW __LABEL1384
+	DEFW __LABEL1388
 _expandedPiece.__DATA__.__PTR__:
 	DEFW _expandedPiece.__DATA__
 _expandedPiece.__DATA__:
@@ -20314,13 +20362,13 @@ _expandedPiece.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1384:
+__LABEL1388:
 	DEFW 0002h
 	DEFW 0004h
 	DEFW 0004h
 	DEFB 01h
 _expandedSize:
-	DEFW __LABEL1385
+	DEFW __LABEL1389
 _expandedSize.__DATA__.__PTR__:
 	DEFW _expandedSize.__DATA__
 _expandedSize.__DATA__:
@@ -20332,79 +20380,73 @@ _expandedSize.__DATA__:
 	DEFB 00h
 	DEFB 00h
 	DEFB 00h
-__LABEL1385:
+__LABEL1389:
 	DEFW 0001h
 	DEFW 0002h
 	DEFB 01h
 	_arkaScreens.__DATA__ EQU 24896
 _arkaScreens:
-	DEFW __LABEL1386
+	DEFW __LABEL1390
 _arkaScreens.__DATA__.__PTR__:
 	DEFW 24896
-__LABEL1386:
+__LABEL1390:
 	DEFW 0001h
 	DEFW 000Ch
 	DEFB 02h
 	_snakeScreens.__DATA__ EQU 25136
 _snakeScreens:
-	DEFW __LABEL1387
+	DEFW __LABEL1391
 _snakeScreens.__DATA__.__PTR__:
 	DEFW 25136
-__LABEL1387:
+__LABEL1391:
 	DEFW 0001h
 	DEFW 0014h
 	DEFB 02h
 	_bigGhost.__DATA__ EQU 25536
 _bigGhost:
-	DEFW __LABEL1388
+	DEFW __LABEL1392
 _bigGhost.__DATA__.__PTR__:
 	DEFW 25536
-__LABEL1388:
+__LABEL1392:
 	DEFW 0000h
 	DEFB 02h
-__LABEL1254:
+__LABEL1257:
 	DEFB 0FFh
-__LABEL1255:
+__LABEL1258:
 	DEFB 01h
-__LABEL1260:
+__LABEL1263:
 	DEFB 04h
-__LABEL1283:
-	DEFB 01h
-__LABEL1284:
-	DEFB 14h
-__LABEL1285:
-	DEFB 03h
 __LABEL1286:
+	DEFB 01h
+__LABEL1287:
+	DEFB 14h
+__LABEL1288:
+	DEFB 03h
+__LABEL1289:
 	DEFB 04h
-__LABEL1309:
+__LABEL1312:
 	DEFB 04h
-__LABEL1310:
+__LABEL1313:
 	DEFB 01h
 	DEFB 00h
 	DEFB 02h
 	DEFB 00h
 	DEFB 01h
-__LABEL1311:
-	DEFB 01h
 __LABEL1314:
+	DEFB 01h
+__LABEL1317:
 	DEFB 04h
-__LABEL1318:
-	DEFB 04h
-__LABEL1327:
+__LABEL1321:
 	DEFB 04h
 __LABEL1330:
 	DEFB 04h
-__LABEL1331:
+__LABEL1333:
+	DEFB 04h
+__LABEL1334:
 	DEFB 00h
 	DEFB 00h
 	DEFB 01h
-__LABEL1332:
-	DEFB 01h
-__LABEL1338:
-	DEFB 01h
-__LABEL1339:
-	DEFB 01h
-__LABEL1340:
+__LABEL1335:
 	DEFB 01h
 __LABEL1341:
 	DEFB 01h
@@ -20431,6 +20473,12 @@ __LABEL1351:
 __LABEL1352:
 	DEFB 01h
 __LABEL1353:
+	DEFB 01h
+__LABEL1354:
+	DEFB 01h
+__LABEL1355:
+	DEFB 01h
+__LABEL1356:
 	DEFB 01h
 ZXBASIC_MEM_HEAP:
 	; Defines DATA END

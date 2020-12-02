@@ -1,0 +1,108 @@
+--9999 IN 1--
+
+Ah, the 90's... Techno music, arcades, personal computers... and TONS of cheap chinese LCD games.
+Remember that LCD game that was in each single bazar? The one that had MANY copies of Tetris? Well, 9999 in 1 is a replica of that machine but in your Spectrum!
+
+8 different games packed into a single 48k program emulating the look and feel of these LCD machines, pure 90's retro fun!
+
+
+The games:
+
+-Tetris
+	Play the 80's classic like we did in the 90's, in a LCD screen!
+-Arkanoid
+	Nothing more pleasant than destroying brick walls with your square ball.
+	Get ready to guide Vass to the glory.
+-Racing
+	Seems like a crazy driver is on the road going in the wrong direction...
+	Wait, is not only one but all of them! Avoid crashing your car against other drivers!
+-Snake
+	The game that made Nokia to sell millions of mobile phones.
+	Thousands of 90's kids can't be wrong, so prepare your fingers to play this classic!
+-Destroyer
+	It's raining bricks, aleluya!
+	Avoid these bricks to get to the ground with your four-cube futuristic ship.
+-GhostBusters
+	There's something strange in your neighborhood... who you gonna call?
+	Not the ghostbusters, they're retired!
+	Take their place in this haunting game and catch as many ghosts as you can.
+-Constructor
+	Just another brick in the wall... and it's gone!
+	Avoid the bricks to get to the ground creating full lines.
+-Match-3
+	Match 3, three times the speed of sound... Or a little puzzle game where you must match
+	three figures before they reach the bottom of the screen, you decide...
+
+
+The controls:
+
+The game is controlled using O/P/Q/A/SPC and H
+
+-In the game selector
+
+	O/P change the selected game, Q/A change the selected level, SPC starts the game.
+
+-In all the games
+
+	H will exit any game that you are playing.
+
+-In Tetris
+
+	O/P will move the falling piece left and right
+	SPC will rotate the falling piece
+	A will speed up the falling speed
+	
+	Objective: Create rows of bricks without reaching the top side of the screen.
+
+-In Arkanoid
+
+	O/P will move Vass left and right
+	SPC will fire your ball and speed up it
+	
+	Objective: Destroy bricks without letting your ball reach the bottom side of the screen.
+
+-In Racing
+
+	O/P will move your car left and right
+	Q will accelerate
+	
+	Objective: Avoid the computer cars
+
+-In Snake
+
+	O/P/Q/A will control your snake's direction
+	
+	Objective: Feed your snake with the food that will spawn randomly in the screen.
+
+-In Destroyer
+
+	O/P will move your ship left and right
+	SPC will fire a brick
+	
+	Objective: Destroy as many bricks as you can without letting them reach the bottom side of the screen.
+
+-In GhostBusters
+
+	O/P/Q/A/SPC represent a position in the screen (left, right, top, bottom, center)
+	
+	Objective: Catch the ghosts as they appear before they can attack you.
+
+-In Constructor
+
+	O/P will move your ship left and right
+	SPC will fire a brick
+	
+	Objective: Create complete rows of bricks to remove them without letting them reach the bottom side of the screen.
+
+-In Match-3
+
+	O/P will change the selected piece.
+	Q/A will change the figure of the selected piece.
+	SPC will make the falling pieces go fast.
+
+	Objective: Match the three figures before the falling ones reach the line.
+
+
+This game is made for fun, hope you enjoy it!
+El Dr. Gusman.
+
